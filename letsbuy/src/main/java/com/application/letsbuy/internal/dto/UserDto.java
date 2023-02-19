@@ -2,12 +2,12 @@ package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.services.UserService;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class UserDto {
 

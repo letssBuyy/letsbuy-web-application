@@ -1,4 +1,4 @@
-package com.application.letsbuy.api.application;
+package com.application.letsbuy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

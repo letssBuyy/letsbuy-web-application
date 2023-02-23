@@ -5,6 +5,7 @@ import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
@@ -12,13 +13,14 @@ import java.net.URI;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
 
     @PostMapping
     public ResponseEntity<UserDto> register(@RequestBody UserDto dto, UriComponentsBuilder uriBuilder) {
+        dto.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
         User user = dto.convert();
         userService.save(user);
 

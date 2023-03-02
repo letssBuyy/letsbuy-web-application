@@ -1,6 +1,7 @@
 package com.application.letsbuy.internal.web.controllers;
 
 import com.application.letsbuy.internal.services.AnnouncementService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ public class AnnouncementController {
         this.announcementService = announcementService;
     }
 
+    @ApiOperation("Whatsapp link generator")
     @GetMapping("/generateWppLink/{id}")
     public String generateWppLink(@PathVariable Long id){
         return announcementService.generateWppLink(id);

@@ -3,6 +3,7 @@ package com.application.letsbuy.internal.web.controllers;
 import com.application.letsbuy.internal.config.security.TokenService;
 import com.application.letsbuy.internal.dto.AuthenticationRequestDto;
 import com.application.letsbuy.internal.dto.TokenDto;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +26,7 @@ public class AuthenticationController {
 
     private final TokenService tokenService;
 
+    @ApiOperation("Authenticate user login")
     @PostMapping
     public ResponseEntity<TokenDto> autenticador(@RequestBody AuthenticationRequestDto dto) {
         System.out.println(dto.getEmail());

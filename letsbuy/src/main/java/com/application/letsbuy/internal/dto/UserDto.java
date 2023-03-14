@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserDto {
 
-    private String nome;
+    private String name;
 
     private String email;
 
@@ -24,7 +24,7 @@ public class UserDto {
     private String password;
 
     public UserDto(User user) {
-        this.nome = user.getName();
+        this.name = user.getName();
         this.email = user.getEmail();
         this.cpf = user.getCpf();
         this.password = user.getPassword();
@@ -33,7 +33,7 @@ public class UserDto {
     }
 
     public User convert() {
-        return new User(nome, email, cpf, password, birthDate, phoneNumber);
+        return new User(name, email, cpf, password, birthDate, phoneNumber);
     }
 
     public User update(Long id, UserService userService) {

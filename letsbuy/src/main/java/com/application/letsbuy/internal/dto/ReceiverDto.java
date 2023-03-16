@@ -2,15 +2,15 @@ package com.application.letsbuy.internal.dto;
 
 public class ReceiverDto {
 
-    private String nome;
+    private String name;
     private String email;
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.name = nome;
     }
 
     public String getEmail() {

@@ -38,11 +38,11 @@ public class UserDto {
 
     public User update(Long id, UserService userService) {
         User user = userService.findById(id);
-        user.setName(user.getName());
+        user.setName(name);
         user.setEmail(email);
-        user.setCpf(user.getCpf());
-        user.setPassword(user.getPassword());
-        user.setBirthDate(user.getBirthDate());
+        user.setCpf(cpf);
+        user.setPassword(password);
+        user.setBirthDate(birthDate);
         user.setPhoneNumber(phoneNumber);
         return user;
     }

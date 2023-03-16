@@ -1,5 +1,6 @@
 package com.application.letsbuy.internal.services;
 
+import com.application.letsbuy.api.usecase.Sendable;
 import org.springframework.stereotype.Service;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
@@ -7,9 +8,9 @@ import org.apache.commons.mail.HtmlEmail;
 import java.net.URL;
 
 @Service
-public class EmailService extends HtmlEmail{
+public class EmailGmailService extends HtmlEmail implements Sendable {
 
-    public EmailService() {
+    public EmailGmailService() {
         setHostName("smtp.gmail.com");
         setSmtpPort(587);
         setAuthenticator(new DefaultAuthenticator("letsbuygroup@gmail.com", "aflvilqgpmurzold"));
@@ -21,7 +22,9 @@ public class EmailService extends HtmlEmail{
         }
     }
 
-    public Boolean sendWelcome(String receiverName, String receiverEmail){
+
+    @Override
+    public Boolean sendWelcome(String receiverEmail, String receiverName) {
         try {
             setSubject("Vamos começar a comprar e vender juntos na LetsBuy!");
             URL url = new URL("https://i.imgur.com/NNQnocY.png");
@@ -56,5 +59,15 @@ public class EmailService extends HtmlEmail{
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public Boolean sendChangePassword(String receiverEmail, String receiverName) {
+        return null;
+    }
+
+    @Override
+    public Boolean sendSaleConfirmation(String receiverEmail, String receiverName) {
+        return null;
     }
 }

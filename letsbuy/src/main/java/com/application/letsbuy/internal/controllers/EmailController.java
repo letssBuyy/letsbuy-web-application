@@ -1,7 +1,7 @@
-package com.application.letsbuy.internal.web.controllers;
+package com.application.letsbuy.internal.controllers;
 
 import com.application.letsbuy.internal.dto.ReceiverDto;
-import com.application.letsbuy.internal.services.EmailService;
+import com.application.letsbuy.internal.services.EmailGmailService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +13,9 @@ public class EmailController {
 
     @PostMapping("/welcome")
     public Boolean sendWelcome(@RequestBody ReceiverDto receiver){
-        EmailService emailService = new EmailService();
+        EmailGmailService emailGmailService = new EmailGmailService();
         try {
-            emailService.sendWelcome(receiver.getNome(),receiver.getEmail());
+            emailGmailService.sendWelcome(receiver.getNome(), receiver.getEmail());
             return true;
         } catch (Exception e){
             return false;

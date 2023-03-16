@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Table(name = "user")
 @Entity
 public class User implements UserDetails {

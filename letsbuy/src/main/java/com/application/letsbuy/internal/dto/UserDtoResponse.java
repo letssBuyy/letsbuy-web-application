@@ -4,6 +4,8 @@ import com.application.letsbuy.internal.entities.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 public class UserDtoResponse {
@@ -11,7 +13,7 @@ public class UserDtoResponse {
     private String name;
     private String email;
     private String cpf;
-    private String birthDate;
+    private LocalDate birthDate;
     private String phoneNumber;
 
     public UserDtoResponse(User user) {

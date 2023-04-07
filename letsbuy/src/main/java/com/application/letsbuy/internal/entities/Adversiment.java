@@ -5,8 +5,11 @@ import com.application.letsbuy.internal.enums.QualityEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor
@@ -18,36 +21,23 @@ public class Adversiment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column
+    @NotBlank
+    @Size(min = 2, max = 50)
     private String title;
-
-    @Column
+    @NotBlank
+    @Size(max = 255)
     private String description;
-
-    @Column
+    @DecimalMin("1.0")
+    @DecimalMax("99999999.0")
     private Double price;
-
-    @Column
-    private String postDate;
-
-    @Column
-    private String lastUpdate;
-
-    @Column
-    private String saleDate;
-
-    @Column
+    private LocalDate postDate;
+    private LocalDate lastUpdate;
+    private LocalDate saleDate;
     private CategoryEnum category;
-
-    @Column
     private QualityEnum quality;
 
-    @Column
-    private Integer priority;
 
-
-    public Adversiment(String title, String description, Double price, String postDate, String lastUpdate, String saleDate, CategoryEnum category, QualityEnum quality, Integer priority) {
+    public Adversiment(String title, String description, Double price, LocalDate postDate, LocalDate lastUpdate, LocalDate saleDate, CategoryEnum category, QualityEnum quality) {
         this.title = title;
         this.description = description;
         this.price = price;
@@ -56,8 +46,6 @@ public class Adversiment {
         this.saleDate = saleDate;
         this.category = category;
         this.quality = quality;
-        this.priority = priority;
-
     }
 }
 

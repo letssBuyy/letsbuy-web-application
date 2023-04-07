@@ -1,4 +1,4 @@
-package com.application.letsbuy.internal.web.controllers;
+package com.application.letsbuy.internal.controllers;
 
 import com.application.letsbuy.internal.config.security.TokenService;
 import com.application.letsbuy.internal.dto.AuthenticationRequestDto;

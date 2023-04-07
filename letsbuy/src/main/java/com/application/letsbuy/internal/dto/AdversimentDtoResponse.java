@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,11 +23,11 @@ public class AdversimentDtoResponse {
 
     private Double price;
 
-    private String postDate;
+    private LocalDate postDate;
 
-    private String lastUpdate;
+    private LocalDate lastUpdate;
 
-    private String saleDate;
+    private LocalDate saleDate;
 
     private CategoryEnum category;
 
@@ -50,6 +51,5 @@ public class AdversimentDtoResponse {
         this.saleDate = adversiment.getSaleDate();
         this.category = adversiment.getCategory();
         this.quality = adversiment.getQuality();
-        this.priority = adversiment.getPriority();
     }
 }

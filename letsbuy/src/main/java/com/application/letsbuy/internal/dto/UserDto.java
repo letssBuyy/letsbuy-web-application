@@ -1,11 +1,13 @@
 package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.exceptions.PasswordValidationException;
 import com.application.letsbuy.internal.services.UserService;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +19,7 @@ public class UserDto {
 
     private String cpf;
 
-    private String birthDate;
+    private LocalDate birthDate;
 
     private String phoneNumber;
 
@@ -33,7 +35,11 @@ public class UserDto {
     }
 
     public User convert() {
+        if (password.matches("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{8,}$")) {
+        password = new BCryptPasswordEncoder().encode(getPassword());
         return new User(name, email, cpf, password, birthDate, phoneNumber);
+        }
+        throw  new PasswordValidationException();
     }
 
     public User update(Long id, UserService userService) {

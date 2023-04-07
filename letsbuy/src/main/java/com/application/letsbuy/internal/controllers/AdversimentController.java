@@ -1,4 +1,4 @@
-package com.application.letsbuy.internal.web.controllers;
+package com.application.letsbuy.internal.controllers;
 
 import com.application.letsbuy.internal.dto.AdversimentDto;
 import com.application.letsbuy.internal.dto.AdversimentDtoResponse;

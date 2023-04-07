@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,21 +23,18 @@ public class AdversimentDto {
 
     private Double price;
 
-    private String postDate;
+    private LocalDate postDate;
 
-    private String lastUpdate;
+    private LocalDate lastUpdate;
 
-    private String saleDate;
+    private LocalDate saleDate;
 
     private CategoryEnum category;
 
     private QualityEnum quality;
 
-    private Integer priority;
-
-
     public Adversiment convert() {
-        return new Adversiment(title, description, price, postDate, lastUpdate, saleDate, category, quality, priority);
+        return new Adversiment(title, description, price, postDate, lastUpdate, saleDate, category, quality);
     }
 
     public Adversiment update(Long id, AdversimentService adversimentService) {
@@ -48,7 +47,6 @@ public class AdversimentDto {
         adversiment.setSaleDate(saleDate);
         adversiment.setCategory(category);
         adversiment.setQuality(quality);
-        adversiment.setPriority(priority);
         return adversiment;
     }
 }

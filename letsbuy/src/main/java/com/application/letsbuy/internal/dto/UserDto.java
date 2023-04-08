@@ -14,15 +14,10 @@ import java.time.LocalDate;
 public class UserDto {
 
     private String name;
-
     private String email;
-
     private String cpf;
-
     private LocalDate birthDate;
-
     private String phoneNumber;
-
     private String password;
 
     public UserDto(User user) {
@@ -40,16 +35,5 @@ public class UserDto {
         return new User(name, email, cpf, password, birthDate, phoneNumber);
         }
         throw  new PasswordValidationException();
-    }
-
-    public User update(Long id, UserService userService) {
-        User user = userService.findById(id);
-        user.setName(name);
-        user.setEmail(email);
-        user.setCpf(cpf);
-        user.setPassword(password);
-        user.setBirthDate(birthDate);
-        user.setPhoneNumber(phoneNumber);
-        return user;
     }
 }

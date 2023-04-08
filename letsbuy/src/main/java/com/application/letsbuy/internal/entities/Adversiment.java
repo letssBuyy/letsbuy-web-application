@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class Adversiment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
     @Size(min = 2, max = 50)
@@ -35,9 +35,12 @@ public class Adversiment {
     private LocalDate saleDate;
     private CategoryEnum category;
     private QualityEnum quality;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-
-    public Adversiment(String title, String description, Double price, LocalDate postDate, LocalDate lastUpdate, LocalDate saleDate, CategoryEnum category, QualityEnum quality) {
+    public Adversiment(User user, String title, String description, Double price, LocalDate postDate, LocalDate lastUpdate, LocalDate saleDate, CategoryEnum category, QualityEnum quality) {
+        this.user = user;
         this.title = title;
         this.description = description;
         this.price = price;

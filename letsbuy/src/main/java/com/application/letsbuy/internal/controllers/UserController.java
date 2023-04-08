@@ -1,7 +1,6 @@
 package com.application.letsbuy.internal.controllers;
 
-import com.application.letsbuy.internal.dto.UserDto;
-import com.application.letsbuy.internal.dto.UserDtoResponse;
+import com.application.letsbuy.internal.dto.*;
 import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.services.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -30,13 +29,29 @@ public class UserController {
         return ResponseEntity.created(uri).body(new UserDtoResponse(user));
     }
 
+    @ApiOperation("Method used select user adversiments ")
+    @GetMapping("/{id}")
+    public ResponseEntity<UserAdversimentsDtoResponse> listarUser(@PathVariable Long id) {
+        User user = userService.findById(id);
+        UserAdversimentsDtoResponse userAdversimentsDtoResponse = new UserAdversimentsDtoResponse(user);
+        System.out.println(userAdversimentsDtoResponse);
+        return ResponseEntity.ok().body(userAdversimentsDtoResponse);
+    }
+
     @ApiOperation("Method used to change user data")
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<UserDtoResponse> update(@PathVariable Long id, @RequestBody UserDto userDto) {
-        userDto.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+    public ResponseEntity<UserDtoResponse> update(@PathVariable Long id, @RequestBody UserUpdateDto userDto) {
         User user = userDto.update(id, userService);
         return ResponseEntity.ok(new UserDtoResponse(user));
+    }
+
+    @ApiOperation("atualizar senha do usuario")
+    @PatchMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody PasswordUpdateDto dto) {
+        dto.updatePassword(id, userService);
+        return ResponseEntity.ok().build();
     }
 
     @ApiOperation("Method used to delete a user")

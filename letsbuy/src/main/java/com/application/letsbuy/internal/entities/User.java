@@ -44,6 +44,9 @@ public class User implements UserDetails {
             message = "Numero de celular inválido!"
     )
     private String phoneNumber;
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Adversiment> adversiments;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Profile> profiles = new ArrayList<>();

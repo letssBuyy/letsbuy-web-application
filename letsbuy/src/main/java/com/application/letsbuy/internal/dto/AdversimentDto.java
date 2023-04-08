@@ -17,24 +17,19 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AdversimentDto {
 
+    private Long userId;
     private String title;
-
     private String description;
-
     private Double price;
-
     private LocalDate postDate;
-
     private LocalDate lastUpdate;
-
     private LocalDate saleDate;
-
     private CategoryEnum category;
-
     private QualityEnum quality;
 
-    public Adversiment convert() {
-        return new Adversiment(title, description, price, postDate, lastUpdate, saleDate, category, quality);
+    public Adversiment convert(UserService userService) {
+        User user = userService.findById(userId);
+        return new Adversiment(user, title, description, price, postDate, lastUpdate, saleDate, category, quality);
     }
 
     public Adversiment update(Long id, AdversimentService adversimentService) {

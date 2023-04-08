@@ -8,15 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class AdversimentDtoResponse {
+public class UserAdversimentsDto {
 
-    private Long userId;
     private Long id;
     private String title;
     private String description;
@@ -27,12 +24,7 @@ public class AdversimentDtoResponse {
     private CategoryEnum category;
     private QualityEnum quality;
 
-    public static List<AdversimentDtoResponse> convert(List<Adversiment> adversiments) {
-        return adversiments.stream().map(AdversimentDtoResponse::new).collect(Collectors.toList());
-    }
-
-    public AdversimentDtoResponse(Adversiment adversiment) {
-        this.userId = adversiment.getUser().getId();
+    public UserAdversimentsDto(Adversiment adversiment) {
         this.id = adversiment.getId();
         this.title = adversiment.getTitle();
         this.description = adversiment.getDescription();

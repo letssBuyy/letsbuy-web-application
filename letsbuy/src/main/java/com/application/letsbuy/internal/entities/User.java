@@ -1,13 +1,18 @@
 package com.application.letsbuy.internal.entities;
 
-import lombok.Data;
+import com.application.letsbuy.internal.utils.AgeRange;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,21 +22,31 @@ import java.util.List;
 @Entity
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String name;
-    @Column
+    @Email
+    @NotBlank
     private String email;
-    @Column
+    @CPF
+    @NotBlank
     private String cpf;
-    @Column
+    @NotBlank
     private String password;
+    @AgeRange(minAge = 18)
+    private LocalDate birthDate;
     @Column
-    private String birthDate;
-    @Column
+    @Pattern(
+            regexp = "^(?:\\+55\\s?)?(?:\\([1-9][1-9]\\)|[1-9][1-9])\\s?(?:9?[1-9]\\d{3})[-\\s]?\\d{4}$",
+            message = "Numero de celular inválido!"
+    )
     private String phoneNumber;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<Adversiment> adversiments;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Profile> profiles = new ArrayList<>();
@@ -39,7 +54,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String name, String email, String cpf, String password, String birthDate, String phoneNumber) {
+    public User(String name, String email, String cpf, String password, LocalDate birthDate, String phoneNumber) {
         this.name = name;
         this.email = email;
         this.cpf = cpf;

@@ -9,7 +9,7 @@ public class UserNotFoundException extends UnexpectedExceptionTemplate {
 
     private static final String CODE_STATUS = "400";
 
-    private static final String ERROR_STATUS = "USER_NOT_FIND_EXCEPTION";
+    private static final String ERROR_STATUS = "USER_NOT_FOUND_EXCEPTION";
 
     private static final String MESSAGE = "User not found";
 

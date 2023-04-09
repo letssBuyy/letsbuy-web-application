@@ -9,8 +9,8 @@ public class ReceiverDto {
         return name;
     }
 
-    public void setNome(String nome) {
-        this.name = nome;
+    public void setNome(String name) {
+        this.name = name;
     }
 
     public String getEmail() {

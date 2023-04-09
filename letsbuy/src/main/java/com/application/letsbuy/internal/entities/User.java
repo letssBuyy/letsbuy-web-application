@@ -1,7 +1,6 @@
 package com.application.letsbuy.internal.entities;
 
 import com.application.letsbuy.internal.utils.AgeRange;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
@@ -18,7 +17,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Table(name = "user")
 @Entity
 public class User implements UserDetails {

@@ -35,7 +35,7 @@ public class Adversiment {
     private LocalDate saleDate;
     private CategoryEnum category;
     private QualityEnum quality;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 

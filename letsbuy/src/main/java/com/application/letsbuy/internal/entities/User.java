@@ -44,7 +44,8 @@ public class User implements UserDetails {
             message = "Numero de celular inválido!"
     )
     private String phoneNumber;
-    @OneToMany
+
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<Adversiment> adversiments;
 

@@ -1,6 +1,7 @@
 package com.application.letsbuy.internal.entities;
 
 import com.application.letsbuy.internal.utils.AgeRange;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;

@@ -3,7 +3,7 @@ package com.application.letsbuy.internal.utils;
 public class AscIILogo {
     private AscIILogo () {}
 
-    public final static String logo =
+    public static final String LOGO =
             "LLLLLLLLLLL                                          tttt                           BBBBBBBBBBBBBBBBB                                            \n" +
             "L:::::::::L                                       ttt:::t                           B::::::::::::::::B                                           \n" +
             "L:::::::::L                                       t:::::t                           B::::::BBBBBB:::::B                                          \n" +

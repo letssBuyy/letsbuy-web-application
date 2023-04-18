@@ -24,7 +24,7 @@ public class AdversimentController {
 
     @ApiOperation("Method used to list adversiments")
     @GetMapping
-    public ResponseEntity<List<AdversimentDtoResponse>> list(){
+    public ResponseEntity<List<AdversimentDtoResponse>> retrieveAdversiment(){
         List<Adversiment> adversiments = adversimentService.findAll();
         return ResponseEntity.ok().body(AdversimentDtoResponse.convert(adversiments));
     }

@@ -2,6 +2,7 @@ package com.application.letsbuy.internal.entities;
 
 import com.application.letsbuy.internal.enums.CategoryEnum;
 import com.application.letsbuy.internal.enums.QualityEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

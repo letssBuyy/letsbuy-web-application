@@ -7,7 +7,7 @@ import java.time.LocalDate;
 public final class UserUtils {
     private UserUtils() {}
 
-    public static User createUser() {
+    public static User mockUser() {
         User user = new User();
         user.setId(10L);
         user.setName("Marcos Leonardo");

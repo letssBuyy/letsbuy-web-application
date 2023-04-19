@@ -9,10 +9,10 @@ import java.time.LocalDate;
 public final class AdversimentUtils {
     private AdversimentUtils() {
     }
-    public static Adversiment createAdversiment() {
+    public static Adversiment mockAdversiment() {
         Adversiment adversiment = new Adversiment();
         adversiment.setId(1000L);
-        adversiment.setUser(UserUtils.createUser());
+        adversiment.setUser(UserUtils.mockUser());
         adversiment.setTitle("IPHONE 14");
         adversiment.setDescription("Celular novo, mal foi usado.");
         adversiment.setPrice(7000.0);

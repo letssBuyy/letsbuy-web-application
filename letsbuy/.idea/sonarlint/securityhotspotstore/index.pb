@@ -1,10 +1,4 @@
 
-x
-Hsrc/main/java/com/application/letsbuy/internal/services/UserService.java,f\b\fbb39d2bf654783bcdeab0b6f633151d51b699d0
-ˆ
-Xsrc/main/java/com/application/letsbuy/internal/controllers/AuthenticationController.java,6\e\6e07c3ac577faa84f0858b370cced266a77b993e
-~
-Nsrc/main/java/com/application/letsbuy/internal/controllers/UserController.java,3\4\34341a204c9871248181e9b7e527665956d0fa37
 €
 Psrc/main/java/com/application/letsbuy/internal/services/AnnouncementService.java,4\7\47a526da4bbad2d6224316c02a08b1e884dade56
 ~
@@ -15,14 +9,8 @@ v
 Fsrc/main/java/com/application/letsbuy/internal/utils/AgeValidator.java,7\8\7819822756ef3a3655b8744b2ed664b29b30774f
 s
 Csrc/main/java/com/application/letsbuy/internal/utils/AscIILogo.java,8\e\8eab1e2ddb8908ad5e9a7add9c0eacc76e389608
-m
-=src/main/java/com/application/letsbuy/LetsbuyApplication.java,6\f\6fb3207c1d9636779d0cc49fdb4d610a9994edbe
-
-Osrc/main/java/com/application/letsbuy/internal/controllers/EmailController.java,0\d\0d8661566d13c60defd496c3ff201be8d213a685
 v
 Fsrc/main/java/com/application/letsbuy/internal/dto/AdversimentDto.java,1\8\18ee2d66d19ec26294e5cfa04011e4d66367ad6b
-…
-Usrc/main/java/com/application/letsbuy/internal/controllers/AdversimentController.java,8\9\8991d1c9590912acfcef03a040f8ec0070644dca
 †
 Vsrc/main/java/com/application/letsbuy/internal/controllers/AnnouncementController.java,7\3\737c50804f9216f467b581a49c4ca17d105c6b68
 ~
@@ -37,7 +25,3 @@ t
 Dsrc/main/java/com/application/letsbuy/internal/entities/Profile.java,c\e\ce30b59520364cb30e4b1fcd8efa94d70f56f268
 x
 Hsrc/main/java/com/application/letsbuy/internal/entities/Adversiment.java,5\e\5e4934c3349352762065598e3fbd0950e73e2eb6
-q
-Asrc/main/java/com/application/letsbuy/internal/utils/ListObj.java,6\e\6e50623e60bbed01b924052d8711fe14aa15d802
-
-Osrc/main/java/com/application/letsbuy/internal/services/AdversimentService.java,0\5\052b60cffb3f39c3c945bccf7ab7db67e3ff61fe

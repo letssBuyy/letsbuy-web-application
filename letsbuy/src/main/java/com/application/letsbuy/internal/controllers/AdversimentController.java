@@ -17,9 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/adversiments")
 public class AdversimentController {
-
     private final AdversimentService adversimentService;
-
     private final UserService userService;
 
     @ApiOperation("Method used to list adversiments")

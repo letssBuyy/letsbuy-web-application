@@ -29,6 +29,7 @@ public class CsvArchiveService {
             System.exit(1);
         }
         try {
+            System.out.println(adversimentList.getTamanho());
             for (int i = 0; i < adversimentList.getTamanho(); i++) {
                 Adversiment adversiment = adversimentList.getElemento(i);
                 saida.format("%s;%s;%s;%.2f;%s;%s;%s;%s;%s;%s\n", adversiment.getId().toString(),
@@ -60,7 +61,7 @@ public class CsvArchiveService {
 
 
     public static void main(String[] args) {
-      Adversiment adversiment = AdversimentUtils.createAdversiment();
+      Adversiment adversiment = AdversimentUtils.mockAdversiment();
       ListObj<Adversiment> list = new ListObj<>(2);
       list.adiciona(adversiment);
       creatCsvArchive(list);

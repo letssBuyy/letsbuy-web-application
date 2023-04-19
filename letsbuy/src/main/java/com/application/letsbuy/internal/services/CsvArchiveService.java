@@ -31,9 +31,16 @@ public class CsvArchiveService {
         try {
             for (int i = 0; i < adversimentList.getTamanho(); i++) {
                 Adversiment adversiment = adversimentList.getElemento(i);
-                saida.format("%s;%s;%.2f;%s;%s;%s;%s;%s\n", adversiment.getTitle(), adversiment.getDescription(), adversiment.getPrice(),
-                        adversiment.getPostDate().toString(), adversiment.getLastUpdate().toString(), adversiment.getSaleDate().toString(),
-                        adversiment.getCategory().toString(), adversiment.getQuality().toString());
+                saida.format("%s;%s;%s;%.2f;%s;%s;%s;%s;%s;%s\n", adversiment.getId().toString(),
+                        adversiment.getTitle(),
+                        adversiment.getDescription(),
+                        adversiment.getPrice(),
+                        adversiment.getPostDate().toString(),
+                        adversiment.getLastUpdate().toString(),
+                        adversiment.getSaleDate().toString(),
+                        adversiment.getCategory().toString(),
+                        adversiment.getQuality().toString(),
+                        adversiment.getUser().getId().toString());
             }
         } catch (FormatterClosedException e) {
             System.out.println("Erro ao gravar o arquivo");
@@ -49,8 +56,8 @@ public class CsvArchiveService {
             if (deuRuim) {
                 System.exit(1);
             }
-        }
-    }
+        }    }
+
 
     public static void main(String[] args) {
       Adversiment adversiment = AdversimentUtils.createAdversiment();

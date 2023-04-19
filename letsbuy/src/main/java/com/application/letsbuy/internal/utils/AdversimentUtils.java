@@ -11,6 +11,8 @@ public final class AdversimentUtils {
     }
     public static Adversiment createAdversiment() {
         Adversiment adversiment = new Adversiment();
+        adversiment.setId(1000L);
+        adversiment.setUser(UserUtils.createUser());
         adversiment.setTitle("IPHONE 14");
         adversiment.setDescription("Celular novo, mal foi usado.");
         adversiment.setPrice(7000.0);

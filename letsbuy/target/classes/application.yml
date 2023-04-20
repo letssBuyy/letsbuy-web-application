@@ -8,8 +8,6 @@ spring:
     validationQuery: SELECT 1
   flyway:
     url: jdbc:mysql://localhost:3306/letsbuy
-
-
     locations: classpath:db/migration
     enabled: true
 

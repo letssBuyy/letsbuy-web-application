@@ -1,5 +1,10 @@
 package com.application.letsbuy.internal.utils;
 
+import com.application.letsbuy.internal.entities.Adversiment;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class ListObj<T>{
 
     private T[] vetor;
@@ -62,6 +67,28 @@ public class ListObj<T>{
             return null;
         }
        return this.vetor[indice];
+    }
+
+    public static ListObj<Adversiment> orderByPrice(ListObj<Adversiment> adversimentObj){
+
+       Adversiment[] vetor = ConverterUtils.convertListObj(adversimentObj);
+       ListObj<Adversiment> adversimentOrderly = new ListObj<>(adversimentObj.getTamanho());
+
+        for(int i = 0; i < vetor.length-1; i++){
+            for(int j = 1; j < vetor.length-i; j++){
+
+                if(vetor[j-1].getPrice() > vetor[j].getPrice()){
+                    Adversiment aux = vetor[j];
+                    vetor[j] = vetor[j-1];
+                    vetor[j-1] = aux;
+                }
+            }
+        }
+
+        for(int i = 0; i < vetor.length; i++){
+            adversimentOrderly.adiciona(vetor[i]);
+        }
+        return adversimentOrderly;
     }
 
     public void limpa() {

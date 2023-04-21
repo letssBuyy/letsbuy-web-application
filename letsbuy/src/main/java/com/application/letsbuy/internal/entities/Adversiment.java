@@ -51,5 +51,21 @@ public class Adversiment {
         this.category = category;
         this.quality = quality;
     }
+
+    @Override
+    public String toString() {
+        return "Adversiment{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", postDate=" + postDate +
+                ", lastUpdate=" + lastUpdate +
+                ", saleDate=" + saleDate +
+                ", category=" + category +
+                ", quality=" + quality +
+                ", user=" + user +
+                '}';
+    }
 }
 

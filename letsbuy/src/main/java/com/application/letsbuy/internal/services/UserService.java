@@ -2,6 +2,7 @@ package com.application.letsbuy.internal.services;
 
 import com.application.letsbuy.api.usecase.UserInterface;
 import com.application.letsbuy.internal.entities.User;
+//import com.application.letsbuy.internal.exceptions.ErrorNotFoundException;
 import com.application.letsbuy.internal.exceptions.UserNotFoundException;
 import com.application.letsbuy.internal.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -30,13 +31,9 @@ public class UserService implements UserInterface {
 
     @Override
     public User findById(Long id) {
-        Optional<User> retrieveUserById = userRepository.findById(id);
-        if (retrieveUserById.isPresent()) {
-            return retrieveUserById.get();
-        }
-        throw new UserNotFoundException();
+        return userRepository.findById(id).orElseThrow(()
+                -> new UserNotFoundException());
     }
-
     @Override
     public void deleteById(Long id) {
         if (userRepository.findById(id).isPresent()) {

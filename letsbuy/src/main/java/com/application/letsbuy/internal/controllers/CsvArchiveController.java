@@ -5,6 +5,7 @@ import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.services.UserService;
 import com.application.letsbuy.internal.utils.CsvArchiveUtils;
 import com.application.letsbuy.internal.utils.ListObj;
+import com.application.letsbuy.internal.utils.OrdenationUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,9 @@ public class CsvArchiveController {
             for (Adversiment adversiment : adversimentList) {
                 adversimentObj.adiciona(adversiment);
             }
+
+            OrdenationUtils.orderByPrice(adversimentObj);
+
             CsvArchiveUtils.creatCsvArchive(adversimentObj);
             return ResponseEntity.status(200).build();
         }

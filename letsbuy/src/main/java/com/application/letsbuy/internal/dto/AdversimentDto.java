@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -17,14 +19,23 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AdversimentDto {
 
+    @NotNull
     private Long userId;
+    @NotBlank
     private String title;
+    @NotBlank
     private String description;
+    @NotNull
     private Double price;
+    @NotNull
     private LocalDate postDate;
+    @NotNull
     private LocalDate lastUpdate;
+    @NotNull
     private LocalDate saleDate;
+    @NotNull
     private CategoryEnum category;
+    @NotNull
     private QualityEnum quality;
 
     public Adversiment convert(UserService userService) {

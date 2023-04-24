@@ -2,15 +2,11 @@ package com.application.letsbuy.internal.services;
 
 import com.application.letsbuy.api.usecase.AdversimentInterface;
 import com.application.letsbuy.internal.entities.Adversiment;
-import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.exceptions.AdversimentNoContentException;
 import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
 import com.application.letsbuy.internal.repositories.AdversimentRepository;
 import com.application.letsbuy.internal.utils.ConverterUtils;
-import com.application.letsbuy.internal.utils.ListObj;
-import jdk.swing.interop.SwingInterOpUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,7 +44,7 @@ public class AdversimentService implements AdversimentInterface {
     @Override
     public List<Adversiment> findAll() {
         if (adversimentRepository.findAll().isEmpty()) {
-            throw new AdversimentNotFoundException();
+            throw new AdversimentNoContentException();
         } else {
             return adversimentRepository.findAll();
         }

@@ -4,13 +4,16 @@ import com.application.letsbuy.internal.dto.*;
 import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.services.UserService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.net.URI;
+
 
 @AllArgsConstructor
 @RestController
@@ -21,7 +24,7 @@ public class UserController {
 
     @ApiOperation("Method used to register users")
     @PostMapping
-    public ResponseEntity<UserDtoResponse> register(@RequestBody UserDto dto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<UserDtoResponse> register(@RequestBody @Valid UserDto dto, UriComponentsBuilder uriBuilder) {
         User user = dto.convert();
         userService.save(user);
 
@@ -33,23 +36,21 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserAdversimentsDtoResponse> listarUser(@PathVariable Long id) {
         User user = userService.findById(id);
-        UserAdversimentsDtoResponse userAdversimentsDtoResponse = new UserAdversimentsDtoResponse(user);
-        System.out.println(userAdversimentsDtoResponse);
-        return ResponseEntity.ok().body(userAdversimentsDtoResponse);
+        return ResponseEntity.ok().body(new UserAdversimentsDtoResponse(user));
     }
 
     @ApiOperation("Method used to change user data")
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity<UserDtoResponse> update(@PathVariable Long id, @RequestBody UserUpdateDto userDto) {
+    public ResponseEntity<UserDtoResponse> update(@PathVariable Long id, @RequestBody @Valid UserUpdateDto userDto) {
         User user = userDto.update(id, userService);
         return ResponseEntity.ok(new UserDtoResponse(user));
     }
 
-    @ApiOperation("atualizar senha do usuario")
+    @ApiOperation("Method used to change to user password")
     @PatchMapping("/{id}")
     @Transactional
-    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody PasswordUpdateDto dto) {
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody @Valid PasswordUpdateDto dto) {
         dto.updatePassword(id, userService);
         return ResponseEntity.ok().build();
     }
@@ -59,7 +60,7 @@ public class UserController {
     @Transactional
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.deleteById(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(204).build();
     }
 }
 

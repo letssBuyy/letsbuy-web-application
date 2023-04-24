@@ -28,7 +28,7 @@ public class AuthenticationController {
 
     @ApiOperation("Authenticate user login")
     @PostMapping
-    public ResponseEntity<TokenDto> autenticador(@RequestBody AuthenticationRequestDto dto) {
+    public ResponseEntity<TokenDto> autenticador(@RequestBody @Valid AuthenticationRequestDto dto) {
         System.out.println(dto.getEmail());
         System.out.println(dto.getPassword());
         UsernamePasswordAuthenticationToken dataLogin = dto.convert();
@@ -38,7 +38,7 @@ public class AuthenticationController {
             String token = tokenService.generateToken(authentication);
             return  ResponseEntity.ok(new TokenDto(token, "Bearer"));
         }catch (AuthenticationException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(401).build();
         }
     }
 }

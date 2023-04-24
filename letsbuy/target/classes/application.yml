@@ -1,7 +1,7 @@
 spring:
   datasource:
     username: root
-    password: nacagawa1333
+    password: Camila@01
     url: jdbc:mysql://localhost:3306/letsbuy?allowPublicKeyRetrieval=true&rewriteBatchedStatements=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&useLegacyDatetimeCode=true&createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     testWhileIdle: true
@@ -22,7 +22,7 @@ spring:
     generate-ddl: true
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true

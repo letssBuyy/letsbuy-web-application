@@ -2,6 +2,7 @@ package com.application.letsbuy.internal.entities;
 
 import com.application.letsbuy.internal.enums.CategoryEnum;
 import com.application.letsbuy.internal.enums.QualityEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -49,6 +50,22 @@ public class Adversiment {
         this.saleDate = saleDate;
         this.category = category;
         this.quality = quality;
+    }
+
+    @Override
+    public String toString() {
+        return "Adversiment{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", postDate=" + postDate +
+                ", lastUpdate=" + lastUpdate +
+                ", saleDate=" + saleDate +
+                ", category=" + category +
+                ", quality=" + quality +
+                ", user=" + user +
+                '}';
     }
 }
 

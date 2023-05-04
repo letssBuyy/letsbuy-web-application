@@ -2,8 +2,10 @@ package com.application.letsbuy.internal.services;
 
 import com.application.letsbuy.api.usecase.AdversimentInterface;
 import com.application.letsbuy.internal.entities.Adversiment;
+import com.application.letsbuy.internal.exceptions.AdversimentNoContentException;
 import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
 import com.application.letsbuy.internal.repositories.AdversimentRepository;
+import com.application.letsbuy.internal.utils.ConverterUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +44,50 @@ public class AdversimentService implements AdversimentInterface {
     @Override
     public List<Adversiment> findAll() {
         if (adversimentRepository.findAll().isEmpty()) {
-            throw new AdversimentNotFoundException();
+            throw new AdversimentNoContentException();
         } else {
             return adversimentRepository.findAll();
         }
     }
+
+    @Override
+    public Adversiment searchBinary(List<Adversiment> adversimentList, Double price) {
+
+        if (adversimentList.isEmpty()) {
+            throw new AdversimentNoContentException();
+        }
+        Adversiment[] vetor = ConverterUtils.convertList(adversimentList);
+
+        for (int i = 0; i < vetor.length - 1; i++) {
+            for (int j = 1; j < vetor.length - i; j++) {
+
+                if (vetor[j - 1].getPrice() > vetor[j].getPrice()) {
+                    Adversiment aux = vetor[j];
+                    vetor[j] = vetor[j - 1];
+                    vetor[j - 1] = aux;
+                }
+            }
+        }
+        int inicio = 0;
+        int fim = vetor.length - 1;
+
+        while (inicio <= fim) {
+            int meio = (inicio + fim) / 2;
+
+            if (price.equals(vetor[meio].getPrice())) {
+                Long adversimentId = vetor[meio].getId();
+                Adversiment adversiment = findById(adversimentId);
+                System.out.println(adversiment);
+                return adversiment;
+
+            } else if (price > vetor[meio].getPrice()) {
+                inicio = meio + 1;
+
+            } else {
+                fim = meio - 1;
+            }
+        }
+        throw new AdversimentNotFoundException();
+    }
 }
+

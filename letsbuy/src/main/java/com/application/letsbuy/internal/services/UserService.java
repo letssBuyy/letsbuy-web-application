@@ -2,6 +2,8 @@ package com.application.letsbuy.internal.services;
 
 import com.application.letsbuy.api.usecase.UserInterface;
 import com.application.letsbuy.internal.entities.User;
+//import com.application.letsbuy.internal.exceptions.ErrorNotFoundException;
+import com.application.letsbuy.internal.exceptions.UserConflictException;
 import com.application.letsbuy.internal.exceptions.UserNotFoundException;
 import com.application.letsbuy.internal.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -16,7 +18,12 @@ public class UserService implements UserInterface {
 
     @Override
     public void save(User user) {
-        userRepository.save(user);
+        Optional<User> isUserExist = userRepository.findByEmail(user.getEmail());
+        if (!(isUserExist.isPresent())) {
+            userRepository.save(user);
+        } else {
+            throw new UserConflictException();
+        }
     }
 
     @Override
@@ -30,13 +37,12 @@ public class UserService implements UserInterface {
 
     @Override
     public User findById(Long id) {
-        Optional<User> retrieveUserById = userRepository.findById(id);
-        if (retrieveUserById.isPresent()) {
-            return retrieveUserById.get();
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()){
+            return user.get();
         }
         throw new UserNotFoundException();
     }
-
     @Override
     public void deleteById(Long id) {
         if (userRepository.findById(id).isPresent()) {

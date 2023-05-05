@@ -9,7 +9,7 @@ public interface AdversimentInterface {
     void deleteById(Long id);
     Adversiment findById(Long id);
     List<Adversiment> findAll();
-
     Adversiment searchBinary(List<Adversiment> adversimentList, Double price);
+    Adversiment openContest(Long id);
 }
 

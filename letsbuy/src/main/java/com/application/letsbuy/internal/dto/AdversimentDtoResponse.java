@@ -1,12 +1,15 @@
 package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.Adversiment;
+import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.enums.CategoryEnum;
 import com.application.letsbuy.internal.enums.QualityEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +29,8 @@ public class AdversimentDtoResponse {
     private LocalDate saleDate;
     private CategoryEnum category;
     private QualityEnum quality;
+    private AdversimentEnum isActive;
+    private AdversimentEnum contest;
 
     public static List<AdversimentDtoResponse> convert(List<Adversiment> adversiments) {
         return adversiments.stream().map(AdversimentDtoResponse::new).collect(Collectors.toList());
@@ -42,5 +47,7 @@ public class AdversimentDtoResponse {
         this.saleDate = adversiment.getSaleDate();
         this.category = adversiment.getCategory();
         this.quality = adversiment.getQuality();
+        this.isActive = adversiment.getIsActive();
+        this.contest = adversiment.getContest();
     }
 }

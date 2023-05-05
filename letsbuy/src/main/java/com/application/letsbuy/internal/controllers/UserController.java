@@ -25,8 +25,11 @@ public class UserController {
     @ApiOperation("Method used to register users")
     @PostMapping
     public ResponseEntity<UserDtoResponse> register(@RequestBody @Valid UserDto dto, UriComponentsBuilder uriBuilder) {
+        System.out.println("ENTREI NA DTO");
         User user = dto.convert();
+        System.out.println(user);
         userService.save(user);
+        System.out.println("DEPOIS DO SAVE");
 
         URI uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
         return ResponseEntity.created(uri).body(new UserDtoResponse(user));

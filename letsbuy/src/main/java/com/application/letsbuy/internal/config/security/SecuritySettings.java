@@ -55,6 +55,7 @@ public class SecuritySettings extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/csv").permitAll()
                 .antMatchers(HttpMethod.GET, "/csv/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/search-binary-price/**").permitAll()
+                .antMatchers(HttpMethod.PATCH, "/adversiments/contest/**").permitAll()
                 .anyRequest().authenticated()
                 .and().cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -7,7 +7,6 @@ import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.services.AdversimentService;
 import com.application.letsbuy.internal.services.UserService;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,5 +66,13 @@ public class AdversimentController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         adversimentService.deleteById(id);
         return ResponseEntity.status(204).build();
+    }
+
+    @ApiOperation("Method used to open contest")
+    @PatchMapping("/contest/{id}")
+    @Transactional
+    public ResponseEntity<AdversimentDtoResponse> contest(@PathVariable Long id) {
+        Adversiment adversiment = adversimentService.openContest(id);
+        return ResponseEntity.status(200).body(new AdversimentDtoResponse(adversiment));
     }
 }

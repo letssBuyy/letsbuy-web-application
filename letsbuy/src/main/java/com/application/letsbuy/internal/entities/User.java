@@ -1,8 +1,10 @@
 package com.application.letsbuy.internal.entities;
 
+import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import com.application.letsbuy.internal.utils.AgeRange;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +21,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@ToString
 @Table(name = "user")
 @Entity
 public class User implements UserDetails {
@@ -44,6 +47,8 @@ public class User implements UserDetails {
             message = "Numero de celular inválido!"
     )
     private String phoneNumber;
+    @Enumerated(EnumType.STRING)
+    private ActiveInactiveEnum isActive;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -62,6 +67,7 @@ public class User implements UserDetails {
         this.password = password;
         this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
+        this.isActive = ActiveInactiveEnum.ACTIVE;
     }
 
     @Override

@@ -1,15 +1,17 @@
 package com.application.letsbuy.internal.entities;
 
+import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.enums.CategoryEnum;
 import com.application.letsbuy.internal.enums.QualityEnum;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
@@ -34,8 +36,14 @@ public class Adversiment {
     private LocalDate postDate;
     private LocalDate lastUpdate;
     private LocalDate saleDate;
+    @Enumerated(EnumType.STRING)
     private CategoryEnum category;
+    @Enumerated(EnumType.STRING)
     private QualityEnum quality;
+    @Enumerated(EnumType.STRING)
+    private AdversimentEnum isActive;
+    @Enumerated(EnumType.STRING)
+    private AdversimentEnum contest;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -50,6 +58,8 @@ public class Adversiment {
         this.saleDate = saleDate;
         this.category = category;
         this.quality = quality;
+        this.isActive = AdversimentEnum.ACTIVE;
+        this.contest = AdversimentEnum.INACTIVE;
     }
 
     @Override

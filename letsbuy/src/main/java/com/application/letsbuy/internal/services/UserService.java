@@ -2,7 +2,7 @@ package com.application.letsbuy.internal.services;
 
 import com.application.letsbuy.api.usecase.UserInterface;
 import com.application.letsbuy.internal.entities.User;
-//import com.application.letsbuy.internal.exceptions.ErrorNotFoundException;
+import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import com.application.letsbuy.internal.exceptions.UserConflictException;
 import com.application.letsbuy.internal.exceptions.UserNotFoundException;
 import com.application.letsbuy.internal.repositories.UserRepository;
@@ -46,7 +46,8 @@ public class UserService implements UserInterface {
     @Override
     public void deleteById(Long id) {
         if (userRepository.findById(id).isPresent()) {
-            userRepository.deleteById(id);
+            User user = userRepository.findById(id).get();
+            user.setIsActive(ActiveInactiveEnum.INACTIVE);
         } else {
             throw new UserNotFoundException();
         }

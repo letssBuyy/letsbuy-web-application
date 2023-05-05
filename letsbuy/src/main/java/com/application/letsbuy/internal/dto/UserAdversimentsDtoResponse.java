@@ -1,6 +1,7 @@
 package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,7 @@ public class UserAdversimentsDtoResponse {
     private String cpf;
     private LocalDate birthDate;
     private String phoneNumber;
+    private ActiveInactiveEnum isActive;
     private List<UserAdversimentsDto> adversiments;
 
     public UserAdversimentsDtoResponse(User user) {
@@ -30,6 +32,7 @@ public class UserAdversimentsDtoResponse {
         this.cpf = user.getCpf();
         this.birthDate = user.getBirthDate();
         this.phoneNumber = user.getPhoneNumber();
+        this.isActive = user.getIsActive();
         this.adversiments = new ArrayList<>();
         this.adversiments.addAll(user.getAdversiments().stream().map(UserAdversimentsDto::new).collect(Collectors.toList()));
     }

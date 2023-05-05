@@ -2,6 +2,7 @@ package com.application.letsbuy.internal.services;
 
 import com.application.letsbuy.api.usecase.AdversimentInterface;
 import com.application.letsbuy.internal.entities.Adversiment;
+import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.exceptions.AdversimentNoContentException;
 import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
 import com.application.letsbuy.internal.repositories.AdversimentRepository;
@@ -25,7 +26,8 @@ public class AdversimentService implements AdversimentInterface {
     @Override
     public void deleteById(Long id) {
         if (adversimentRepository.findById(id).isPresent()) {
-            adversimentRepository.deleteById(id);
+            Adversiment adversiment = adversimentRepository.findById(id).get();
+            adversiment.setIsActive(AdversimentEnum.INACTIVE);
         } else {
             throw new AdversimentNotFoundException();
         }
@@ -51,8 +53,18 @@ public class AdversimentService implements AdversimentInterface {
     }
 
     @Override
-    public Adversiment searchBinary(List<Adversiment> adversimentList, Double price) {
+    public Adversiment openContest(Long id) {
+        if (adversimentRepository.findById(id).isPresent()) {
+            Adversiment adversiment = adversimentRepository.findById(id).get();
+            adversiment.setContest(AdversimentEnum.ACTIVE);
+            return adversiment;
+        } else {
+            throw new AdversimentNotFoundException();
+        }
+    }
 
+    @Override
+    public Adversiment searchBinary(List<Adversiment> adversimentList, Double price) {
         if (adversimentList.isEmpty()) {
             throw new AdversimentNoContentException();
         }

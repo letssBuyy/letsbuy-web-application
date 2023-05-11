@@ -34,7 +34,7 @@ public class AdversimentController {
     public ResponseEntity<AdversimentDtoResponse> createAdversiment(@RequestBody @Valid AdversimentDto adversimentDto) {
         Adversiment adversiment = adversimentDto.convert(userService);
         adversimentService.save(adversiment);
-        return ResponseEntity.status(201).body(new AdversimentDtoResponse(adversiment));
+        return ResponseEntity.created(null).body(new AdversimentDtoResponse(adversiment));
     }
 
     @ApiOperation("Method used to find adversiment by id")

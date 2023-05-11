@@ -2,6 +2,7 @@ package com.application.letsbuy.internal.services;
 
 import com.application.letsbuy.api.usecase.AdversimentInterface;
 import com.application.letsbuy.internal.entities.Adversiment;
+import com.application.letsbuy.internal.entities.Image;
 import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.exceptions.AdversimentNoContentException;
 import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
@@ -9,7 +10,9 @@ import com.application.letsbuy.internal.repositories.AdversimentRepository;
 import com.application.letsbuy.internal.utils.ConverterUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +20,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class AdversimentService implements AdversimentInterface {
     private AdversimentRepository adversimentRepository;
+    private final ImageService imageService;
 
     @Override
     public void save(Adversiment adversiment) {
@@ -61,6 +65,21 @@ public class AdversimentService implements AdversimentInterface {
         } else {
             throw new AdversimentNotFoundException();
         }
+    }
+    @Override
+    public Adversiment insertImages(List<MultipartFile> images, Adversiment adversiment) {
+        List<Image> listImages = new ArrayList<>();
+
+        images.forEach((img)->{
+            Image image = new Image();
+            image.setAdversiment(adversiment);
+            image.setUrl(imageService.upload(img));
+            listImages.add(image);
+        });
+
+        adversiment.setImages(listImages);
+
+        return adversiment;
     }
 
     @Override

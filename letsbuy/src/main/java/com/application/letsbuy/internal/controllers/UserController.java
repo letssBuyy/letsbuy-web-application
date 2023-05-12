@@ -28,12 +28,10 @@ public class UserController {
     @ApiOperation("Method used to register users")
     @PostMapping
     public ResponseEntity<UserDtoResponse> register(
-            @RequestParam MultipartFile img,
             @RequestBody @Valid UserDto dto, UriComponentsBuilder uriBuilder
     ) {
         System.out.println("ENTREI NA DTO");
         User user = dto.convert();
-        user.setProfileImage(imageService.upload(img));
         System.out.println(user);
         userService.save(user);
         System.out.println("DEPOIS DO SAVE");

@@ -9,9 +9,9 @@ public interface AdversimentInterface {
     void save(Adversiment adversiment);
     void deleteById(Long id);
     Adversiment findById(Long id);
-    Adversiment insertImages(List<MultipartFile> images,Adversiment adversiment);
     List<Adversiment> findAll();
     Adversiment searchBinary(List<Adversiment> adversimentList, Double price);
     Adversiment openContest(Long id);
+    Adversiment insertImages(Long id, List<MultipartFile> images);
 }
 

@@ -66,11 +66,20 @@ public class AdversimentService implements AdversimentInterface {
             throw new AdversimentNotFoundException();
         }
     }
+
     @Override
-    public Adversiment insertImages(List<MultipartFile> images, Adversiment adversiment) {
+    public Adversiment insertImages(Long id, List<MultipartFile> images) {
+
+        Optional<Adversiment> adversimentFound = adversimentRepository.findById(id);
+
+        if (adversimentFound.isEmpty()) {
+            throw new AdversimentNotFoundException();
+        }
+
+        Adversiment adversiment = adversimentFound.get();
         List<Image> listImages = new ArrayList<>();
 
-        images.forEach((img)->{
+        images.forEach((img) -> {
             Image image = new Image();
             image.setAdversiment(adversiment);
             image.setUrl(imageService.upload(img));
@@ -78,7 +87,6 @@ public class AdversimentService implements AdversimentInterface {
         });
 
         adversiment.setImages(listImages);
-
         return adversiment;
     }
 

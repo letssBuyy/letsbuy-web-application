@@ -37,18 +37,9 @@ public class AdversimentController {
     @ApiOperation("Method used to register adversiments")
     @PostMapping
     public ResponseEntity<AdversimentDtoResponse> createAdversiment(
-            @RequestParam List<MultipartFile> img1,
-//            @RequestParam MultipartFile img2,
-//            @RequestParam MultipartFile img3,
-//            @RequestParam MultipartFile img4,
-//            @RequestParam MultipartFile img5,
-//            @RequestParam MultipartFile img6,
             @RequestBody @Valid AdversimentDto adversimentDto
     ) {
         Adversiment adversiment = adversimentDto.convert(userService);
-        //List<MultipartFile> imageList = new ArrayList<>();
-
-        adversimentService.insertImages(img1,adversiment);
         adversimentService.save(adversiment);
         return ResponseEntity.status(201).body(new AdversimentDtoResponse(adversiment));
     }

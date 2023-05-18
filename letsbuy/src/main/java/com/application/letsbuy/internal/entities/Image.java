@@ -17,7 +17,6 @@ public class Image {
     private Long id;
     @NotBlank
     private String url;
-    @NotBlank
     @ManyToOne
     private Adversiment adversiment;
 }

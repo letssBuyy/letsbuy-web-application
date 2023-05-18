@@ -7,6 +7,7 @@ import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.exceptions.AdversimentNoContentException;
 import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
 import com.application.letsbuy.internal.repositories.AdversimentRepository;
+import com.application.letsbuy.internal.repositories.ImageRepository;
 import com.application.letsbuy.internal.utils.ConverterUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.Optional;
 public class AdversimentService implements AdversimentInterface {
     private AdversimentRepository adversimentRepository;
     private final ImageService imageService;
+    private final ImageRepository imageRepository;
 
     @Override
     public void save(Adversiment adversiment) {
@@ -84,6 +86,7 @@ public class AdversimentService implements AdversimentInterface {
             image.setAdversiment(adversiment);
             image.setUrl(imageService.upload(img));
             listImages.add(image);
+            imageRepository.save(image);
         });
 
         adversiment.setImages(listImages);

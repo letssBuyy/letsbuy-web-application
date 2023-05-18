@@ -59,6 +59,9 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Profile> profiles = new ArrayList<>();
 
+    @OneToMany
+    private List<BankAccountUser> bankAccounts = new ArrayList<>();
+
     public User() {
     }
 

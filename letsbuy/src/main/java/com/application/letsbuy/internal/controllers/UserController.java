@@ -2,12 +2,14 @@ package com.application.letsbuy.internal.controllers;
 
 import com.application.letsbuy.internal.dto.*;
 import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.services.ImageService;
 import com.application.letsbuy.internal.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
@@ -21,10 +23,13 @@ import java.net.URI;
 public class UserController {
 
     private final UserService userService;
+    private final ImageService imageService;
 
     @ApiOperation("Method used to register users")
     @PostMapping
-    public ResponseEntity<UserDtoResponse> register(@RequestBody @Valid UserDto dto, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<UserDtoResponse> register(
+            @RequestBody @Valid UserDto dto, UriComponentsBuilder uriBuilder
+    ) {
         System.out.println("ENTREI NA DTO");
         User user = dto.convert();
         System.out.println(user);

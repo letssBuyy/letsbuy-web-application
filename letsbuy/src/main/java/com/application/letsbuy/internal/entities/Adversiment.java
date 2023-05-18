@@ -13,6 +13,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -40,6 +41,9 @@ public class Adversiment {
     private CategoryEnum category;
     @Enumerated(EnumType.STRING)
     private QualityEnum quality;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "adversiment_id")
+    private List<Image> images;
     @Enumerated(EnumType.STRING)
     private AdversimentEnum isActive;
     @Enumerated(EnumType.STRING)

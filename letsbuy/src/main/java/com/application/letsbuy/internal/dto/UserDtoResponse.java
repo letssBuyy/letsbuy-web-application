@@ -20,6 +20,7 @@ public class UserDtoResponse {
     private LocalDate birthDate;
     private String phoneNumber;
     private ActiveInactiveEnum isActive;
+    private String profileImage;
 
     public UserDtoResponse(User user) {
         this.id = user.getId();
@@ -29,5 +30,6 @@ public class UserDtoResponse {
         this.birthDate = user.getBirthDate();
         this.phoneNumber = user.getPhoneNumber();
         this.isActive = user.getIsActive();
+        this.profileImage = user.getProfileImage();
     }
 }

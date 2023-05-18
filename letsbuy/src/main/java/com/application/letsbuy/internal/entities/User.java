@@ -47,6 +47,8 @@ public class User implements UserDetails {
             message = "Numero de celular inválido!"
     )
     private String phoneNumber;
+
+    private String profileImage;
     @Enumerated(EnumType.STRING)
     private ActiveInactiveEnum isActive;
 

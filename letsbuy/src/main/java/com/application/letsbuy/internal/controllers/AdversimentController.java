@@ -2,7 +2,9 @@ package com.application.letsbuy.internal.controllers;
 
 import com.application.letsbuy.internal.dto.AdversimentDto;
 import com.application.letsbuy.internal.dto.AdversimentDtoResponse;
+import com.application.letsbuy.internal.dto.AdversimentsLikeDtoResponse;
 import com.application.letsbuy.internal.entities.Adversiment;
+import com.application.letsbuy.internal.entities.AdversimentsLike;
 import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.services.AdversimentService;
 import com.application.letsbuy.internal.services.ImageService;
@@ -81,5 +83,25 @@ public class AdversimentController {
     public ResponseEntity<AdversimentDtoResponse> contest(@PathVariable Long id) {
         Adversiment adversiment = adversimentService.openContest(id);
         return ResponseEntity.status(200).body(new AdversimentDtoResponse(adversiment));
+    }
+
+    @ApiOperation("Method to perform the like of a specific adversiments")
+    @PostMapping("/like/{idUser}/{idAdversiment}")
+    public ResponseEntity<Void> likeAdversiments(@PathVariable Long idUser, @PathVariable Long idAdversiment) {
+        adversimentService.likeAdversiment(idUser, idAdversiment);
+        return ResponseEntity.status(201).build();
+    }
+
+    @GetMapping("/like/{idUser}")
+    public ResponseEntity<List<AdversimentsLikeDtoResponse>> retriveAdversimentsLike(@PathVariable Long idUser) {
+        List<AdversimentsLike> adversiment = adversimentService.findByAdversimentsLike(idUser);
+        return ResponseEntity.status(200).body(AdversimentsLikeDtoResponse.convert(adversiment));
+    }
+
+    @ApiOperation("Method to perform the deslike of a specific adversiments")
+    @DeleteMapping("/deslike/{idAdversimentLike}")
+    public ResponseEntity<Void> deslikeAdversiments(@PathVariable Long idAdversimentLike) {
+        adversimentService.deslike(idAdversimentLike);
+        return ResponseEntity.status(204).build();
     }
 }

@@ -22,6 +22,11 @@ public class UserAdversimentsDtoResponse {
     private String cpf;
     private LocalDate birthDate;
     private String phoneNumber;
+    private String cep;
+    private String road;
+    private Long number;
+    private String complement;
+    private String profileImage;
     private ActiveInactiveEnum isActive;
     private List<UserAdversimentsDto> adversiments;
 
@@ -32,6 +37,11 @@ public class UserAdversimentsDtoResponse {
         this.cpf = user.getCpf();
         this.birthDate = user.getBirthDate();
         this.phoneNumber = user.getPhoneNumber();
+        this.cep = user.getCep();
+        this.road = user.getRoad();
+        this.number = user.getNumber();
+        this.complement = user.getComplement();
+        this.profileImage = user.getProfileImage();
         this.isActive = user.getIsActive();
         this.adversiments = new ArrayList<>();
         this.adversiments.addAll(user.getAdversiments().stream().map(UserAdversimentsDto::new).collect(Collectors.toList()));

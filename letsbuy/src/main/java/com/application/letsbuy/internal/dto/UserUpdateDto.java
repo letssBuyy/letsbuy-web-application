@@ -36,6 +36,10 @@ public class UserUpdateDto {
             message = "Numero de celular inválido!"
     )
     private String phoneNumber;
+    private String cep;
+    private String road;
+    private Long number;
+    private String complement;
 
     public User update(Long id, UserService userService) {
         User user = userService.findById(id);
@@ -44,6 +48,11 @@ public class UserUpdateDto {
         user.setCpf(cpf);
         user.setBirthDate(birthDate);
         user.setPhoneNumber(phoneNumber);
+        user.setCep(cep);
+        user.setRoad(road);
+        user.setNumber(number);
+        user.setComplement(complement);
+
         return user;
     }
 }

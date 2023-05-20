@@ -19,6 +19,10 @@ public class UserDtoResponse {
     private String cpf;
     private LocalDate birthDate;
     private String phoneNumber;
+    private String cep;
+    private String road;
+    private Long number;
+    private String complement;
     private ActiveInactiveEnum isActive;
     private String profileImage;
 
@@ -29,6 +33,10 @@ public class UserDtoResponse {
         this.cpf = user.getCpf();
         this.birthDate = user.getBirthDate();
         this.phoneNumber = user.getPhoneNumber();
+        this.cep = user.getCep();
+        this.road = user.getRoad();
+        this.number = user.getNumber();
+        this.complement = user.getComplement();
         this.isActive = user.getIsActive();
         this.profileImage = user.getProfileImage();
     }

@@ -47,8 +47,11 @@ public class User implements UserDetails {
             message = "Numero de celular inválido!"
     )
     private String phoneNumber;
-
     private String profileImage;
+    private String cep;
+    private String road;
+    private Long number;
+    private String complement;
     @Enumerated(EnumType.STRING)
     private ActiveInactiveEnum isActive;
 

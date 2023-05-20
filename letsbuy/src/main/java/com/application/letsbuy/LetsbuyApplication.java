@@ -10,5 +10,4 @@ public class LetsbuyApplication {
 		SpringApplication.run(LetsbuyApplication.class, args);
 		System.out.println("\n \n" + AscIILogo.LOGO);
 	}
-
 }

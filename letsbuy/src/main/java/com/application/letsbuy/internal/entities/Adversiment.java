@@ -3,9 +3,11 @@ package com.application.letsbuy.internal.entities;
 import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.enums.CategoryEnum;
 import com.application.letsbuy.internal.enums.QualityEnum;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
@@ -19,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Table(name = "adversiment")
 public class Adversiment {
 
@@ -50,6 +53,7 @@ public class Adversiment {
     private AdversimentEnum contest;
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private User user;
 
     public Adversiment(User user, String title, String description, Double price, LocalDate postDate, LocalDate lastUpdate, LocalDate saleDate, CategoryEnum category, QualityEnum quality) {

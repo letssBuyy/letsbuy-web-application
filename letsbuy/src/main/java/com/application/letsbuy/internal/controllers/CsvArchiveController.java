@@ -25,13 +25,11 @@ public class CsvArchiveController {
     public ResponseEntity<Void> retrieveCsv(@PathVariable Long id) {
         User user = userService.findById(id);
         List<Adversiment> adversimentList = user.getAdversiments();
-        System.out.println(adversimentList);
         if (!adversimentList.isEmpty()) {
             ListObj<Adversiment> adversimentObj = new ListObj<>(adversimentList.size());
             for (Adversiment adversiment : adversimentList) {
                 adversimentObj.adiciona(adversiment);
             }
-
            ListObj<Adversiment> orderedList =  adversimentObj.orderByPrice(adversimentObj);
             CsvArchiveUtils.creatCsvArchive(orderedList);
             return ResponseEntity.status(200).build();

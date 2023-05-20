@@ -144,11 +144,11 @@ public class AdversimentService implements AdversimentInterface {
         if (adversimentList.isEmpty()) {
             throw new AdversimentNoContentException();
         }
+
         Adversiment[] vetor = ConverterUtils.convertList(adversimentList);
 
         for (int i = 0; i < vetor.length - 1; i++) {
             for (int j = 1; j < vetor.length - i; j++) {
-
                 if (vetor[j - 1].getPrice() > vetor[j].getPrice()) {
                     Adversiment aux = vetor[j];
                     vetor[j] = vetor[j - 1];
@@ -165,7 +165,6 @@ public class AdversimentService implements AdversimentInterface {
             if (price.equals(vetor[meio].getPrice())) {
                 Long adversimentId = vetor[meio].getId();
                 Adversiment adversiment = findById(adversimentId);
-                System.out.println(adversiment);
                 return adversiment;
 
             } else if (price > vetor[meio].getPrice()) {

@@ -2,6 +2,7 @@ package com.application.letsbuy.internal.entities;
 
 import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import com.application.letsbuy.internal.utils.AgeRange;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -57,6 +58,7 @@ public class User implements UserDetails {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private List<Adversiment> adversiments;
 
     @ManyToMany(fetch = FetchType.EAGER)

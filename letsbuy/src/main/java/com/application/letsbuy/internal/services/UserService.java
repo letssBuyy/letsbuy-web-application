@@ -26,12 +26,10 @@ public class UserService implements UserInterface {
 
     @Override
     public void save(User user) {
-        Optional<User> isUserExist = userRepository.findByEmail(user.getEmail());
-        if (!(isUserExist.isPresent())) {
-            userRepository.save(user);
-        } else {
+        if (isUserAlreadyRegistered(user.getEmail(), user.getCpf())) {
             throw new UserConflictException();
         }
+        this.userRepository.save(user);
     }
 
     @Override
@@ -72,5 +70,10 @@ public class UserService implements UserInterface {
         user.setProfileImage(imageService.upload(img));
         userRepository.save(user);
         return user;
+    }
+
+    private boolean isUserAlreadyRegistered(String email, String cpf) {
+        return userRepository.findByEmail(email).isPresent()
+                || userRepository.findByCpf(cpf).isPresent();
     }
 }

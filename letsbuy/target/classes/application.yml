@@ -6,26 +6,27 @@ server:
 
 spring:
   datasource:
-    username: root
-    password: 1470
+#    username: admin-trackio
+#    password: '#Gfgrupo5'
 
-    url: jdbc:mysql://localhost:3306/letsbuy?allowPublicKeyRetrieval=true&rewriteBatchedStatements=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&useLegacyDatetimeCode=true&createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:sqlserver://srv-trackio.database.windows.net:1433;database=bd-letsbuy;user=admin-trackio@srv-trackio;password=#Gfgrupo5;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     testWhileIdle: true
     validationQuery: SELECT 1
   flyway:
-    url: jdbc:mysql://localhost:3306/letsbuy
+    url: jdbc:sqlserver://srv-trackio.database.windows.net:1433;database=bd-letsbuy;user=admin-trackio@srv-trackio;password=#Gfgrupo5;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
     locations: classpath:db/migration
     enabled: true
 
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
         format_sql: true
         show_sql: true
         use_sql_comments: true
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.dialect.SQLServer2012Dialect
     generate-ddl: true
     defer-datasource-initialization: true
     hibernate:

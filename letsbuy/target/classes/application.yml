@@ -6,16 +6,15 @@ server:
 
 spring:
   datasource:
-#    username: admin-trackio
-#    password: '#Gfgrupo5'
+    username: letsbuy
+    password: 'Mallhub123'
 
-    url: jdbc:sqlserver://srv-trackio.database.windows.net:1433;database=bd-letsbuy;user=admin-trackio@srv-trackio;password=#Gfgrupo5;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
-
+    url: jdbc:sqlserver://lets-buy.database.windows.net:1433;database=LetsBuyBD;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     testWhileIdle: true
     validationQuery: SELECT 1
   flyway:
-    url: jdbc:sqlserver://srv-trackio.database.windows.net:1433;database=bd-letsbuy;user=admin-trackio@srv-trackio;password=#Gfgrupo5;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    url: jdbc:sqlserver://lets-buy.database.windows.net:1433;database=LetsBuyBD;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
     locations: classpath:db/migration
     enabled: true
 

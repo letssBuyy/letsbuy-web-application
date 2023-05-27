@@ -23,7 +23,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@Table(name = "user")
+@Table(name = "customer")
 @Entity
 public class User implements UserDetails {
     @Id

@@ -1,7 +1,7 @@
 package com.application.letsbuy.api.usecase;
 
 public interface Sendable {
- public Boolean sendWelcome(String email, String name);
- public Boolean sendChangePassword(String email, String name);
- public Boolean sendSaleConfirmation(String email, String name);
+        Boolean sendWelcome(String receiverEmail, String receiverName);
+        Boolean sendChangePassword(String receiverEmail, String receiverName);
+        Boolean sendSaleConfirmation(String receiverEmail, String receiverName);
 }

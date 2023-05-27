@@ -2,7 +2,6 @@ package com.application.letsbuy.internal.exceptions;
 
 import lombok.Getter;
 
-@Getter
 public class UnexpectedExceptionTemplate extends RuntimeException {
     private static final String DEFAULT_STATUS = "500";
     private static final String DEFAULT_CODE = "UNKNOW";

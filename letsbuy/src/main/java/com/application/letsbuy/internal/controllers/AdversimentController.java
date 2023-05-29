@@ -105,4 +105,13 @@ public class AdversimentController {
         adversimentService.deslike(idAdversimentLike);
         return ResponseEntity.status(204).build();
     }
+
+    @GetMapping("/export-txt/{id}")
+    public ResponseEntity<Void> exportTxt(@PathVariable Long id){
+
+        User user = userService.findById(id);
+        List<Adversiment> adversiments = user.getAdversiments();
+
+
+    }
 }

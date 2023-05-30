@@ -15,7 +15,7 @@ public class PaymentUserAdverstisement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "adversiment_id")
     private Adversiment adversiment;
     @ManyToOne

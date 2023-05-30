@@ -21,20 +21,17 @@ public class BankAccountDtoRequest {
     private String accountNumber;
     @NotBlank
     private String accountDigit;
-    @NotNull
-    private Boolean isMain;
 
 
     public BankAccount convert(UserService userService) {
         User user = userService.findById(userId);
-        return new BankAccount(user, accountNumber, accountDigit, isMain);
+        return new BankAccount(user, accountNumber, accountDigit);
     }
 
     public BankAccount update(Long id, BankAccountService bankAccountService) {
         BankAccount bankAccount = bankAccountService.findById(id);
         bankAccount.setAccountNumber(accountNumber);
         bankAccount.setAccountDigit(accountDigit);
-        bankAccount.setIsMain(isMain);
         return bankAccount;
     }
 }

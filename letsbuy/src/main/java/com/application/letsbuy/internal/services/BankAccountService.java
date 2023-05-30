@@ -3,12 +3,14 @@ package com.application.letsbuy.internal.services;
 import com.application.letsbuy.internal.entities.BankAccount;
 import com.application.letsbuy.internal.exceptions.BankAccountNotFoundException;
 import com.application.letsbuy.internal.repositories.BankAccountRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class BankAccountService {
 
     private BankAccountRepository bankAccountRepository;

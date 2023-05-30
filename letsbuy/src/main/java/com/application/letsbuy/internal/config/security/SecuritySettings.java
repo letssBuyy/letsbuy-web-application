@@ -61,7 +61,9 @@ public class SecuritySettings extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/adversiments/like/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/images/**").permitAll()
                 .antMatchers(HttpMethod. POST, "/bank-account-users").permitAll()
-
+                .antMatchers(HttpMethod.GET, "/bank-account-users/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/bank-account-users/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/bank-account-users/**").permitAll()
                 .anyRequest().authenticated()
                 .and().cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

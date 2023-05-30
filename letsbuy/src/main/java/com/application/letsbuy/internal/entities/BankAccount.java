@@ -3,6 +3,7 @@ package com.application.letsbuy.internal.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class BankAccount {
 
     @Id
@@ -22,10 +24,10 @@ public class BankAccount {
     private String accountDigit;
     private Boolean isMain;
 
-    public BankAccount(User user, String accountNumber, String accountDigit, Boolean isMain) {
+    public BankAccount(User user, String accountNumber, String accountDigit) {
         this.user = user;
         this.accountNumber = accountNumber;
         this.accountDigit = accountDigit;
-        this.isMain = isMain;
+        this.isMain = true;
     }
 }

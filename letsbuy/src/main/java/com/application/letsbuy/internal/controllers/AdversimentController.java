@@ -10,15 +10,13 @@ import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.services.AdversimentService;
 import com.application.letsbuy.internal.services.ImageService;
 import com.application.letsbuy.internal.services.UserService;
+import com.application.letsbuy.internal.utils.AdversimentUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -111,7 +109,11 @@ public class AdversimentController {
 
         User user = userService.findById(id);
         List<Adversiment> adversiments = user.getAdversiments();
+        AdversimentUtils.gravaArquivoTxt(adversiments, "adversiments");
 
-
+        if(adversiments.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok().build();
     }
 }

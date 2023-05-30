@@ -53,7 +53,6 @@ public class Adversiment {
     private AdversimentEnum contest;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonManagedReference
     private User user;
 
     public Adversiment(User user, String title, String description, Double price, LocalDate postDate, LocalDate lastUpdate, LocalDate saleDate, CategoryEnum category, QualityEnum quality) {

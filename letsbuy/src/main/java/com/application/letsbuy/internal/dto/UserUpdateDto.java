@@ -39,7 +39,11 @@ public class UserUpdateDto {
     private String cep;
     private String road;
     private Long number;
+    private String neighborhood;
     private String complement;
+    private String state;
+    private String city;
+
 
     public User update(Long id, UserService userService) {
         User user = userService.findById(id);
@@ -51,7 +55,10 @@ public class UserUpdateDto {
         user.setCep(cep);
         user.setRoad(road);
         user.setNumber(number);
+        user.setNeighborhood(neighborhood);
         user.setComplement(complement);
+        user.setState(state);
+        user.setCity(city);
 
         return user;
     }

@@ -2,7 +2,6 @@ package com.application.letsbuy.internal.entities;
 
 import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import com.application.letsbuy.internal.utils.AgeRange;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,7 +22,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@Table(name = "customer")
+@Table(name = "user")
 @Entity
 public class User implements UserDetails {
     @Id
@@ -52,20 +51,22 @@ public class User implements UserDetails {
     private String cep;
     private String road;
     private Long number;
+    private String neighborhood;
     private String complement;
+    private String state;
+    private String city;
     @Enumerated(EnumType.STRING)
     private ActiveInactiveEnum isActive;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     private List<Adversiment> adversiments;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Profile> profiles = new ArrayList<>();
 
-    @OneToMany
-    private List<BankAccountUser> bankAccounts = new ArrayList<>();
+    @OneToOne
+    private BankAccount bankAccount;
 
     public User() {
     }

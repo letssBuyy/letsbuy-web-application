@@ -25,7 +25,10 @@ public class UserAdversimentsDtoResponse {
     private String cep;
     private String road;
     private Long number;
+    private String neighborhood;
     private String complement;
+    private String state;
+    private String city;
     private String profileImage;
     private ActiveInactiveEnum isActive;
     private List<UserAdversimentsDto> adversiments;
@@ -40,7 +43,10 @@ public class UserAdversimentsDtoResponse {
         this.cep = user.getCep();
         this.road = user.getRoad();
         this.number = user.getNumber();
+        this.neighborhood = user.getNeighborhood();
         this.complement = user.getComplement();
+        this.state = user.getState();
+        this.city = user.getCity();
         this.profileImage = user.getProfileImage();
         this.isActive = user.getIsActive();
         this.adversiments = new ArrayList<>();

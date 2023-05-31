@@ -1,9 +1,6 @@
 package com.application.letsbuy.internal.controllers;
 
-import com.application.letsbuy.internal.dto.AdversimentDto;
-import com.application.letsbuy.internal.dto.AdversimentDtoResponse;
-import com.application.letsbuy.internal.dto.AdversimentsLikeDtoResponse;
-import com.application.letsbuy.internal.dto.ListAdversimentDtoResponse;
+import com.application.letsbuy.internal.dto.*;
 import com.application.letsbuy.internal.entities.Adversiment;
 import com.application.letsbuy.internal.entities.AdversimentsLike;
 import com.application.letsbuy.internal.entities.User;
@@ -29,10 +26,16 @@ public class AdversimentController {
     private final ImageService imageService;
 
     @ApiOperation("Method used to list adversiments")
-    @GetMapping
-    public ResponseEntity<List<ListAdversimentDtoResponse>> retrieveAdversiment() {
+    @GetMapping("/listar/{idUser}")
+    public ResponseEntity<List<AllAdversimentsAndLikeDtoResponse>> retrieveAdversiment(@PathVariable Long idUser) {
         List<Adversiment> adversiments = adversimentService.findAll();
-        return ResponseEntity.ok().body(ListAdversimentDtoResponse.convert(adversiments));
+        List<AdversimentsLike> likeAdversiments = adversimentService.findByAdversimentsLike(idUser);
+        List<AllAdversimentsAndLikeDtoResponse> allAdversimentslikes = new ArrayList<>();
+        for (int i = 0; i < adversiments.size(); i++) {
+            allAdversimentslikes.add(new AllAdversimentsAndLikeDtoResponse(idUser, adversiments.get(i), likeAdversiments));
+
+        }
+        return ResponseEntity.ok().body(allAdversimentslikes);
     }
 
     @ApiOperation("Method used to register adversiments")

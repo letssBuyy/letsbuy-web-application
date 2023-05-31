@@ -22,7 +22,10 @@ public class UserDtoResponse {
     private String cep;
     private String road;
     private Long number;
+    private String neighborhood;
     private String complement;
+    private String state;
+    private String city;
     private ActiveInactiveEnum isActive;
     private String profileImage;
 
@@ -36,7 +39,10 @@ public class UserDtoResponse {
         this.cep = user.getCep();
         this.road = user.getRoad();
         this.number = user.getNumber();
+        this.neighborhood = user.getNeighborhood();
         this.complement = user.getComplement();
+        this.state = user.getState();
+        this.city = user.getCity();
         this.isActive = user.getIsActive();
         this.profileImage = user.getProfileImage();
     }

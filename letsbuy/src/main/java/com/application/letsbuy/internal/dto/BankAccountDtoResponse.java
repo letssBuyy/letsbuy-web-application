@@ -17,7 +17,6 @@ public class BankAccountDtoResponse {
     private Long id;
     private String accountNumber;
     private String accountDigit;
-    private Boolean isMain;
 
     public static List<BankAccountDtoResponse> convert(List<BankAccount> bankAccounts) {
         return bankAccounts.stream().map(BankAccountDtoResponse::new).collect(Collectors.toList());
@@ -28,6 +27,5 @@ public class BankAccountDtoResponse {
         this.id = bankAccount.getId();
         this.accountNumber = bankAccount.getAccountNumber();
         this.accountDigit = bankAccount.getAccountDigit();
-        this.isMain = bankAccount.getIsMain();
     }
 }

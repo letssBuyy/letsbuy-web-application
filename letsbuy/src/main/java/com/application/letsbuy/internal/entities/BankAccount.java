@@ -22,12 +22,10 @@ public class BankAccount {
     private User user;
     private String accountNumber;
     private String accountDigit;
-    private Boolean isMain;
 
     public BankAccount(User user, String accountNumber, String accountDigit) {
         this.user = user;
         this.accountNumber = accountNumber;
         this.accountDigit = accountDigit;
-        this.isMain = true;
     }
 }

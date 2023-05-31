@@ -27,11 +27,4 @@ public class BankAccountDtoRequest {
         User user = userService.findById(userId);
         return new BankAccount(user, accountNumber, accountDigit);
     }
-
-    public BankAccount update(Long id, BankAccountService bankAccountService) {
-        BankAccount bankAccount = bankAccountService.findById(id);
-        bankAccount.setAccountNumber(accountNumber);
-        bankAccount.setAccountDigit(accountDigit);
-        return bankAccount;
-    }
 }

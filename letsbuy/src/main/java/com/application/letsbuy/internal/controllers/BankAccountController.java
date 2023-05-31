@@ -40,17 +40,15 @@ public class BankAccountController {
 
     @PostMapping
     public ResponseEntity<BankAccountDtoResponse> saveAccount(@RequestBody @Valid BankAccountDtoRequest bankAccountDtoRequest) {
-        System.out.println(bankAccountDtoRequest);
         BankAccount bankAccount = bankAccountDtoRequest.convert(userService);
-        System.out.println(bankAccount);
         bankAccountService.saveBankAccount(bankAccount);
         return ResponseEntity.created(null).body(new BankAccountDtoResponse(bankAccount));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<BankAccountDtoResponse> updateAccount(@PathVariable Long id, @RequestBody @Valid BankAccountDtoRequest bankAccountDtoRequest) {
-        BankAccount bankAccount = bankAccountDtoRequest.update(id, bankAccountService);
-        return ResponseEntity.ok().body(new BankAccountDtoResponse(bankAccount));
+       BankAccount bankAccountUpdated = bankAccountService.update(id, bankAccountDtoRequest);
+        return ResponseEntity.ok().body(new BankAccountDtoResponse(bankAccountUpdated));
     }
 
     @DeleteMapping

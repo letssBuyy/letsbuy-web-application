@@ -18,5 +18,7 @@ public interface AdversimentInterface {
     void deslike(Long id);
     List<AdversimentsLike> findAllAdversimentsLike();
     List<AdversimentsLike> findByAdversimentsLike(Long id);
+    Adversiment updateImages(Long id, List<MultipartFile> images);
+    void deleteImage(String url);
 }
 

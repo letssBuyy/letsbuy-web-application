@@ -6,10 +6,7 @@ import com.application.letsbuy.internal.entities.AdversimentsLike;
 import com.application.letsbuy.internal.entities.Image;
 import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.enums.AdversimentEnum;
-import com.application.letsbuy.internal.exceptions.AdversimentNoContentException;
-import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
-import com.application.letsbuy.internal.exceptions.AdversimentsLikeNoContentException;
-import com.application.letsbuy.internal.exceptions.AdversimentsLikeNotFoundException;
+import com.application.letsbuy.internal.exceptions.*;
 import com.application.letsbuy.internal.repositories.AdversimentRepository;
 import com.application.letsbuy.internal.repositories.AdversimentsLikeRepository;
 import com.application.letsbuy.internal.repositories.ImageRepository;
@@ -22,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -117,26 +116,42 @@ public class AdversimentService implements AdversimentInterface {
 
     @Override
     public Adversiment insertImages(Long id, List<MultipartFile> images) {
-
-        Optional<Adversiment> adversimentFound = adversimentRepository.findById(id);
-
-        if (adversimentFound.isEmpty()) {
-            throw new AdversimentNotFoundException();
-        }
-
-        Adversiment adversiment = adversimentFound.get();
-        List<Image> listImages = new ArrayList<>();
-
-        images.forEach((img) -> {
-            Image image = new Image();
-            image.setAdversiment(adversiment);
-            image.setUrl(imageService.upload(img));
-            listImages.add(image);
-            imageRepository.save(image);
-        });
-
+        Adversiment adversiment = adversimentRepository.findById(id).orElseThrow(AdversimentNotFoundException::new);
+        List<Image> listImages = images.stream()
+                .map(img -> {
+                    Image image = new Image();
+                    image.setAdversiment(adversiment);
+                    image.setUrl(imageService.upload(img));
+                    return imageRepository.save(image);
+                })
+                .collect(Collectors.toList());
         adversiment.setImages(listImages);
+        return adversimentRepository.save(adversiment);
+    }
+
+
+    @Override
+    public Adversiment updateImages(Long id, List<MultipartFile> images) {
+        Adversiment adversiment = adversimentRepository.findById(id).orElseThrow(AdversimentNotFoundException::new);
+        AtomicInteger i = new AtomicInteger();
+        adversiment.getImages().forEach(img -> {
+            imageService.delete(img.getUrl());
+            img.setUrl(imageService.upload(images.get(i.getAndIncrement())));
+        });
         return adversiment;
+    }
+
+    @Override
+    public void deleteImage(String url) {
+        this.imageRepository.findByUrl(url).ifPresentOrElse(
+                image -> {
+                    this.imageRepository.deleteById(image.getId());
+                    this.imageService.delete(image.getUrl());
+                },
+                () -> {
+                    throw new ImageNotFoundException();
+                }
+        );
     }
 
     @Override

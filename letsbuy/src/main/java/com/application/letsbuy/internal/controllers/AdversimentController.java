@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -109,11 +110,9 @@ public class AdversimentController {
 
     @GetMapping("/export-txt/{id}")
     public ResponseEntity<Void> exportTxt(@PathVariable Long id){
-
         User user = userService.findById(id);
         List<Adversiment> adversiments = user.getAdversiments();
         AdversimentUtils.gravaArquivoTxt(adversiments, "adversiments");
-
         if(adversiments.isEmpty()){
             return ResponseEntity.noContent().build();
         }

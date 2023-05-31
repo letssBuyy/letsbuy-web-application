@@ -60,6 +60,7 @@ public class SecuritySettings extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/adversiments/like/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/adversiments/like/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/images/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/images/**").permitAll()
                 .antMatchers(HttpMethod. POST, "/bank-account-users").permitAll()
                 .antMatchers(HttpMethod.GET, "/bank-account-users/**").permitAll()
                 .antMatchers(HttpMethod.PUT, "/bank-account-users/**").permitAll()

@@ -60,15 +60,16 @@ public class UserService implements UserInterface {
     }
 
     public User insertProfileImage(Long id, MultipartFile img){
-        Optional<User> userFound = userRepository.findById(id);
-
-        if (userFound.isEmpty()) {
-            throw new UserNotFoundException();
-        }
-
-        User user = userFound.get();
+        User user = this.userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         user.setProfileImage(imageService.upload(img));
-        userRepository.save(user);
+        this.userRepository.save(user);
+        return user;
+    }
+
+    public User deleteProfileImage(Long id){
+        User user = this.userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        user.setProfileImage(null);
+        this.userRepository.save(user);
         return user;
     }
 

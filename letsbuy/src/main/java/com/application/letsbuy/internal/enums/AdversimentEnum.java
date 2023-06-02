@@ -4,5 +4,6 @@ public enum AdversimentEnum {
 
     ACTIVE,
     INACTIVE,
-    SALLED
+    SALLED,
+    SELLING
 }

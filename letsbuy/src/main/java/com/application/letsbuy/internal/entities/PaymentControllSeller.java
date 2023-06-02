@@ -16,10 +16,14 @@ public class PaymentControllSeller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User admin;
+
     private PaymentControllSellerEnum status;
+
     private LocalDateTime expirationDate;
+
     private BigDecimal amountTax;
 }

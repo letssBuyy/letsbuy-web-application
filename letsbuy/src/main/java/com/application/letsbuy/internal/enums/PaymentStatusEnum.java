@@ -1,7 +1,8 @@
 package com.application.letsbuy.internal.enums;
 
-public enum PaymentUserAdverstisementEnum {
+public enum PaymentStatusEnum {
 
     WAITING,
-    CONCLUDED
+    CONCLUDED,
+    CANCELED
 }

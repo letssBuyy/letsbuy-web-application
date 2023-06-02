@@ -7,7 +7,7 @@ server:
 spring:
   datasource:
     username: root
-    password: 1470
+    password: root
 
     url: jdbc:mysql://localhost:3306/letsbuy?allowPublicKeyRetrieval=true&rewriteBatchedStatements=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&useLegacyDatetimeCode=true&createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -47,3 +47,7 @@ azure:
     account-key: //6vf+/Fci6X1ecJTMMzSHS+9cy/GvyXegw8VBbV3f+HFyn0JlXVvXDX8xSW8UQt2AvEtKOp1OJq+AStrWtzEw==
     blob-endpoint: https://letsbuy.blob.core.windows.net/images
     account-name: letsbuy
+
+mercado:
+  pago:
+    url: "https://mercadopago.com.br"

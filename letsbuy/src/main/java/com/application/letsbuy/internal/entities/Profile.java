@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.io.Serial;
 
 @Entity
 @Getter
@@ -12,12 +13,14 @@ import javax.persistence.*;
 @Table(name = "profile")
 public class Profile implements GrantedAuthority {
 
+    @Serial
     private static final long serialVersionUID =1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
+
     @Column
     private String name;
 

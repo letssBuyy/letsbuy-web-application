@@ -4,23 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionDto {
 
-    private BigDecimal transactionAmount;
+    private Double amount;
 
-    private String transactionStatus;
+    private String status;
 
-    private String transactionDescription;
+    private String description;
 
-    private String transactionExternalReference;
-
-    private LocalDate expirationDate;
+    private String externalReference;
 
     private String initPoint;
 

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@Table(schema = "tracking")
+@Table(name = "tracking")
 public class Tracking implements Serializable {
 
     @Id

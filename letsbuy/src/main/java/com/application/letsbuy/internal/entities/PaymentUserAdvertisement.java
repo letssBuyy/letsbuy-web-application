@@ -9,10 +9,12 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class PaymentUserAdverstisement {
+@Table(name = "payment_user_advertisement")
+public class PaymentUserAdvertisement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
 
     @OneToOne

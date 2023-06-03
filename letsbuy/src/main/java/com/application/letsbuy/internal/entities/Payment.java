@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Table(name = "payment")
 public class Payment {
 
     @Id
@@ -20,6 +21,8 @@ public class Payment {
     private BigDecimal amount;
 
     private String cupomUser;
+
+    private String description;
 
     private String currencyId;
 

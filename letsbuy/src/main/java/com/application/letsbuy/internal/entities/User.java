@@ -25,37 +25,68 @@ import java.util.List;
 @Table(name = "user")
 @Entity
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
+
     @NotBlank
     @Size(min = 3, max = 50)
+    @Column
     private String name;
+
     @Email
     @NotBlank
+    @Column
     private String email;
+
     @CPF
     @NotBlank
+    @Column
     private String cpf;
+
     @NotBlank
+    @Column
     private String password;
+
     @AgeRange(minAge = 18)
+    @Column
     private LocalDate birthDate;
+
     @Column
     @Pattern(
             regexp = "^(?:\\+55\\s?)?(?:\\([1-9][1-9]\\)|[1-9][1-9])\\s?(?:9?[1-9]\\d{3})[-\\s]?\\d{4}$",
             message = "Numero de celular inválido!"
     )
     private String phoneNumber;
+
+    @Column
     private String profileImage;
+
+    @Column
     private String cep;
+
+    @Column
     private String road;
+
+    @Column
     private Long number;
+
+    @Column
     private String neighborhood;
+
+    @Column
     private String complement;
+
+    @Column
     private String state;
+
+    @Column
     private String city;
+
     @Enumerated(EnumType.STRING)
+    @Column
     private ActiveInactiveEnum isActive;
 
     @OneToMany(cascade = CascadeType.ALL)

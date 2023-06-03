@@ -22,12 +22,14 @@ public class PaymentUserAdversimentService {
     private final PaymentUserAdversimentRepository paymentUserAdversimentRepository;
 
 
-    private PaymentUserAdverstisement create(Long adversimentId, Long buyerId) {
+    public PaymentUserAdvertisement create(Long adversimentId, Long buyerId) {
 
         Adversiment advertisement = this.advertisementService.findById(adversimentId);
         User user = this.userService.findById(buyerId);
-        TransactionDto transactionDto = this.createPaymentServiceBroker.createTransaction(user.getId(), advertisement.getId());
-        Optional<Payment> payment = this.paymentService.retrieveByExternalReference(transactionDto.getTransactionExternalReference());
+        TransactionDto transactionDto = this.createPaymentServiceBroker.createTransaction(user, advertisement);
+
+        //recupera o pagamento que foi inserido atraves da api do mercado pago no banco
+        Optional<Payment> payment = this.paymentService.retrieveByExternalReference(transactionDto.getExternalReference());
 
         if (payment.isPresent()) {
             Tracking tracking = new Tracking();
@@ -41,11 +43,11 @@ public class PaymentUserAdversimentService {
         throw new IllegalArgumentException();
     }
 
-    private PaymentUserAdverstisement createPaymentUserAdversiment(Adversiment advertisement, User user, Payment payment) {
-        PaymentUserAdverstisement paymentUserAdverstisement = new PaymentUserAdverstisement();
-        paymentUserAdverstisement.setAdversiment(advertisement);
-        paymentUserAdverstisement.setPayment(payment);
-        paymentUserAdverstisement.setBuyer(user);
-        return paymentUserAdverstisement;
+    private PaymentUserAdvertisement createPaymentUserAdversiment(Adversiment advertisement, User user, Payment payment) {
+        PaymentUserAdvertisement paymentUserAdvertisement = new PaymentUserAdvertisement();
+        paymentUserAdvertisement.setAdversiment(advertisement);
+        paymentUserAdvertisement.setPayment(payment);
+        paymentUserAdvertisement.setBuyer(user);
+        return paymentUserAdvertisement;
     }
 }

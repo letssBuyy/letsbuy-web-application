@@ -11,12 +11,17 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "image")
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Long id;
+
     @NotBlank
+    @Column
     private String url;
+
     @ManyToOne
     private Adversiment adversiment;
 }

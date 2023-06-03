@@ -1,6 +1,9 @@
 package com.application.letsbuy.internal.services;
 
+import com.application.letsbuy.internal.dto.MercadoPagoRequestDto;
 import com.application.letsbuy.internal.dto.TransactionDto;
+import com.application.letsbuy.internal.entities.Adversiment;
+import com.application.letsbuy.internal.entities.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,13 +14,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
+
 @Component
 @Slf4j
 public class CreatePaymentServiceBroker {
 
     private final RestTemplate restTemplate;
 
-    @Value("${mercado.pago.url}")
+    @Value("${mercado.api}")
     private String endpointMercadoPago;
 
     @Autowired
@@ -26,19 +31,23 @@ public class CreatePaymentServiceBroker {
     }
 
 
-    public TransactionDto createTransaction(Long idUser, Long idAdvertisement) {
+    public TransactionDto createTransaction(User user, Adversiment adversiment) {
 
-        Assert.notNull(idUser, "userId cannot be null");
-        Assert.notNull(idAdvertisement, "idAdvertisement cannot be null");
+        Assert.notNull(user, "user cannot be null");
+        Assert.notNull(adversiment, "advertisement cannot be null");
 
-
-        TransactionDto transactionDto = new TransactionDto();
+        // monta a request para criar o pagamento no mercado pago
+        MercadoPagoRequestDto request = new MercadoPagoRequestDto();
+        request.setName(user.getName());
+        request.setIdUser(user.getId());
+        request.setEmail(user.getEmail());
+        request.setDescriptionAdvertisement(adversiment.getDescription());
 
         try {
             HttpHeaders headers = setHeaders();
-            HttpEntity<TransactionDto> requestEntity = new HttpEntity<>(transactionDto, headers);
+            HttpEntity<MercadoPagoRequestDto> requestEntity = new HttpEntity<>(request, headers);
             ResponseEntity<TransactionDto> result = restTemplate.exchange(
-                    "/pagar/" + idUser + "/" + idAdvertisement, HttpMethod.POST, requestEntity,
+                    "/criar-pagamento", HttpMethod.POST, requestEntity,
                     new ParameterizedTypeReference<>() {
                     });
             result.getStatusCode();

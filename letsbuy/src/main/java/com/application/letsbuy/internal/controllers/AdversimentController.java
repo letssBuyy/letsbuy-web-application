@@ -118,4 +118,10 @@ public class AdversimentController {
         }
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/import-txt/{nomeArq}")
+    public ResponseEntity<String> importTxt(@PathVariable String nomeArq) {
+        adversimentService.importFileTxt(nomeArq);
+        return ResponseEntity.ok().body("Arquivo TXT importado!");
+    }
 }

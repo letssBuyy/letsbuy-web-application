@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -118,5 +119,11 @@ public class AdversimentController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/import-txt/{nomeArq}")
+    public ResponseEntity<String> importTxt(@PathVariable String nomeArq) {
+        adversimentService.importFileTxt(nomeArq);
+        return ResponseEntity.ok().body("Arquivo TXT importado!");
     }
 }

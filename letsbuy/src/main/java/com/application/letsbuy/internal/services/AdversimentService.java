@@ -6,6 +6,7 @@ import com.application.letsbuy.internal.entities.Adversiment;
 import com.application.letsbuy.internal.entities.AdversimentsLike;
 import com.application.letsbuy.internal.entities.Image;
 import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.enums.AdversimentColorEnum;
 import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.enums.CategoryEnum;
 import com.application.letsbuy.internal.enums.QualityEnum;
@@ -167,6 +168,7 @@ public class AdversimentService implements AdversimentInterface {
         LocalDate postDate, lastUpdate, saleDate;
         CategoryEnum category;
         QualityEnum quality;
+        AdversimentColorEnum color = AdversimentColorEnum.GOLD;
         Long userId;
 
         int contaRegDadoLido = 0;
@@ -219,7 +221,7 @@ public class AdversimentService implements AdversimentInterface {
                     userId = Long.parseLong(registro.substring(374, 383).trim());
 
                     User user = userService.findById(userId);
-                    Adversiment adversiment = new Adversiment(user, title, description, price, postDate, lastUpdate, saleDate, category, quality);
+                    Adversiment adversiment = new Adversiment(user, title, description, price, postDate, lastUpdate, saleDate, color, category, quality);
                     save(adversiment);
                 } else {
                     System.out.println("tipo de registro inválido");

@@ -16,9 +16,9 @@ public class AllAdversimentsAndLikeDtoResponse {
     private Boolean isLike;
     private Long likeId;
 
-    public AllAdversimentsAndLikeDtoResponse(Long idUser, Adversiment adversiment, List<AdversimentsLike> likeAdversiments) {
+    public AllAdversimentsAndLikeDtoResponse(Long idUser, Adversiment adversiment, List<AdversimentsLike> likeAdversiments, Long quantityTotalAdversiment, Long quantityAdversimentSolded, Long quantityAdversimentActive ) {
         this.userId = idUser;
-        this.adversiments = new UserLikeDto (adversiment);
+        this.adversiments = new UserLikeDto (adversiment, quantityTotalAdversiment, quantityAdversimentSolded, quantityAdversimentActive);
         this.isLike = false;
         for (int i = 0; i < likeAdversiments.size(); i++) {
             if (adversiment.getId().equals(likeAdversiments.get(i).getAdversiment().getId())) {

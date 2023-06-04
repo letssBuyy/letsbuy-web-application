@@ -35,6 +35,11 @@ public class UserService implements UserInterface {
     }
 
     @Override
+    public User findByEmail(String email) {
+        return this.userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
     public void deleteById(Long id) {
         User user = this.userRepository.findById(id).orElseThrow(UserNotFoundException::new);
         user.setIsActive(ActiveInactiveEnum.INACTIVE);

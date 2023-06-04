@@ -70,6 +70,6 @@ public class UserSellerLikeDto {
         this.profileImage = user.getProfileImage();
         this.quantityTotalAdversiment = quantityTotalAdversiment;
         this.quantityTotalSolded = quantityTotalSolded;
-        this.quantityTotalActive     = quantityTotalActive;
+        this.quantityTotalActive = quantityTotalActive;
     }
 }

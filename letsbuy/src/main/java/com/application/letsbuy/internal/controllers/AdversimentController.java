@@ -35,8 +35,11 @@ public class AdversimentController {
         List<Adversiment> adversiments = this.adversimentService.findAll();
         List<AdversimentsLike> likedAdversiments = this.adversimentService.findByAdversimentsLike(idUser);
         List<AllAdversimentsAndLikeDtoResponse> allAdversimentslikes = new ArrayList<>();
+        Long quantityTotalAdversiment = this.adversimentService.countTotalAdversimentsByUser(idUser);
+        Long quantityAdversimentSolded = this.adversimentService.countAdversimentSolded(idUser);
+        Long quantityAdversimentActive = this.adversimentService.countAdversimentActive(idUser);
         for (Adversiment adversiment : adversiments) {
-            allAdversimentslikes.add(new AllAdversimentsAndLikeDtoResponse(idUser, adversiment, likedAdversiments));
+            allAdversimentslikes.add(new AllAdversimentsAndLikeDtoResponse(idUser, adversiment, likedAdversiments, quantityTotalAdversiment, quantityAdversimentActive, quantityAdversimentSolded));
         }
         return new ResponseEntity<>(allAdversimentslikes, HttpStatus.OK);
     }

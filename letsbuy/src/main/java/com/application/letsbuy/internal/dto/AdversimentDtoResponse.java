@@ -2,10 +2,7 @@ package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.Adversiment;
 import com.application.letsbuy.internal.entities.Image;
-import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
-import com.application.letsbuy.internal.enums.AdversimentEnum;
-import com.application.letsbuy.internal.enums.CategoryEnum;
-import com.application.letsbuy.internal.enums.QualityEnum;
+import com.application.letsbuy.internal.enums.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,6 +28,7 @@ public class AdversimentDtoResponse {
     private LocalDate saleDate;
     private CategoryEnum category;
     private QualityEnum quality;
+    private AdversimentColorEnum color;
     private AdversimentEnum isActive;
     private AdversimentEnum contest;
     private List<ImageDtoResponse> images;
@@ -51,6 +49,7 @@ public class AdversimentDtoResponse {
         this.saleDate = adversiment.getSaleDate();
         this.category = adversiment.getCategory();
         this.quality = adversiment.getQuality();
+        this.color = adversiment.getColor();
         this.isActive = adversiment.getIsActive();
         this.contest = adversiment.getContest();
         if (adversiment.getImages() != null && !adversiment.getImages().isEmpty()){

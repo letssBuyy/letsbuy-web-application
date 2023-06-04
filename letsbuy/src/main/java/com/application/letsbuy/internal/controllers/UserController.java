@@ -2,6 +2,7 @@ package com.application.letsbuy.internal.controllers;
 
 import com.application.letsbuy.internal.dto.*;
 import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.services.AdversimentService;
 import com.application.letsbuy.internal.services.ImageService;
 import com.application.letsbuy.internal.services.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -23,6 +24,7 @@ import java.net.URI;
 public class UserController {
 
     private final UserService userService;
+    private final AdversimentService adversimentService;
     private final ImageService imageService;
 
     @ApiOperation("Method used to register users")
@@ -38,7 +40,10 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserAdversimentsDtoResponse> listarUser(@PathVariable Long id) {
         User user = userService.findById(id);
-        return ResponseEntity.ok().body(new UserAdversimentsDtoResponse(user));
+        Long quantityTotalAdversiment = this.adversimentService.countTotalAdversimentsByUser(id);
+        Long quantityAdversimentSolded = this.adversimentService.countAdversimentSolded(id);
+        Long quantityAdversimentActive = this.adversimentService.countAdversimentActive(id);
+        return ResponseEntity.ok().body(new UserAdversimentsDtoResponse(user, quantityTotalAdversiment, quantityAdversimentActive, quantityAdversimentSolded));
     }
 
     @ApiOperation("Method used to change user data")

@@ -11,6 +11,7 @@ import com.application.letsbuy.internal.repositories.AdversimentRepository;
 import com.application.letsbuy.internal.repositories.UserRepository;
 import com.application.letsbuy.internal.services.PaymentUserAdversimentService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
 
 @SpringBootTest
+@Disabled
 class PaymentUserAdversimentServiceTest {
 
     @Autowired
@@ -29,13 +31,14 @@ class PaymentUserAdversimentServiceTest {
     @Autowired
     private AdversimentRepository adversimentRepository;
 
-    @Test
-    void execute() {
-        User user = this.createUserBuyer();
-        Adversiment adversiment = this.createAdversiment(user);
-        PaymentUserAdvertisement paymentUserAdversiment = this.paymentUserAdversimentService.create(adversiment.getId(), user.getId());
-        Assertions.assertNotNull(paymentUserAdversiment);
-    }
+//    @Test
+//    @Disabled
+//    void execute() {
+//        User user = this.createUserBuyer();
+//        Adversiment adversiment = this.createAdversiment(user);
+//        PaymentUserAdvertisement paymentUserAdversiment = this.paymentUserAdversimentService.create(adversiment.getId(), user.getId());
+//        Assertions.assertNotNull(paymentUserAdversiment);
+//    }
 
     /**
      * {

@@ -103,6 +103,13 @@ public class User implements UserDetails {
     @OneToOne
     private BankAccount bankAccount;
 
+    @Column
+    private Double amount;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<Withdraw> withdraws;
+
     public User() {
     }
 

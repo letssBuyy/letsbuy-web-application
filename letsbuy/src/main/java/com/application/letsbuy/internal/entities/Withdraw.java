@@ -1,27 +1,29 @@
 package com.application.letsbuy.internal.entities;
 
-import com.application.letsbuy.internal.enums.PaymentControllSellerEnum;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
 @Getter
 @Setter
-@Table(name = "payment_controll_seller")
-public class PaymentControllSeller {
+@Table(name = "withdraw")
+@Entity
+public class Withdraw {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
     private Long id;
 
-    @Enumerated(EnumType.STRING)
     @Column
-    private PaymentControllSellerEnum status;
+    private Double amount;
 
     @Column
-    private Long amountTax;
+    private LocalDateTime createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 }

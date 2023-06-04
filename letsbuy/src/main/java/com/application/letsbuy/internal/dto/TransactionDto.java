@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -16,6 +18,10 @@ public class TransactionDto {
     private String description;
 
     private String externalReference;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime paymentDate;
 
     private String initPoint;
 

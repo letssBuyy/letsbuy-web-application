@@ -13,5 +13,7 @@ public class MercadoPagoRequestDto {
 
     private Long idUser;
 
+    private Double valor;
+
     private String descriptionAdvertisement;
 }

@@ -16,9 +16,13 @@ import java.util.Optional;
 public class PaymentUserAdversimentService {
 
     private final AdversimentService advertisementService;
+
     private final UserService userService;
+
     private final CreatePaymentServiceBroker createPaymentServiceBroker;
+
     private final PaymentService paymentService;
+
     private final PaymentUserAdversimentRepository paymentUserAdversimentRepository;
 
 

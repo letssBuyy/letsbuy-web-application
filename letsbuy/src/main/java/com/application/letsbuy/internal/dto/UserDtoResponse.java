@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -28,6 +29,7 @@ public class UserDtoResponse {
     private String city;
     private ActiveInactiveEnum isActive;
     private String profileImage;
+    private LocalDateTime registrationDate;
 
     public UserDtoResponse(User user) {
         this.id = user.getId();
@@ -45,5 +47,6 @@ public class UserDtoResponse {
         this.city = user.getCity();
         this.isActive = user.getIsActive();
         this.profileImage = user.getProfileImage();
+        this.registrationDate = user.getRegistrationDate();
     }
 }

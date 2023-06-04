@@ -5,6 +5,7 @@ import com.application.letsbuy.internal.dto.AuthenticationRequestDto;
 import com.application.letsbuy.internal.dto.TokenDto;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,16 +30,11 @@ public class AuthenticationController {
     @ApiOperation("Authenticate user login")
     @PostMapping
     public ResponseEntity<TokenDto> autenticador(@RequestBody @Valid AuthenticationRequestDto dto) {
-        System.out.println(dto.getEmail());
-        System.out.println(dto.getPassword());
-        UsernamePasswordAuthenticationToken dataLogin = dto.convert();
-        System.out.println(dataLogin);
         try {
-            Authentication authentication = authManager.authenticate(dataLogin);
-            String token = tokenService.generateToken(authentication);
-            return  ResponseEntity.ok(new TokenDto(token, "Bearer"));
-        }catch (AuthenticationException e) {
-            return ResponseEntity.status(401).build();
+            Authentication authentication = this.authManager.authenticate(dto.convert());
+            return new ResponseEntity<>(new TokenDto(this.tokenService.generateToken(authentication), "Bearer"), HttpStatus.OK);
+        } catch (AuthenticationException e) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 }

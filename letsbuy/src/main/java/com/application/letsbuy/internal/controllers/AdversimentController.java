@@ -10,6 +10,7 @@ import com.application.letsbuy.internal.services.UserService;
 import com.application.letsbuy.internal.utils.AdversimentUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
@@ -21,7 +22,9 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/adversiments")
 public class AdversimentController {
+
     private final AdversimentService adversimentService;
+
     private final UserService userService;
 
     private final ImageService imageService;
@@ -29,31 +32,30 @@ public class AdversimentController {
     @ApiOperation("Method used to list adversiments")
     @GetMapping("/listar/{idUser}")
     public ResponseEntity<List<AllAdversimentsAndLikeDtoResponse>> retrieveAdversiment(@PathVariable Long idUser) {
-        List<Adversiment> adversiments = adversimentService.findAll();
-        List<AdversimentsLike> likeAdversiments = adversimentService.findByAdversimentsLike(idUser);
+        List<Adversiment> adversiments = this.adversimentService.findAll();
+        List<AdversimentsLike> likedAdversiments = this.adversimentService.findByAdversimentsLike(idUser);
         List<AllAdversimentsAndLikeDtoResponse> allAdversimentslikes = new ArrayList<>();
-        for (int i = 0; i < adversiments.size(); i++) {
-            allAdversimentslikes.add(new AllAdversimentsAndLikeDtoResponse(idUser, adversiments.get(i), likeAdversiments));
-
+        for (Adversiment adversiment : adversiments) {
+            allAdversimentslikes.add(new AllAdversimentsAndLikeDtoResponse(idUser, adversiment, likedAdversiments));
         }
-        return ResponseEntity.ok().body(allAdversimentslikes);
+        return new ResponseEntity<>(allAdversimentslikes, HttpStatus.OK);
     }
 
     @ApiOperation("Method used to register adversiments")
     @PostMapping
-    public ResponseEntity<ListAdversimentDtoResponse> createAdversiment(
-            @RequestBody @Valid AdversimentDto adversimentDto
-    ) {
-        Adversiment adversiment = adversimentDto.convert(userService);
-        adversimentService.save(adversiment);
-        return ResponseEntity.created(null).body(new ListAdversimentDtoResponse(adversiment));
+    public ResponseEntity<ListAdversimentDtoResponse> createAdversiment(@RequestBody @Valid AdversimentDto adversimentDto) {
+        Adversiment adversiment = adversimentDto.convert(this.userService);
+        this.adversimentService.save(adversiment);
+        return new ResponseEntity<>(new ListAdversimentDtoResponse(adversiment), HttpStatus.CREATED);
     }
 
     @ApiOperation("Method used to find adversiment by id")
-    @GetMapping("/{id}")
-    public ResponseEntity<ListAdversimentDtoResponse> findAdversiment(@PathVariable Long id) {
-        Adversiment adversiment = adversimentService.findById(id);
-        return ResponseEntity.ok().body(new ListAdversimentDtoResponse(adversiment));
+    @GetMapping("/{idAdversiment}/{idUser}")
+    public ResponseEntity<ListAdversimentDtoResponse> findAdversimentById(@PathVariable Long idAdversiment, @PathVariable Long idUser) {
+        Long quantityTotalAdversiment = this.adversimentService.countTotalAdversimentsByUser(idUser);
+        Long quantityAdversimentSolded = this.adversimentService.countAdversimentSolded(idUser);
+        Long quantityAdversimentActive = this.adversimentService.countAdversimentActive(idUser);
+        return new ResponseEntity<>(new ListAdversimentDtoResponse(this.adversimentService.findById(idAdversiment), quantityTotalAdversiment, quantityAdversimentSolded, quantityAdversimentActive), HttpStatus.OK);
     }
 
     @GetMapping("/search-binary-price/{id}/{price}")
@@ -61,15 +63,14 @@ public class AdversimentController {
         User user = userService.findById(id);
         List<Adversiment> adversimentList = user.getAdversiments();
         Adversiment adversiment = adversimentService.searchBinary(adversimentList, price);
-        return ResponseEntity.ok().body(new ListAdversimentDtoResponse(adversiment));
+        return new ResponseEntity<>(new ListAdversimentDtoResponse(adversiment), HttpStatus.OK);
     }
 
     @ApiOperation("Method used to update adversiment by id")
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<ListAdversimentDtoResponse> updateAdversiment(@PathVariable Long id, @RequestBody @Valid AdversimentDto adversimentDto) {
-        Adversiment adversiment = adversimentDto.update(id, adversimentService);
-        return ResponseEntity.ok().body(new ListAdversimentDtoResponse(adversiment));
+        return new ResponseEntity<>(new ListAdversimentDtoResponse(adversimentDto.update(id, this.adversimentService)), HttpStatus.OK);
     }
 
     @ApiOperation("Method used to delete adversiment by id")
@@ -77,51 +78,54 @@ public class AdversimentController {
     @Transactional
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         adversimentService.deleteById(id);
-        return ResponseEntity.status(204).build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @ApiOperation("Method used to open contest")
     @PatchMapping("/contest/{id}")
     @Transactional
     public ResponseEntity<AdversimentDtoResponse> contest(@PathVariable Long id) {
-        Adversiment adversiment = adversimentService.openContest(id);
-        return ResponseEntity.status(200).body(new AdversimentDtoResponse(adversiment));
+        return new ResponseEntity<>(new AdversimentDtoResponse(this.adversimentService.openContest(id)), HttpStatus.OK);
     }
 
     @ApiOperation("Method to perform the like of a specific adversiments")
     @PostMapping("/like/{idUser}/{idAdversiment}")
     public ResponseEntity<Void> likeAdversiments(@PathVariable Long idUser, @PathVariable Long idAdversiment) {
-        adversimentService.likeAdversiment(idUser, idAdversiment);
-        return ResponseEntity.status(201).build();
+        this.adversimentService.likeAdversiment(idUser, idAdversiment);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/like/{idUser}")
     public ResponseEntity<List<AdversimentsLikeDtoResponse>> retriveAdversimentsLike(@PathVariable Long idUser) {
-        List<AdversimentsLike> adversiment = adversimentService.findByAdversimentsLike(idUser);
-        return ResponseEntity.status(200).body(AdversimentsLikeDtoResponse.convert(adversiment));
+        return new ResponseEntity<>(AdversimentsLikeDtoResponse.convert(this.adversimentService.findByAdversimentsLike(idUser)), HttpStatus.OK);
     }
 
     @ApiOperation("Method to perform the deslike of a specific adversiments")
     @DeleteMapping("/deslike/{idAdversimentLike}")
     public ResponseEntity<Void> deslikeAdversiments(@PathVariable Long idAdversimentLike) {
-        adversimentService.deslike(idAdversimentLike);
-        return ResponseEntity.status(204).build();
+        this.adversimentService.deslike(idAdversimentLike);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/export-txt/{id}")
     public ResponseEntity<Void> exportTxt(@PathVariable Long id){
-        User user = userService.findById(id);
-        List<Adversiment> adversiments = user.getAdversiments();
+        List<Adversiment> adversiments = this.userService.findById(id).getAdversiments();
         AdversimentUtils.gravaArquivoTxt(adversiments, "adversiments");
         if(adversiments.isEmpty()){
-            return ResponseEntity.noContent().build();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/import-txt/{nomeArq}")
     public ResponseEntity<String> importTxt(@PathVariable String nomeArq) {
         adversimentService.importFileTxt(nomeArq);
-        return ResponseEntity.ok().body("Arquivo TXT importado!");
+        return new ResponseEntity<>("Arquivo TXT importado!", HttpStatus.OK);
+    }
+
+    @ApiOperation("Whatsapp link generator")
+    @GetMapping("/generate-wpp-link/{id}")
+    public String generateWppLink(@PathVariable Long id){
+        return this.userService.generateWppLink(id);
     }
 }

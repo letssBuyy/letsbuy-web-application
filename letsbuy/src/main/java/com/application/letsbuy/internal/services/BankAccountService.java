@@ -22,7 +22,6 @@ public class BankAccountService {
     }
 
     public void saveBankAccount(BankAccount bankAccount) {
-
         Optional<BankAccount> accountExist = bankAccountRepository.findByUserId(bankAccount.getUser().getId());
         if(accountExist.isPresent()){
             throw new BankAccountConflictException();
@@ -31,12 +30,7 @@ public class BankAccountService {
     }
 
     public BankAccount findById(Long id) {
-        Optional<BankAccount> retrieveAccountById = bankAccountRepository.findById(id);
-        if (retrieveAccountById.isPresent()) {
-            return retrieveAccountById.get();
-        } else {
-            throw new BankAccountNotFoundException();
-        }
+        return bankAccountRepository.findById(id).orElseThrow(BankAccountNotFoundException::new);
     }
 
     public BankAccount update(Long id, BankAccountDtoRequest bankAccountDtoRequest) {

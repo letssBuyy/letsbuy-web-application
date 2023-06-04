@@ -15,6 +15,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -89,6 +90,9 @@ public class User implements UserDetails {
     @Column
     private ActiveInactiveEnum isActive;
 
+    @Column
+    private LocalDateTime registrationDate;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<Adversiment> adversiments;
@@ -110,6 +114,7 @@ public class User implements UserDetails {
         this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
         this.isActive = ActiveInactiveEnum.ACTIVE;
+        this.registrationDate = LocalDateTime.now();
     }
 
     @Override

@@ -27,15 +27,9 @@ public class UserController {
 
     @ApiOperation("Method used to register users")
     @PostMapping
-    public ResponseEntity<UserDtoResponse> register(
-            @RequestBody @Valid UserDto dto, UriComponentsBuilder uriBuilder
-    ) {
-        System.out.println("ENTREI NA DTO");
+    public ResponseEntity<UserDtoResponse> createUser(@RequestBody @Valid UserDto dto, UriComponentsBuilder uriBuilder) {
         User user = dto.convert();
-        System.out.println(user);
-        userService.save(user);
-        System.out.println("DEPOIS DO SAVE");
-
+        this.userService.save(user);
         URI uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
         return ResponseEntity.created(uri).body(new UserDtoResponse(user));
     }
@@ -69,6 +63,12 @@ public class UserController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         userService.deleteById(id);
         return ResponseEntity.status(204).build();
+    }
+
+    @ApiOperation("Whatsapp link generator")
+    @GetMapping("/generateWppLink/{id}")
+    public String generateWppLink(@PathVariable Long id){
+        return this.userService.generateWppLink(id);
     }
 }
 

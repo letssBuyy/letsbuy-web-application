@@ -16,11 +16,11 @@ public class PaymentService {
 
 
     public Payment retrieve(Long idPayment) {
-       return paymentRepository.findById(idPayment).orElseThrow(IllegalArgumentException::new);
+        return this.paymentRepository.findById(idPayment).orElseThrow(IllegalArgumentException::new);
     }
 
     public Optional<Payment> retrieveByExternalReference(String externalReference) {
-        return paymentRepository.findByExternalReference(externalReference);
+        return this.paymentRepository.findByExternalReference(externalReference);
     }
 
     public Payment create(Payment payment) {
@@ -38,8 +38,7 @@ public class PaymentService {
     }
 
     public void delete(Long idPayment) {
-        Optional<Payment> paymentOptional = this.paymentRepository.findById(idPayment);
-        paymentOptional.ifPresentOrElse(this.paymentRepository::delete, ()-> {
+        this.paymentRepository.findById(idPayment).ifPresentOrElse(this.paymentRepository::delete, () -> {
             throw new IllegalArgumentException();
         });
     }

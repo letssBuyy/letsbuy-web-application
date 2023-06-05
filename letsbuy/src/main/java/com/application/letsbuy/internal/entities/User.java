@@ -99,6 +99,9 @@ public class User implements UserDetails {
     @OneToOne
     private BankAccount bankAccount;
 
+    @OneToMany
+    private List<Chat> chats;
+
     public User() {
     }
 

@@ -1,5 +1,6 @@
 package com.application.letsbuy.internal.dto;
 
+import com.application.letsbuy.internal.entities.BankAccount;
 import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import lombok.Getter;
@@ -31,6 +32,8 @@ public class UserAdversimentsDtoResponse {
     private String city;
     private String profileImage;
     private ActiveInactiveEnum isActive;
+    private Double balance;
+    private BankAccount bankAccount;
     private List<UserAdversimentsDto> adversiments;
 
     public UserAdversimentsDtoResponse(User user) {
@@ -49,6 +52,8 @@ public class UserAdversimentsDtoResponse {
         this.city = user.getCity();
         this.profileImage = user.getProfileImage();
         this.isActive = user.getIsActive();
+        this.balance = user.getBalance();
+        this.bankAccount = user.getBankAccount();
         this.adversiments = new ArrayList<>();
         this.adversiments.addAll(user.getAdversiments().stream().map(UserAdversimentsDto::new).collect(Collectors.toList()));
     }

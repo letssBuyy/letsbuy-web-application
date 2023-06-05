@@ -22,11 +22,10 @@ public class WithdrawDtoRequest {
     @NotNull
     private Double amount;
 
-    @NotNull
     private LocalDateTime createdAt;
 
     public Withdraw convert(UserService userService) {
         User user = userService.findById(userId);
-        return new Withdraw(amount, createdAt, user);
+        return new Withdraw(amount, user);
     }
 }

@@ -1,5 +1,6 @@
 package com.application.letsbuy.internal.dto;
 
+import com.application.letsbuy.internal.entities.BankAccount;
 import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import lombok.Getter;
@@ -30,8 +31,8 @@ public class UserDtoResponse {
     private ActiveInactiveEnum isActive;
     private String profileImage;
     private LocalDateTime registrationDate;
-
     private Double balance;
+    private BankAccount bankAccount;
 
     public UserDtoResponse(User user) {
         this.id = user.getId();
@@ -51,5 +52,6 @@ public class UserDtoResponse {
         this.profileImage = user.getProfileImage();
         this.registrationDate = user.getRegistrationDate();
         this.balance = user.getBalance();
+        this.bankAccount = user.getBankAccount();
     }
 }

@@ -29,9 +29,9 @@ public class Withdraw {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Withdraw(Double amount, LocalDateTime createdAt, User user) {
+    public Withdraw(Double amount, User user) {
         this.amount = amount;
-        this.createdAt = createdAt;
+        this.createdAt = LocalDateTime.now();
         this.user = user;
     }
 }

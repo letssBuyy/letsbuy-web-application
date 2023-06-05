@@ -1,20 +1,31 @@
 package com.application.letsbuy.internal.services;
 
 import com.application.letsbuy.api.usecase.UserInterface;
+import com.application.letsbuy.internal.dto.WithdrawDtoRequest;
 import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.entities.Withdraw;
 import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import com.application.letsbuy.internal.exceptions.UserConflictException;
 import com.application.letsbuy.internal.exceptions.UserNotFoundException;
 import com.application.letsbuy.internal.repositories.UserRepository;
+import com.application.letsbuy.internal.repositories.WithdrawRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
+
 @AllArgsConstructor
 @Service
+@Transactional
 public class UserService implements UserInterface {
     private final UserRepository userRepository;
+
     private final ImageService imageService;
+
+    private final BankAccountService bankAccountService;
+
+    private final WithdrawService withdrawService;
 
     @Override
     public void save(User user) {
@@ -61,5 +72,15 @@ public class UserService implements UserInterface {
     @Override
     public String generateWppLink(Long id) {
         return "wa.me/55" + findById(id).getPhoneNumber();
+    }
+
+    @Override
+    public Double withdrawMoney(Withdraw withdraw) {
+        User user = withdraw.getUser();
+        bankAccountService.findById(user.getId());
+        withdrawService.save(withdraw);
+        user.setBalance(user.getBalance() - withdraw.getAmount());
+
+        return user.getBalance();
     }
 }

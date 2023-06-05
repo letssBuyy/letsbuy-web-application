@@ -1,6 +1,7 @@
 package com.application.letsbuy.api.usecase;
 
 import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.entities.Withdraw;
 
 public interface UserInterface {
 
@@ -13,4 +14,6 @@ public interface UserInterface {
     void deleteById(Long id);
 
     String generateWppLink(Long id);
+
+    Double withdrawMoney(Withdraw withdraw);
 }

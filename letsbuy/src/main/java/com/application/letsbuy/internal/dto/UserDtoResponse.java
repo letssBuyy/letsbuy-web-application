@@ -31,6 +31,8 @@ public class UserDtoResponse {
     private String profileImage;
     private LocalDateTime registrationDate;
 
+    private Double balance;
+
     public UserDtoResponse(User user) {
         this.id = user.getId();
         this.name = user.getName();
@@ -48,5 +50,6 @@ public class UserDtoResponse {
         this.isActive = user.getIsActive();
         this.profileImage = user.getProfileImage();
         this.registrationDate = user.getRegistrationDate();
+        this.balance = user.getBalance();
     }
 }

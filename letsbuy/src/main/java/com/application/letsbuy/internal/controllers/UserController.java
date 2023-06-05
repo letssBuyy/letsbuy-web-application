@@ -2,6 +2,7 @@ package com.application.letsbuy.internal.controllers;
 
 import com.application.letsbuy.internal.dto.*;
 import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.entities.Withdraw;
 import com.application.letsbuy.internal.services.ImageService;
 import com.application.letsbuy.internal.services.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -70,5 +71,19 @@ public class UserController {
     public String generateWppLink(@PathVariable Long id){
         return this.userService.generateWppLink(id);
     }
+
+
+    @ApiOperation("Method used to withdraw money")
+    @PatchMapping("/withdraw")
+    public BalanceDtoResponse withdrawMoney(@RequestBody @Valid WithdrawDtoRequest dto) {
+
+        Withdraw withdraw = dto.convert(userService);
+
+        Double balance = userService.withdrawMoney(withdraw);
+
+        return new BalanceDtoResponse(balance);
+    }
 }
+
+
 

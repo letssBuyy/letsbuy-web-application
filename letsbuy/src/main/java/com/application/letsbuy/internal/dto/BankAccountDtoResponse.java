@@ -14,9 +14,14 @@ import java.util.stream.Collectors;
 public class BankAccountDtoResponse {
 
     private Long userId;
+
     private Long id;
+
+    private String bankNumber;
+
+    private String agencyNumber;
+
     private String accountNumber;
-    private String accountDigit;
 
     public static List<BankAccountDtoResponse> convert(List<BankAccount> bankAccounts) {
         return bankAccounts.stream().map(BankAccountDtoResponse::new).collect(Collectors.toList());
@@ -25,7 +30,8 @@ public class BankAccountDtoResponse {
     public BankAccountDtoResponse(BankAccount bankAccount) {
         this.userId = bankAccount.getUser().getId();
         this.id = bankAccount.getId();
+        this.bankNumber = bankAccount.getBankNumber();
+        this.agencyNumber = bankAccount.getAgencyNumber();
         this.accountNumber = bankAccount.getAccountNumber();
-        this.accountDigit = bankAccount.getAccountDigit();
     }
 }

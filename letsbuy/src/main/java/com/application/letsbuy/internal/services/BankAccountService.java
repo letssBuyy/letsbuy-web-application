@@ -35,8 +35,9 @@ public class BankAccountService {
 
     public BankAccount update(Long id, BankAccountDtoRequest bankAccountDtoRequest) {
         BankAccount bankAccount = findById(id);
+        bankAccount.setBankNumber(bankAccountDtoRequest.getBankNumber());
+        bankAccount.setAgencyNumber(bankAccountDtoRequest.getAgencyNumber());
         bankAccount.setAccountNumber(bankAccountDtoRequest.getAccountNumber());
-        bankAccount.setAccountDigit(bankAccountDtoRequest.getAccountDigit());
         bankAccountRepository.save(bankAccount);
         return bankAccount;
     }

@@ -3,8 +3,10 @@ package com.application.letsbuy.internal.controllers;
 import com.application.letsbuy.internal.dto.*;
 import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.entities.Withdraw;
+import com.application.letsbuy.internal.exceptions.InsufficientBalanceException;
 import com.application.letsbuy.internal.services.ImageService;
 import com.application.letsbuy.internal.services.UserService;
+import com.application.letsbuy.internal.services.WithdrawService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Tag;
 import lombok.AllArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -25,6 +28,7 @@ public class UserController {
 
     private final UserService userService;
     private final ImageService imageService;
+    private final WithdrawService withdrawService;
 
     @ApiOperation("Method used to register users")
     @PostMapping
@@ -75,13 +79,20 @@ public class UserController {
 
     @ApiOperation("Method used to withdraw money")
     @PatchMapping("/withdraw")
-    public BalanceDtoResponse withdrawMoney(@RequestBody @Valid WithdrawDtoRequest dto) {
+    public ResponseEntity<BalanceDtoResponse> withdrawMoney(@RequestBody @Valid WithdrawDtoRequest dto) {
 
+        User user = userService.findById(dto.getUserId());
+
+        if(dto.getAmount() > user.getBalance()){
+            throw new InsufficientBalanceException();
+        }
         Withdraw withdraw = dto.convert(userService);
 
         Double balance = userService.withdrawMoney(withdraw);
 
-        return new BalanceDtoResponse(balance);
+        List<WithdrawDtoResponse> withdraws = withdrawService.listWithdraws(withdraw.getUser().getId());
+
+        return ResponseEntity.ok(new BalanceDtoResponse(balance, withdraws));
     }
 }
 

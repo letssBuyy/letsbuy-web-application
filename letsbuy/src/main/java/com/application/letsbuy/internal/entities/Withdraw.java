@@ -1,5 +1,7 @@
 package com.application.letsbuy.internal.entities;
 
+import com.application.letsbuy.internal.dto.WithdrawDtoResponse;
+import com.application.letsbuy.internal.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

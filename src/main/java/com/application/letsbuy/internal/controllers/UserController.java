@@ -4,21 +4,19 @@ import com.application.letsbuy.internal.dto.*;
 import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.entities.Withdraw;
 import com.application.letsbuy.internal.exceptions.InsufficientBalanceException;
+import com.application.letsbuy.internal.services.AdversimentService;
 import com.application.letsbuy.internal.services.ImageService;
 import com.application.letsbuy.internal.services.UserService;
 import com.application.letsbuy.internal.services.WithdrawService;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 
 
 @AllArgsConstructor
@@ -27,6 +25,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final AdversimentService adversimentService;
     private final ImageService imageService;
     private final WithdrawService withdrawService;
 
@@ -35,7 +34,7 @@ public class UserController {
     public ResponseEntity<UserDtoResponse> createUser(@RequestBody @Valid UserDto dto, UriComponentsBuilder uriBuilder) {
         User user = dto.convert();
         this.userService.save(user);
-        URI uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
+        URI uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
         return ResponseEntity.created(uri).body(new UserDtoResponse(user));
     }
 
@@ -43,7 +42,10 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserAdversimentsDtoResponse> listarUser(@PathVariable Long id) {
         User user = userService.findById(id);
-        return ResponseEntity.ok().body(new UserAdversimentsDtoResponse(user));
+        Long quantityTotalAdversiment = this.adversimentService.countTotalAdversimentsByUser(id);
+        Long quantityAdversimentSolded = this.adversimentService.countAdversimentSolded(id);
+        Long quantityAdversimentActive = this.adversimentService.countAdversimentActive(id);
+        return ResponseEntity.ok().body(new UserAdversimentsDtoResponse(user, quantityTotalAdversiment, quantityAdversimentActive, quantityAdversimentSolded));
     }
 
     @ApiOperation("Method used to change user data")

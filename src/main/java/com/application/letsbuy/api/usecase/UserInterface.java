@@ -13,6 +13,8 @@ public interface UserInterface {
 
     void deleteById(Long id);
 
+    User findByEmail(String email);
+
     String generateWppLink(Long id);
 
     Double withdrawMoney(Withdraw withdraw);

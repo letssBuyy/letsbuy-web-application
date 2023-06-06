@@ -3,12 +3,12 @@ package com.application.letsbuy.internal.controllers;
 import com.application.letsbuy.internal.config.security.TokenService;
 import com.application.letsbuy.internal.dto.AuthenticationRequestDto;
 import com.application.letsbuy.internal.dto.TokenDto;
+import com.application.letsbuy.internal.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +23,8 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
+    private final UserService userService;
+
     private final AuthenticationManager authManager;
 
     private final TokenService tokenService;
@@ -32,7 +34,7 @@ public class AuthenticationController {
     public ResponseEntity<TokenDto> autenticador(@RequestBody @Valid AuthenticationRequestDto dto) {
         try {
             Authentication authentication = this.authManager.authenticate(dto.convert());
-            return new ResponseEntity<>(new TokenDto(this.tokenService.generateToken(authentication), "Bearer"), HttpStatus.OK);
+            return new ResponseEntity<>(new TokenDto(this.userService.findByEmail(dto.getEmail()), this.tokenService.generateToken(authentication), "Bearer"), HttpStatus.OK);
         } catch (AuthenticationException e) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }

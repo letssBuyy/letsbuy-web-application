@@ -2,10 +2,8 @@ package com.application.letsbuy.internal.controllers;
 
 import com.application.letsbuy.internal.dto.*;
 import com.application.letsbuy.internal.entities.Adversiment;
-import com.application.letsbuy.internal.entities.AdversimentsLike;
 import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.services.AdversimentService;
-import com.application.letsbuy.internal.services.ImageService;
 import com.application.letsbuy.internal.services.UserService;
 import com.application.letsbuy.internal.utils.AdversimentUtils;
 import io.swagger.annotations.ApiOperation;
@@ -13,10 +11,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -27,18 +26,10 @@ public class AdversimentController {
 
     private final UserService userService;
 
-    private final ImageService imageService;
-
     @ApiOperation("Method used to list adversiments")
-    @GetMapping("/listar/{idUser}")
-    public ResponseEntity<List<AllAdversimentsAndLikeDtoResponse>> retrieveAdversiment(@PathVariable Long idUser) {
-        List<Adversiment> adversiments = this.adversimentService.findAll();
-        List<AdversimentsLike> likedAdversiments = this.adversimentService.findByAdversimentsLike(idUser);
-        List<AllAdversimentsAndLikeDtoResponse> allAdversimentslikes = new ArrayList<>();
-        for (Adversiment adversiment : adversiments) {
-            allAdversimentslikes.add(new AllAdversimentsAndLikeDtoResponse(idUser, adversiment, likedAdversiments));
-        }
-        return new ResponseEntity<>(allAdversimentslikes, HttpStatus.OK);
+    @GetMapping("/listar")
+    public ResponseEntity<List<AllAdversimentsAndLikeDtoResponse>> retrieveAdversiment(@RequestParam Optional<Long> idUser) {
+        return new ResponseEntity<>(this.adversimentService.retrieveAdversiments(idUser), HttpStatus.OK);
     }
 
     @ApiOperation("Method used to register adversiments")
@@ -51,11 +42,8 @@ public class AdversimentController {
 
     @ApiOperation("Method used to find adversiment by id")
     @GetMapping("/{idAdversiment}/{idUser}")
-    public ResponseEntity<ListAdversimentDtoResponse> findAdversimentById(@PathVariable Long idAdversiment, @PathVariable Long idUser) {
-        Long quantityTotalAdversiment = this.adversimentService.countTotalAdversimentsByUser(idUser);
-        Long quantityAdversimentSolded = this.adversimentService.countAdversimentSolded(idUser);
-        Long quantityAdversimentActive = this.adversimentService.countAdversimentActive(idUser);
-        return new ResponseEntity<>(new ListAdversimentDtoResponse(this.adversimentService.findById(idAdversiment), quantityTotalAdversiment, quantityAdversimentSolded, quantityAdversimentActive), HttpStatus.OK);
+    public ResponseEntity<List<AllAdversimentsAndLikeDtoResponse>> findAdversimentById(@PathVariable Long idAdversiment, @PathVariable Long idUser) {
+        return new ResponseEntity<>(this.adversimentService.retrieveAdversimentById(idAdversiment, idUser), HttpStatus.OK);
     }
 
     @GetMapping("/search-binary-price/{id}/{price}")
@@ -123,9 +111,9 @@ public class AdversimentController {
         return new ResponseEntity<>("Arquivo TXT importado!", HttpStatus.OK);
     }
 
-    @ApiOperation("Whatsapp link generator")
-    @GetMapping("/generate-wpp-link/{id}")
-    public String generateWppLink(@PathVariable Long id){
-        return this.userService.generateWppLink(id);
+    @GetMapping("/csv/{id}")
+    public ResponseEntity<Void> retrieveCsv(@PathVariable Long id, @RequestParam Optional<String> nomeArquivo) {
+        this.adversimentService.createCsvArchive(id, nomeArquivo);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

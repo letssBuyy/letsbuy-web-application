@@ -6,11 +6,9 @@ import com.application.letsbuy.internal.services.AdversimentService;
 import com.application.letsbuy.internal.services.ImageService;
 import com.application.letsbuy.internal.services.UserService;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
@@ -32,7 +30,7 @@ public class UserController {
     public ResponseEntity<UserDtoResponse> createUser(@RequestBody @Valid UserDto dto, UriComponentsBuilder uriBuilder) {
         User user = dto.convert();
         this.userService.save(user);
-        URI uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
+        URI uri = uriBuilder.path("/users/{id}").buildAndExpand(user.getId()).toUri();
         return ResponseEntity.created(uri).body(new UserDtoResponse(user));
     }
 

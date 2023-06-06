@@ -1,6 +1,8 @@
 package com.application.letsbuy.internal.services;
 
 import com.application.letsbuy.api.usecase.AdversimentInterface;
+import com.application.letsbuy.internal.dto.AdversimentsLikeDtoResponse;
+import com.application.letsbuy.internal.dto.AllAdversimentsAndLikeDtoResponse;
 import com.application.letsbuy.internal.dto.UserDto;
 import com.application.letsbuy.internal.entities.Adversiment;
 import com.application.letsbuy.internal.entities.AdversimentsLike;
@@ -18,15 +20,20 @@ import com.application.letsbuy.internal.repositories.AdversimentRepository;
 import com.application.letsbuy.internal.repositories.AdversimentsLikeRepository;
 import com.application.letsbuy.internal.repositories.ImageRepository;
 import com.application.letsbuy.internal.repositories.UserRepository;
+import com.application.letsbuy.internal.utils.ArchivesUtils;
 import com.application.letsbuy.internal.utils.ConverterUtils;
+import com.application.letsbuy.internal.utils.ListObj;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -69,7 +76,30 @@ public class AdversimentService implements AdversimentInterface {
             throw new AdversimentNoContentException();
         }
         return adversimentRepository.findAll();
+    }
 
+    public List<AllAdversimentsAndLikeDtoResponse> retrieveAdversimentById(Long idAdversiment, Long idUser) {
+        Adversiment adversiment = findById(idAdversiment);
+        List<AdversimentsLike> likedAdversiments = findByAdversimentsLike(idUser);;
+        Long quantityTotalAdversiment = countTotalAdversimentsByUser(adversiment.getUser().getId());
+        Long quantityAdversimentSolded = countAdversimentSolded(adversiment.getUser().getId());
+        Long quantityAdversimentActive = countAdversimentActive(adversiment.getUser().getId());
+        List<AllAdversimentsAndLikeDtoResponse> allAdversimentslikes = new ArrayList<>();
+        allAdversimentslikes.add(new AllAdversimentsAndLikeDtoResponse(idUser, adversiment, likedAdversiments, quantityTotalAdversiment, quantityAdversimentSolded, quantityAdversimentActive));
+        return allAdversimentslikes;
+    }
+
+    public List<AllAdversimentsAndLikeDtoResponse> retrieveAdversiments(Optional<Long> idUser) {
+        List<Adversiment> adversiments = findAll();
+        List<AdversimentsLike> likedAdversiments = new ArrayList<>();
+        if (idUser.isPresent()) {
+            likedAdversiments = findByAdversimentsLike(idUser.get());
+        }
+        List<AllAdversimentsAndLikeDtoResponse> allAdversimentslikes = new ArrayList<>();
+        for (Adversiment adversiment : adversiments) {
+            allAdversimentslikes.add(new AllAdversimentsAndLikeDtoResponse(idUser, adversiment, likedAdversiments));
+        }
+        return allAdversimentslikes;
     }
 
     @Override
@@ -270,6 +300,17 @@ public class AdversimentService implements AdversimentInterface {
             }
         }
         throw new AdversimentNotFoundException();
+    }
+
+    public void createCsvArchive(Long id, Optional<String> nomeArquivo) {
+        List<Adversiment> adversimentList = userService.findById(id).getAdversiments();
+        if (adversimentList.isEmpty()) {
+            throw new AdversimentNotFoundException();
+        }
+        ListObj<Adversiment> adversimentObj = new ListObj<>(adversimentList.size());
+        adversimentList.forEach(adversimentObj::adiciona);
+        ListObj<Adversiment> orderedList = ListObj.orderByPrice(adversimentObj);
+        ArchivesUtils.creatCsvArchive(orderedList, nomeArquivo);
     }
 }
 

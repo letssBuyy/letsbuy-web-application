@@ -72,4 +72,5 @@ public class ListAdversimentDtoResponse {
         }
         this.user = new UserSellerLikeDto(adversiment.getUser(), quantityTotalAdversiment, quantityAdversimentSolded, quantityAdversimentActive);
     }
+
 }

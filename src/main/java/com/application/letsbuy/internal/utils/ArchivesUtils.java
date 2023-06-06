@@ -7,28 +7,29 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Formatter;
 import java.util.FormatterClosedException;
+import java.util.Optional;
 
 @UtilityClass
 public class ArchivesUtils {
-    public static void creatCsvArchive(ListObj<Adversiment> adversimentList) {
+    public void creatCsvArchive(ListObj<Adversiment> adversimentList, Optional<String> nomeArquivo) {
         FileWriter arq = null;
         Formatter saida = null;
         Boolean deuRuim = false;
-        String nomeArquivo = "adversiments";
-        nomeArquivo += ".csv";
+        String archiveName = nomeArquivo.orElse("anuncios");
+        archiveName += ".csv";
 
         try {
-            arq = new FileWriter(nomeArquivo);
+            arq = new FileWriter(archiveName);
             saida = new Formatter(arq);
         } catch (IOException e) {
-            System.out.println("Erro ao abrir o arquivo " + nomeArquivo);
+            System.out.println("Erro ao abrir o arquivo " + archiveName);
             System.exit(1);
         }
         try {
             System.out.println(adversimentList.getTamanho());
             for (int i = 0; i < adversimentList.getTamanho(); i++) {
                 Adversiment adversiment = adversimentList.getElemento(i);
-                saida.format("%s;%s;%s;%.2f;%s;%s;%s;%s;%s;%s\n", adversiment.getId().toString(),
+                saida.format("%s;%s;%s;%.2f;%s;%s;%s;%s;%s;%s%n", adversiment.getId().toString(),
                         adversiment.getTitle(),
                         adversiment.getDescription(),
                         adversiment.getPrice(),

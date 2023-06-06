@@ -61,6 +61,6 @@ public class UserLikeDto {
         this.quality = adversiment.getQuality();
         this.isActive = adversiment.getIsActive();
         this.contest = adversiment.getContest();
-        this.userSellerLikeDto = new UserSellerLikeDto(adversiment.getUser(), quantityTotalAdversiment, quantityAdversimentActive, quantityAdversimentSolded);
+        this.userSellerLikeDto = new UserSellerLikeDto(adversiment.getUser(), quantityTotalAdversiment, quantityAdversimentSolded, quantityAdversimentActive);
     }
 }

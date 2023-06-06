@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -16,14 +17,26 @@ public class AllAdversimentsAndLikeDtoResponse {
     private Boolean isLike;
     private Long likeId;
 
-    public AllAdversimentsAndLikeDtoResponse(Long idUser, Adversiment adversiment, List<AdversimentsLike> likeAdversiments, Long quantityTotalAdversiment, Long quantityAdversimentSolded, Long quantityAdversimentActive ) {
-        this.userId = idUser;
-        this.adversiments = new UserLikeDto (adversiment, quantityTotalAdversiment, quantityAdversimentSolded, quantityAdversimentActive);
+    public AllAdversimentsAndLikeDtoResponse(Optional<Long> idUser, Adversiment adversiment, List<AdversimentsLike> likeAdversiments) {
+        this.userId = idUser.orElse(null);
+        this.adversiments = new UserLikeDto (adversiment);
         this.isLike = false;
-        for (int i = 0; i < likeAdversiments.size(); i++) {
-            if (adversiment.getId().equals(likeAdversiments.get(i).getAdversiment().getId())) {
+        for (AdversimentsLike likeAdversiment : likeAdversiments) {
+            if (adversiment.getId().equals(likeAdversiment.getAdversiment().getId())) {
                 this.isLike = true;
-                this.likeId = likeAdversiments.get(i).getId();
+                this.likeId = likeAdversiment.getId();
+            }
+        }
+    }
+
+    public AllAdversimentsAndLikeDtoResponse(Long idUser, Adversiment adversiment, List<AdversimentsLike> likeAdversiments, Long quantityTotalAdversiment, Long quantityTotalSolded, Long quantityTotalActive) {
+        this.userId = idUser;
+        this.adversiments = new UserLikeDto (adversiment, quantityTotalAdversiment, quantityTotalSolded, quantityTotalActive);
+        this.isLike = false;
+        for (AdversimentsLike likeAdversiment : likeAdversiments) {
+            if (adversiment.getId().equals(likeAdversiment.getAdversiment().getId())) {
+                this.isLike = true;
+                this.likeId = likeAdversiment.getId();
             }
         }
     }

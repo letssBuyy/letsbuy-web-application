@@ -1,5 +1,6 @@
 package com.application.letsbuy.internal.entities;
 
+import com.application.letsbuy.internal.enums.AccessLevelEnum;
 import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import com.application.letsbuy.internal.utils.AgeRange;
 import lombok.Getter;
@@ -101,10 +102,15 @@ public class User implements UserDetails {
     private List<Profile> profiles = new ArrayList<>();
 
     @OneToOne
+    @JoinColumn(name = "user_id")
     private BankAccount bankAccount;
 
     @Column
     private Double balance;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private AccessLevelEnum accessLevel;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
@@ -122,6 +128,7 @@ public class User implements UserDetails {
         this.phoneNumber = phoneNumber;
         this.isActive = ActiveInactiveEnum.ACTIVE;
         this.registrationDate = LocalDateTime.now();
+        this.accessLevel = AccessLevelEnum.USER;
     }
 
     @Override

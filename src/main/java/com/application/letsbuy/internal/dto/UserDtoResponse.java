@@ -2,6 +2,7 @@ package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.BankAccount;
 import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.enums.AccessLevelEnum;
 import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,7 @@ public class UserDtoResponse {
     private LocalDateTime registrationDate;
     private Double balance;
     private BankAccount bankAccount;
+    private AccessLevelEnum accessLevel;
 
     public UserDtoResponse(User user) {
         this.id = user.getId();
@@ -53,5 +55,6 @@ public class UserDtoResponse {
         this.registrationDate = user.getRegistrationDate();
         this.balance = user.getBalance();
         this.bankAccount = user.getBankAccount();
+        this.accessLevel = user.getAccessLevel();
     }
 }

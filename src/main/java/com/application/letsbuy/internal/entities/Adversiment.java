@@ -86,21 +86,18 @@ public class Adversiment {
     @JoinColumn(name = "adversiment_id")
     private List<Tracking> trackings;
 
-    public Adversiment(User user, String title, String description, Double price, LocalDate postDate, LocalDate lastUpdate, LocalDate saleDate, AdversimentColorEnum color ,CategoryEnum category, QualityEnum quality) {
+    public Adversiment(User user, String title, String description, Double price, LocalDate postDate, LocalDate lastUpdate, AdversimentColorEnum color ,CategoryEnum category, QualityEnum quality) {
         this.user = user;
         this.title = title;
         this.description = description;
         this.price = price;
         this.postDate = postDate;
         this.lastUpdate = lastUpdate;
-        this.saleDate = saleDate;
         this.category = category;
         this.quality = quality;
         this.color = color;
         this.isActive = AdversimentEnum.ACTIVE;
         this.contest = AdversimentEnum.INACTIVE;
     }
-
-
 }
 

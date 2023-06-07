@@ -86,6 +86,10 @@ public class Adversiment {
     @JoinColumn(name = "adversiment_id")
     private List<Tracking> trackings;
 
+    @OneToMany
+    @JoinColumn(name = "chat_id")
+    private List<Chat> chats;
+
     public Adversiment(User user, String title, String description, Double price, LocalDate postDate, LocalDate lastUpdate, AdversimentColorEnum color ,CategoryEnum category, QualityEnum quality) {
         this.user = user;
         this.title = title;

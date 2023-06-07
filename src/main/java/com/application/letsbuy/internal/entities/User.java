@@ -105,6 +105,9 @@ public class User implements UserDetails {
     @JoinColumn(name = "user_id")
     private BankAccount bankAccount;
 
+    @OneToMany
+    private List<Chat> chats;
+
     @Column
     private Double balance;
 

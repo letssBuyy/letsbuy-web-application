@@ -17,14 +17,19 @@ import javax.validation.constraints.NotNull;
 public class BankAccountDtoRequest {
     @NotNull
     private Long userId;
+
+    @NotBlank
+    private String bankNumber;
+
+    @NotBlank
+    private String agencyNumber;
+
     @NotBlank
     private String accountNumber;
-    @NotBlank
-    private String accountDigit;
 
 
     public BankAccount convert(UserService userService) {
         User user = userService.findById(userId);
-        return new BankAccount(user, accountNumber, accountDigit);
+        return new BankAccount(user, bankNumber, agencyNumber, accountNumber);
     }
 }

@@ -1,5 +1,6 @@
 package com.application.letsbuy.internal.dto;
 
+import com.application.letsbuy.internal.entities.BankAccount;
 import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import lombok.Getter;
@@ -36,6 +37,8 @@ public class UserAdversimentsDtoResponse {
     private Long quantityTotalAdversiment;
     private Long quantityTotalSolded;
     private Long quantityTotalActive;
+    private Double balance;
+    private BankAccount bankAccount;
     private List<UserAdversimentsDto> adversiments;
 
     public UserAdversimentsDtoResponse(User user, Long quantityTotalAdversiment, Long quantityTotalActive,Long quantityTotalSolded) {
@@ -58,6 +61,8 @@ public class UserAdversimentsDtoResponse {
         this.quantityTotalAdversiment = quantityTotalAdversiment;
         this.quantityTotalActive = quantityTotalActive;
         this.quantityTotalSolded = quantityTotalSolded;
+        this.balance = user.getBalance();
+        this.bankAccount = user.getBankAccount();
         this.adversiments = new ArrayList<>();
         this.adversiments.addAll(user.getAdversiments().stream().map(UserAdversimentsDto::new).collect(Collectors.toList()));
     }

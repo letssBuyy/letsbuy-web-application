@@ -104,7 +104,7 @@ public class User implements UserDetails {
     private BankAccount bankAccount;
 
     @Column
-    private Double amount;
+    private Double balance;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")

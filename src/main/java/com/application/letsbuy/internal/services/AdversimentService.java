@@ -251,7 +251,7 @@ public class AdversimentService implements AdversimentInterface {
                     userId = Long.parseLong(registro.substring(374, 383).trim());
 
                     User user = userService.findById(userId);
-                    Adversiment adversiment = new Adversiment(user, title, description, price, postDate, lastUpdate, saleDate, color, category, quality);
+                    Adversiment adversiment = new Adversiment(user, title, description, price, postDate, lastUpdate, color, category, quality);
                     save(adversiment);
                 } else {
                     System.out.println("tipo de registro inválido");

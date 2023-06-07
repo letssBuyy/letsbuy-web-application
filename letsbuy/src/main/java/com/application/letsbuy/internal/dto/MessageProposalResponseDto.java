@@ -12,27 +12,21 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MessageResponseDto {
+public class MessageProposalResponseDto {
 
     private Long id;
-    private String message;
     private Long idUser;
-    private Boolean isProposal;
     private Double amount;
     private LocalDateTime postedAt;
 
-
-    public MessageResponseDto(Message message) {
+    public MessageProposalResponseDto(Message message) {
         this.id = message.getId();
-        this.message = message.getMessage();
-        this.idUser = message.getIdUser();
-        this.postedAt = message.getPostedAt();
         this.amount = message.getAmount();
-        this.isProposal = message.getIsProposal();
+        this.postedAt = message.getPostedAt();
+        this.idUser = message.getIdUser();
     }
 
-
-    public static List<MessageResponseDto> convert(List<Message> messages) {
-        return messages.stream().map(MessageResponseDto::new).collect(Collectors.toList());
+    public static List<MessageProposalResponseDto> convert(List<Message> messages) {
+        return messages.stream().map(MessageProposalResponseDto::new).collect(Collectors.toList());
     }
 }

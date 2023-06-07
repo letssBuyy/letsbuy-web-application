@@ -11,4 +11,8 @@ import java.util.Optional;
 public interface ChatRepository extends JpaRepository<Chat,Long> {
 
     List<Chat> findChatBySellerIdOrBuyerId (Long idSeller, Long idBuyer);
+
+    Boolean existsChatBySellerIdAndBuyerIdAndAdversimentId (Long idSeller, Long idBuyer, Long adversimentId);
+
+    Optional<Chat> findChatBySellerIdAndBuyerIdAndAdversimentId (Long idSeller, Long idBuyer, Long adversimentId);
 }

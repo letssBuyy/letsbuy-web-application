@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 @AllArgsConstructor
 public class ChatService {
@@ -25,10 +26,27 @@ public class ChatService {
     private AdversimentRepository adversimentRepository;
 
     public List<Chat> listChats(Long idUser) {
+
         return chatRepository.findChatBySellerIdOrBuyerId(idUser, idUser);
     }
 
     public ChatResponseDto register(ChatRequestDto chatDto){
+
+        Boolean alreadyExists = chatRepository.existsChatBySellerIdAndBuyerIdAndAdversimentId(
+                chatDto.getIdSeller(),
+                chatDto.getIdBuyer(),
+                chatDto.getIdAdversiment()
+        );
+
+        if (alreadyExists){
+            return new ChatResponseDto(
+                    chatRepository.findChatBySellerIdAndBuyerIdAndAdversimentId(
+                            chatDto.getIdSeller(),
+                            chatDto.getIdBuyer(),
+                            chatDto.getIdAdversiment()
+                    ).get()
+            );
+        }
 
         Optional<User> sellerOptional = userRepository.findById(chatDto.getIdSeller());
         Optional<User> buyerOptional = userRepository.findById(chatDto.getIdBuyer());

@@ -15,6 +15,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -22,11 +23,10 @@ public class CreatePaymentServiceBroker {
 
     private final RestTemplate restTemplate;
 
-    @Value("${mercado.api}")
     private String endpointMercadoPago;
 
     @Autowired
-    public CreatePaymentServiceBroker() {
+    public CreatePaymentServiceBroker(@Value("${mercado.api}") String endpointMercadoPago) {
         this.restTemplate = new RestTemplateBuilder().rootUri(endpointMercadoPago).build();
     }
 
@@ -42,18 +42,21 @@ public class CreatePaymentServiceBroker {
         request.setIdUser(user.getId());
         request.setEmail(user.getEmail());
         request.setDescriptionAdvertisement(adversiment.getDescription());
+        request.setValor(adversiment.getPrice());
 
         try {
             HttpHeaders headers = setHeaders();
             HttpEntity<MercadoPagoRequestDto> requestEntity = new HttpEntity<>(request, headers);
-            ResponseEntity<TransactionDto> result = restTemplate.exchange(
+            ResponseEntity<List<TransactionDto>> result = restTemplate.exchange(
                     "/criar-pagamento", HttpMethod.POST, requestEntity,
                     new ParameterizedTypeReference<>() {
                     });
+
             result.getStatusCode();
             log.info(
                     "[TRANSACTION-MERCADO-PAGO-BROKER] Transaction creation for payment of the plan completed successfully");
-            return result.getBody();
+
+            return result.getBody().get(0);
         }
         catch (Exception e) {
             log.error("[TRANSACTION-MERCADO-PAGO-BROKER] There was an error creating transaction for plan payment", e);

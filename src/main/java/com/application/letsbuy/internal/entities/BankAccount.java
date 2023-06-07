@@ -24,14 +24,18 @@ public class BankAccount {
     private User user;
 
     @Column
-    private String accountNumber;
+    private String bankNumber;
 
     @Column
-    private String accountDigit;
+    private String agencyNumber;
 
-    public BankAccount(User user, String accountNumber, String accountDigit) {
+    @Column
+    private String accountNumber;
+
+    public BankAccount(User user, String bankNumber, String agencyNumber, String accountNumber) {
         this.user = user;
+        this.bankNumber = bankNumber;
+        this.agencyNumber = agencyNumber;
         this.accountNumber = accountNumber;
-        this.accountDigit = accountDigit;
     }
 }

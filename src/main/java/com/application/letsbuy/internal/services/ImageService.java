@@ -17,8 +17,7 @@ public class ImageService implements ImageInterface {
     @Override
     public Boolean delete(String url){
         try {
-            String constr = "AccountName=letsbuy;AccountKey=//6vf+/Fci6X1ecJTMMzSHS+9cy/GvyXegw8VBbV3f+HFyn0JlXVvXDX8xSW8UQt2AvEtKOp1OJq+AStrWtzEw==;" +
-                    "EndpointSuffix=core.windows.net;DefaultEndpointsProtocol=https;";
+            String constr = "AccountName=letsbuy;AccountKey=//6vf+/Fci6X1ecJTMMzSHS+9cy/GvyXegw8VBbV3f+HFyn0JlXVvXDX8xSW8UQt2AvEtKOp1OJq+AStrWtzEw==;" + "EndpointSuffix=core.windows.net;DefaultEndpointsProtocol=https;";
             BlobContainerClient container = new BlobContainerClientBuilder()
                     .connectionString(constr)
                     .containerName("images")

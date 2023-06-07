@@ -2,6 +2,7 @@ package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.Adversiment;
 import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.enums.AdversimentColorEnum;
 import com.application.letsbuy.internal.enums.CategoryEnum;
 import com.application.letsbuy.internal.enums.QualityEnum;
 import com.application.letsbuy.internal.services.AdversimentService;
@@ -32,7 +33,7 @@ public class AdversimentDto {
     @NotNull
     private LocalDate lastUpdate;
     @NotNull
-    private LocalDate saleDate;
+    private AdversimentColorEnum color;
     @NotNull
     private CategoryEnum category;
     @NotNull
@@ -40,7 +41,7 @@ public class AdversimentDto {
 
     public Adversiment convert(UserService userService) {
         User user = userService.findById(userId);
-        return new Adversiment(user, title, description, price, postDate, lastUpdate, saleDate, category, quality);
+        return new Adversiment(user, title, description, price, postDate, lastUpdate, color, category, quality);
     }
 
     public Adversiment update(Long id, AdversimentService adversimentService) {
@@ -50,9 +51,9 @@ public class AdversimentDto {
         adversiment.setPrice(price);
         adversiment.setPostDate(postDate);
         adversiment.setLastUpdate(lastUpdate);
-        adversiment.setSaleDate(saleDate);
         adversiment.setCategory(category);
         adversiment.setQuality(quality);
+        adversiment.setColor(color);
         return adversiment;
     }
 }

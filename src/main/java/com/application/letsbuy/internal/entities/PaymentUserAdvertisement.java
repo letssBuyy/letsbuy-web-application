@@ -30,8 +30,5 @@ public class PaymentUserAdvertisement {
     private Payment payment;
 
     @Column
-    private LocalDateTime expirationDate;
-
-    @Column
     private LocalDateTime receivableDate;
 }

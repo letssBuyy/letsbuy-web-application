@@ -4,7 +4,6 @@ public enum PaymentControllSellerEnum {
 
     PENDING,
     CONCLUDED,
-
     CANCELED
 
 }

@@ -1,10 +1,7 @@
 package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.Adversiment;
-import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
-import com.application.letsbuy.internal.enums.AdversimentEnum;
-import com.application.letsbuy.internal.enums.CategoryEnum;
-import com.application.letsbuy.internal.enums.QualityEnum;
+import com.application.letsbuy.internal.enums.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,6 +24,7 @@ public class ListAdversimentDtoResponse {
     private LocalDate saleDate;
     private CategoryEnum category;
     private QualityEnum quality;
+    private AdversimentColorEnum color;
     private AdversimentEnum isActive;
     private AdversimentEnum contest;
     private List<ImageDtoResponse> images;
@@ -45,6 +43,7 @@ public class ListAdversimentDtoResponse {
         this.postDate = adversiment.getPostDate();
         this.lastUpdate = adversiment.getLastUpdate();
         this.saleDate = adversiment.getSaleDate();
+        this.color = adversiment.getColor();
         this.category = adversiment.getCategory();
         this.quality = adversiment.getQuality();
         this.isActive = adversiment.getIsActive();
@@ -54,4 +53,24 @@ public class ListAdversimentDtoResponse {
         }
         this.user = new UserSellerLikeDto(adversiment.getUser());
     }
+
+    public ListAdversimentDtoResponse(Adversiment adversiment, Long quantityTotalAdversiment, Long quantityAdversimentSolded, Long quantityAdversimentActive) {
+        this.id = adversiment.getId();
+        this.title = adversiment.getTitle();
+        this.description = adversiment.getDescription();
+        this.price = adversiment.getPrice();
+        this.postDate = adversiment.getPostDate();
+        this.lastUpdate = adversiment.getLastUpdate();
+        this.saleDate = adversiment.getSaleDate();
+        this.color = adversiment.getColor();
+        this.category = adversiment.getCategory();
+        this.quality = adversiment.getQuality();
+        this.isActive = adversiment.getIsActive();
+        this.contest = adversiment.getContest();
+        if (adversiment.getImages() != null && !adversiment.getImages().isEmpty()) {
+            this.images = ImageDtoResponse.convert(adversiment.getImages());
+        }
+        this.user = new UserSellerLikeDto(adversiment.getUser(), quantityTotalAdversiment, quantityAdversimentSolded, quantityAdversimentActive);
+    }
+
 }

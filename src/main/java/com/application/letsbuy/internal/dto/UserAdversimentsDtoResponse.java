@@ -1,12 +1,15 @@
 package com.application.letsbuy.internal.dto;
 
+import com.application.letsbuy.internal.entities.BankAccount;
 import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.enums.AccessLevelEnum;
 import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,9 +34,17 @@ public class UserAdversimentsDtoResponse {
     private String city;
     private String profileImage;
     private ActiveInactiveEnum isActive;
+    private LocalDateTime registrationDate;
+    private Long quantityTotalAdversiment;
+    private Long quantityTotalSolded;
+    private Long quantityTotalActive;
+    private Double balance;
+    private BankAccount bankAccount;
+
+    private AccessLevelEnum accessLevel;
     private List<UserAdversimentsDto> adversiments;
 
-    public UserAdversimentsDtoResponse(User user) {
+    public UserAdversimentsDtoResponse(User user, Long quantityTotalAdversiment, Long quantityTotalActive,Long quantityTotalSolded) {
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
@@ -49,6 +60,13 @@ public class UserAdversimentsDtoResponse {
         this.city = user.getCity();
         this.profileImage = user.getProfileImage();
         this.isActive = user.getIsActive();
+        this.registrationDate = user.getRegistrationDate();
+        this.quantityTotalAdversiment = quantityTotalAdversiment;
+        this.quantityTotalActive = quantityTotalActive;
+        this.quantityTotalSolded = quantityTotalSolded;
+        this.balance = user.getBalance();
+        this.bankAccount = user.getBankAccount();
+        this.accessLevel = user.getAccessLevel();
         this.adversiments = new ArrayList<>();
         this.adversiments.addAll(user.getAdversiments().stream().map(UserAdversimentsDto::new).collect(Collectors.toList()));
     }

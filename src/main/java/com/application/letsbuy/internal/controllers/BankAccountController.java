@@ -6,6 +6,7 @@ import com.application.letsbuy.internal.entities.BankAccount;
 import com.application.letsbuy.internal.services.BankAccountService;
 import com.application.letsbuy.internal.services.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,40 +21,39 @@ import static org.springframework.http.ResponseEntity.noContent;
 public class BankAccountController {
 
     private BankAccountService bankAccountService;
+
     private UserService userService;
 
     @GetMapping
     public ResponseEntity<List<BankAccountDtoResponse>> listAccounts() {
-        List<BankAccount> accounts = bankAccountService.list();
-
+        List<BankAccount> accounts = this.bankAccountService.list();
         if (accounts.isEmpty()) {
-            return noContent().build();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return ResponseEntity.ok().body(BankAccountDtoResponse.convert(accounts));
+        return new ResponseEntity<>(BankAccountDtoResponse.convert(accounts), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BankAccountDtoResponse> findAccount(@PathVariable Long id) {
-        BankAccount bankAccount = bankAccountService.findById(id);
-        return ResponseEntity.ok().body(new BankAccountDtoResponse(bankAccount));
+        return new ResponseEntity<>(new BankAccountDtoResponse(this.bankAccountService.findById(id)), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<BankAccountDtoResponse> saveAccount(@RequestBody @Valid BankAccountDtoRequest bankAccountDtoRequest) {
         BankAccount bankAccount = bankAccountDtoRequest.convert(userService);
-        bankAccountService.saveBankAccount(bankAccount);
+        this.bankAccountService.saveBankAccount(bankAccount);
         return ResponseEntity.created(null).body(new BankAccountDtoResponse(bankAccount));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<BankAccountDtoResponse> updateAccount(@PathVariable Long id, @RequestBody @Valid BankAccountDtoRequest bankAccountDtoRequest) {
-       BankAccount bankAccountUpdated = bankAccountService.update(id, bankAccountDtoRequest);
-        return ResponseEntity.ok().body(new BankAccountDtoResponse(bankAccountUpdated));
+       BankAccount bankAccountUpdated = this.bankAccountService.update(id, bankAccountDtoRequest);
+        return new ResponseEntity<>(new BankAccountDtoResponse(bankAccountUpdated), HttpStatus.OK);
     }
 
     @DeleteMapping
     public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
         bankAccountService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

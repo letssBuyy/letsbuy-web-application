@@ -1,5 +1,6 @@
 package com.application.letsbuy.internal.entities;
 
+import com.application.letsbuy.internal.enums.AccessLevelEnum;
 import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import com.application.letsbuy.internal.utils.AgeRange;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -22,7 +24,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@Table(name = "user")
+@Table(name = "customer")
 @Entity
 public class User implements UserDetails {
 
@@ -89,6 +91,9 @@ public class User implements UserDetails {
     @Column
     private ActiveInactiveEnum isActive;
 
+    @Column
+    private LocalDateTime registrationDate;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<Adversiment> adversiments;
@@ -97,10 +102,22 @@ public class User implements UserDetails {
     private List<Profile> profiles = new ArrayList<>();
 
     @OneToOne
+    @JoinColumn(name = "user_id")
     private BankAccount bankAccount;
 
     @OneToMany
     private List<Chat> chats;
+
+    @Column
+    private Double balance;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private AccessLevelEnum accessLevel;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<Withdraw> withdraws;
 
     public User() {
     }
@@ -113,6 +130,8 @@ public class User implements UserDetails {
         this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
         this.isActive = ActiveInactiveEnum.ACTIVE;
+        this.registrationDate = LocalDateTime.now();
+        this.accessLevel = AccessLevelEnum.USER;
     }
 
     @Override

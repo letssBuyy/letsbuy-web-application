@@ -1,6 +1,7 @@
 package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.Adversiment;
+import com.application.letsbuy.internal.enums.AdversimentColorEnum;
 import com.application.letsbuy.internal.enums.CategoryEnum;
 import com.application.letsbuy.internal.enums.QualityEnum;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class UserAdversimentsDto {
     private LocalDate postDate;
     private LocalDate lastUpdate;
     private LocalDate saleDate;
+    private AdversimentColorEnum color;
     private CategoryEnum category;
     private QualityEnum quality;
 
@@ -32,6 +34,7 @@ public class UserAdversimentsDto {
         this.postDate = adversiment.getPostDate();
         this.lastUpdate = adversiment.getLastUpdate();
         this.saleDate = adversiment.getSaleDate();
+        this.color = adversiment.getColor();
         this.category = adversiment.getCategory();
         this.quality = adversiment.getQuality();
     }

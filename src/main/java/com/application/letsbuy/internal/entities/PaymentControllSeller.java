@@ -18,17 +18,10 @@ public class PaymentControllSeller {
     @Column
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User admin;
-
     @Enumerated(EnumType.STRING)
     @Column
     private PaymentControllSellerEnum status;
 
     @Column
-    private LocalDateTime expirationDate;
-
-    @Column
-    private Double amountTax;
+    private Long amountTax;
 }

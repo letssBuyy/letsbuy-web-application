@@ -1,26 +1,32 @@
 package com.application.letsbuy.internal.services;
 
 import com.application.letsbuy.api.usecase.AdversimentInterface;
+import com.application.letsbuy.internal.dto.AdversimentsLikeDtoResponse;
+import com.application.letsbuy.internal.dto.AllAdversimentsAndLikeDtoResponse;
 import com.application.letsbuy.internal.dto.UserDto;
 import com.application.letsbuy.internal.entities.Adversiment;
 import com.application.letsbuy.internal.entities.AdversimentsLike;
 import com.application.letsbuy.internal.entities.Image;
 import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.enums.AdversimentColorEnum;
 import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.enums.CategoryEnum;
 import com.application.letsbuy.internal.enums.QualityEnum;
 import com.application.letsbuy.internal.exceptions.AdversimentNoContentException;
 import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
-import com.application.letsbuy.internal.exceptions.AdversimentsLikeNoContentException;
 import com.application.letsbuy.internal.exceptions.AdversimentsLikeNotFoundException;
-import com.application.letsbuy.internal.exceptions.*;
+import com.application.letsbuy.internal.exceptions.ImageNotFoundException;
 import com.application.letsbuy.internal.repositories.AdversimentRepository;
 import com.application.letsbuy.internal.repositories.AdversimentsLikeRepository;
 import com.application.letsbuy.internal.repositories.ImageRepository;
 import com.application.letsbuy.internal.repositories.UserRepository;
+import com.application.letsbuy.internal.utils.ArchivesUtils;
 import com.application.letsbuy.internal.utils.ConverterUtils;
+import com.application.letsbuy.internal.utils.ListObj;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
@@ -39,7 +45,6 @@ public class AdversimentService implements AdversimentInterface {
 
     private AdversimentRepository adversimentRepository;
     private AdversimentsLikeRepository adversimentsLikeRepository;
-
     private final UserService userService;
     private UserRepository userRepository;
     private final ImageService imageService;
@@ -62,69 +67,69 @@ public class AdversimentService implements AdversimentInterface {
 
     @Override
     public Adversiment findById(Long id) {
-        Optional<Adversiment> retrieveAdversimentById = adversimentRepository.findById(id);
-        if (retrieveAdversimentById.isPresent()) {
-            return retrieveAdversimentById.get();
-        } else {
-            throw new AdversimentNotFoundException();
-        }
+        return this.adversimentRepository.findById(id).orElseThrow(AdversimentNotFoundException::new);
     }
 
     @Override
     public List<Adversiment> findAll() {
         if (adversimentRepository.findAll().isEmpty()) {
             throw new AdversimentNoContentException();
-        } else {
-            return adversimentRepository.findAll();
         }
+        return adversimentRepository.findAll();
+    }
+
+    public List<AllAdversimentsAndLikeDtoResponse> retrieveAdversimentById(Long idAdversiment, Long idUser) {
+        Adversiment adversiment = findById(idAdversiment);
+        List<AdversimentsLike> likedAdversiments = findByAdversimentsLike(idUser);;
+        Long quantityTotalAdversiment = countTotalAdversimentsByUser(adversiment.getUser().getId());
+        Long quantityAdversimentSolded = countAdversimentSolded(adversiment.getUser().getId());
+        Long quantityAdversimentActive = countAdversimentActive(adversiment.getUser().getId());
+        List<AllAdversimentsAndLikeDtoResponse> allAdversimentslikes = new ArrayList<>();
+        allAdversimentslikes.add(new AllAdversimentsAndLikeDtoResponse(idUser, adversiment, likedAdversiments, quantityTotalAdversiment, quantityAdversimentSolded, quantityAdversimentActive));
+        return allAdversimentslikes;
+    }
+
+    public List<AllAdversimentsAndLikeDtoResponse> retrieveAdversiments(Optional<Long> idUser) {
+        List<Adversiment> adversiments = findAll();
+        List<AdversimentsLike> likedAdversiments = new ArrayList<>();
+        if (idUser.isPresent()) {
+            likedAdversiments = findByAdversimentsLike(idUser.get());
+        }
+        List<AllAdversimentsAndLikeDtoResponse> allAdversimentslikes = new ArrayList<>();
+        for (Adversiment adversiment : adversiments) {
+            allAdversimentslikes.add(new AllAdversimentsAndLikeDtoResponse(idUser, adversiment, likedAdversiments));
+        }
+        return allAdversimentslikes;
     }
 
     @Override
     public Adversiment openContest(Long id) {
-        if (adversimentRepository.findById(id).isPresent()) {
-            Adversiment adversiment = adversimentRepository.findById(id).get();
-            adversiment.setContest(AdversimentEnum.ACTIVE);
-            return adversiment;
-        } else {
-            throw new AdversimentNotFoundException();
-        }
+        Adversiment adversiment = this.adversimentRepository.findById(id).orElseThrow(AdversimentNotFoundException::new);
+        adversiment.setContest(AdversimentEnum.ACTIVE);
+        return adversiment;
     }
 
     @Override
     public void likeAdversiment(Long idUser, Long idAdversiment) {
-        Optional<User> user = userRepository.findById(idUser);
-        Optional<Adversiment> adversiment = adversimentRepository.findById(idAdversiment);
-        if (user.isPresent() && adversiment.isPresent()) {
-            adversimentsLikeRepository.save(new AdversimentsLike(user.get(), adversiment.get()));
-        } else {
-            throw new AdversimentsLikeNotFoundException();
-        }
+        User user = this.userService.findById(idUser);
+        Adversiment adversiment = findById(idAdversiment);
+        this.adversimentsLikeRepository.save(new AdversimentsLike(user, adversiment));
     }
 
     @Override
     public List<AdversimentsLike> findAllAdversimentsLike() {
-        if (adversimentRepository.findAll().isEmpty()) {
-            throw new AdversimentNoContentException();
-        } else {
-            return adversimentsLikeRepository.findAll();
-        }
+        return adversimentsLikeRepository.findAll();
     }
 
     @Override
     public List<AdversimentsLike> findByAdversimentsLike(Long id) {
-        if (adversimentsLikeRepository.findByUserId(id).isEmpty()) {
-            throw new AdversimentsLikeNoContentException();
-        }
         return adversimentsLikeRepository.findByUserId(id);
     }
 
     @Override
     public void deslike(Long id) {
-        if (adversimentsLikeRepository.findById(id).isPresent()) {
-            adversimentsLikeRepository.deleteById(id);
-        } else {
-            throw  new AdversimentNotFoundException();
-        }
+        AdversimentsLike adversimentsLiked = this.adversimentsLikeRepository.findById(id).orElseThrow(AdversimentNotFoundException::new);
+        this.adversimentsLikeRepository.deleteById(adversimentsLiked.getId());
     }
 
     @Override
@@ -140,6 +145,18 @@ public class AdversimentService implements AdversimentInterface {
                 .collect(Collectors.toList());
         adversiment.setImages(listImages);
         return adversimentRepository.save(adversiment);
+    }
+
+    public Long countTotalAdversimentsByUser(Long id) {
+        return this.adversimentRepository.countByUserId(id);
+    }
+
+    public Long countAdversimentSolded(Long id) {
+        return this.adversimentRepository.countByUserIdAndIsActive(id, AdversimentEnum.SALLED);
+    }
+
+    public Long countAdversimentActive(Long id) {
+        return this.adversimentRepository.countByUserIdAndIsActive(id, AdversimentEnum.ACTIVE);
     }
 
 
@@ -160,11 +177,9 @@ public class AdversimentService implements AdversimentInterface {
                 image -> {
                     this.imageRepository.deleteById(image.getId());
                     this.imageService.delete(image.getUrl());
-                },
-                () -> {
+                }, () -> {
                     throw new ImageNotFoundException();
-                }
-        );
+                });
     }
 
     public void importFileTxt(String nomeArq) {
@@ -183,6 +198,7 @@ public class AdversimentService implements AdversimentInterface {
         LocalDate postDate, lastUpdate, saleDate;
         CategoryEnum category;
         QualityEnum quality;
+        AdversimentColorEnum color = AdversimentColorEnum.GOLD;
         Long userId;
 
         int contaRegDadoLido = 0;
@@ -193,8 +209,7 @@ public class AdversimentService implements AdversimentInterface {
         // try-catch para abrir o arquivo
         try {
             entrada = new BufferedReader(new FileReader(nomeArq));
-        }
-        catch (IOException erro) {
+        } catch (IOException erro) {
             System.out.println("Erro na abertura do arquivo");
             System.exit(1);
         }
@@ -204,7 +219,7 @@ public class AdversimentService implements AdversimentInterface {
             registro = entrada.readLine(); // le o primeiro registro do arquivo
 
             while (registro != null) {
-                tipoRegistro = registro.substring(0,2);
+                tipoRegistro = registro.substring(0, 2);
 
                 if (tipoRegistro.equals("01")) {
                     name = registro.substring(2, 52).trim();
@@ -227,7 +242,7 @@ public class AdversimentService implements AdversimentInterface {
                 } else if (tipoRegistro.equals("02")) {
                     title = registro.substring(2, 52).trim();
                     description = registro.substring(52, 307).trim();
-                    price = Double.valueOf(registro.substring(307, 317).replace(',','.'));
+                    price = Double.valueOf(registro.substring(307, 317).replace(',', '.'));
                     postDate = LocalDate.parse(registro.substring(317, 327));
                     lastUpdate = LocalDate.parse(registro.substring(327, 337));
                     saleDate = LocalDate.parse(registro.substring(337, 347));
@@ -236,7 +251,7 @@ public class AdversimentService implements AdversimentInterface {
                     userId = Long.parseLong(registro.substring(374, 383).trim());
 
                     User user = userService.findById(userId);
-                    Adversiment adversiment = new Adversiment(user, title, description, price, postDate, lastUpdate, saleDate, category, quality);
+                    Adversiment adversiment = new Adversiment(user, title, description, price, postDate, lastUpdate, color, category, quality);
                     save(adversiment);
                 } else {
                     System.out.println("tipo de registro inválido");
@@ -244,8 +259,7 @@ public class AdversimentService implements AdversimentInterface {
                 registro = entrada.readLine();
             }
             entrada.close();
-        }
-        catch (IOException erro) {
+        } catch (IOException erro) {
             System.out.println("Erro ao ler o arquivo");
         }
     }
@@ -286,6 +300,17 @@ public class AdversimentService implements AdversimentInterface {
             }
         }
         throw new AdversimentNotFoundException();
+    }
+
+    public void createCsvArchive(Long id, Optional<String> nomeArquivo) {
+        List<Adversiment> adversimentList = userService.findById(id).getAdversiments();
+        if (adversimentList.isEmpty()) {
+            throw new AdversimentNotFoundException();
+        }
+        ListObj<Adversiment> adversimentObj = new ListObj<>(adversimentList.size());
+        adversimentList.forEach(adversimentObj::adiciona);
+        ListObj<Adversiment> orderedList = ListObj.orderByPrice(adversimentObj);
+        ArchivesUtils.creatCsvArchive(orderedList, nomeArquivo);
     }
 }
 

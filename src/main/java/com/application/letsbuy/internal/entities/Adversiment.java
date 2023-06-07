@@ -1,5 +1,6 @@
 package com.application.letsbuy.internal.entities;
 
+import com.application.letsbuy.internal.enums.AdversimentColorEnum;
 import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.enums.CategoryEnum;
 import com.application.letsbuy.internal.enums.QualityEnum;
@@ -67,6 +68,10 @@ public class Adversiment {
 
     @Enumerated(EnumType.STRING)
     @Column
+    private AdversimentColorEnum color;
+
+    @Enumerated(EnumType.STRING)
+    @Column
     private AdversimentEnum isActive;
 
     @Enumerated(EnumType.STRING)
@@ -85,34 +90,18 @@ public class Adversiment {
     @JoinColumn(name = "chat_id")
     private List<Chat> chats;
 
-    public Adversiment(User user, String title, String description, Double price, LocalDate postDate, LocalDate lastUpdate, LocalDate saleDate, CategoryEnum category, QualityEnum quality) {
+    public Adversiment(User user, String title, String description, Double price, LocalDate postDate, LocalDate lastUpdate, AdversimentColorEnum color ,CategoryEnum category, QualityEnum quality) {
         this.user = user;
         this.title = title;
         this.description = description;
         this.price = price;
         this.postDate = postDate;
         this.lastUpdate = lastUpdate;
-        this.saleDate = saleDate;
         this.category = category;
         this.quality = quality;
+        this.color = color;
         this.isActive = AdversimentEnum.ACTIVE;
         this.contest = AdversimentEnum.INACTIVE;
-    }
-
-    @Override
-    public String toString() {
-        return "Adversiment{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", postDate=" + postDate +
-                ", lastUpdate=" + lastUpdate +
-                ", saleDate=" + saleDate +
-                ", category=" + category +
-                ", quality=" + quality +
-                ", user=" + user +
-                '}';
     }
 }
 

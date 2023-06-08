@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -36,6 +38,8 @@ public class UserSellerLikeDto {
 
     private String profileImage;
 
+    private LocalDateTime registrationDate;
+
     private Long quantityTotalAdversiment;
     private Long quantityTotalSolded;
     private Long quantityTotalActive;
@@ -53,6 +57,7 @@ public class UserSellerLikeDto {
         this.state = user.getState();
         this.city = user.getCity();
         this.profileImage = user.getProfileImage();
+        this.registrationDate = user.getRegistrationDate();
     }
 
     public UserSellerLikeDto(User user, Long quantityTotalAdversiment, Long quantityTotalSolded, Long quantityTotalActive) {
@@ -68,6 +73,7 @@ public class UserSellerLikeDto {
         this.state = user.getState();
         this.city = user.getCity();
         this.profileImage = user.getProfileImage();
+        this.registrationDate = user.getRegistrationDate();
         this.quantityTotalAdversiment = quantityTotalAdversiment;
         this.quantityTotalSolded = quantityTotalSolded;
         this.quantityTotalActive = quantityTotalActive;

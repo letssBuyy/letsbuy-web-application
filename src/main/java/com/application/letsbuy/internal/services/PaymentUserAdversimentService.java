@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.application.letsbuy.internal.enums.TrackingStatus.AWAITING_PAYMENT;
+
 @Service
 @AllArgsConstructor
 public class PaymentUserAdversimentService {
@@ -36,7 +38,7 @@ public class PaymentUserAdversimentService {
         if (payment.isPresent()) {
             Tracking tracking = new Tracking();
             tracking.setAdversiment(advertisement);
-            tracking.setStatus(TrackingStatus.AWAITING_PAYMENT);
+            tracking.setStatus(AWAITING_PAYMENT);
             advertisement.setTrackings(List.of(tracking));
             advertisement.setIsActive(AdversimentEnum.SELLING);
             this.advertisementService.save(advertisement);

@@ -69,6 +69,7 @@ public class SecuritySettings extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/chats/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/messages/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/messages/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/searches/**").permitAll()
                 .anyRequest().authenticated()
                 .and().cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

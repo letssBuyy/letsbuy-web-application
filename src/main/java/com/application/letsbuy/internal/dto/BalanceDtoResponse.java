@@ -13,5 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 public class BalanceDtoResponse {
     private Double balance;
-    private List<WithdrawDtoResponse> withdraws;
+    private List<TransactionResponseDto> transactions;
 }

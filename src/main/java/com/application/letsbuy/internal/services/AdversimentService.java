@@ -24,6 +24,8 @@ import com.application.letsbuy.internal.utils.ArchivesUtils;
 import com.application.letsbuy.internal.utils.ConverterUtils;
 import com.application.letsbuy.internal.utils.ListObj;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -98,8 +100,8 @@ public class AdversimentService implements AdversimentInterface {
         return allAdversimentslikes;
     }
 
-    public List<AllAdversimentsAndLikeDtoResponse> retrieveAdversiments(Optional<Long> idUser) {
-        List<Adversiment> adversiments = findAll();
+    public List<AllAdversimentsAndLikeDtoResponse> retrieveAdversiments(Optional<Long> idUser, Pageable pageable) {
+        Page<Adversiment> adversiments = adversimentRepository.findAll(pageable);
         List<AdversimentsLike> likedAdversiments = new ArrayList<>();
         if (idUser.isPresent()) {
             likedAdversiments = findByAdversimentsLike(idUser.get());

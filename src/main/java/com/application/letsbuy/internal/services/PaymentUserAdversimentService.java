@@ -32,7 +32,6 @@ public class PaymentUserAdversimentService {
         Adversiment advertisement = this.advertisementService.findById(adversimentId);
         User user = this.userService.findById(buyerId);
         TransactionDto transactionDto = this.createPaymentServiceBroker.createTransaction(user, advertisement);
-        //recupera o pagamento que foi inserido atraves da api do mercado pago no banco
         Optional<Payment> payment = this.paymentService.retrieveByExternalReference(transactionDto.getExternalReference());
 
         if (payment.isPresent()) {
@@ -63,6 +62,7 @@ public class PaymentUserAdversimentService {
         PaymentControllSeller paymentControllSeller = new PaymentControllSeller();
         paymentControllSeller.setStatus(PaymentControllSellerEnum.PENDING);
         paymentControllSeller.setAmountTax(10L);
+        paymentControllSeller.setPaymentUserAdvertisement(paymentUserAdvertisement);
         this.paymentControlSellerRepository.save(paymentControllSeller);
     }
 }

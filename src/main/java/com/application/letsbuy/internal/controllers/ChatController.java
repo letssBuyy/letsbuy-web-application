@@ -1,5 +1,6 @@
 package com.application.letsbuy.internal.controllers;
 
+import com.application.letsbuy.internal.dto.AdversimentDtoResponse;
 import com.application.letsbuy.internal.dto.ChatRequestDto;
 import com.application.letsbuy.internal.dto.ChatResponseDto;
 import com.application.letsbuy.internal.entities.Chat;
@@ -32,5 +33,9 @@ public class ChatController {
     @PostMapping
     public ResponseEntity<ChatResponseDto> register(@RequestBody ChatRequestDto chatDto) {
         return ResponseEntity.status(201).body(chatService.register(chatDto));
+    }
+    @PatchMapping("{idProposal}")
+    public ResponseEntity<AdversimentDtoResponse> acceptProposal(@PathVariable Long idProposal) {
+        return ResponseEntity.ok(chatService.acceptProposal(idProposal));
     }
 }

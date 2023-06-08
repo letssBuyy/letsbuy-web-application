@@ -65,6 +65,10 @@ public class AdversimentService implements AdversimentInterface {
         }
     }
 
+    public Long countFinishedAds(){
+        return adversimentRepository.countByIsActive(AdversimentEnum.SALLED);
+    }
+
     @Override
     public Adversiment findById(Long id) {
         return this.adversimentRepository.findById(id).orElseThrow(AdversimentNotFoundException::new);
@@ -77,6 +81,11 @@ public class AdversimentService implements AdversimentInterface {
         }
         return adversimentRepository.findAll();
     }
+
+    public long quantityAds(){
+        return adversimentRepository.count();
+    }
+
 
     public List<AllAdversimentsAndLikeDtoResponse> retrieveAdversimentById(Long idAdversiment, Long idUser) {
         Adversiment adversiment = findById(idAdversiment);

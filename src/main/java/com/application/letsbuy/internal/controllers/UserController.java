@@ -49,6 +49,12 @@ public class UserController {
         return ResponseEntity.ok().body(new UserAdversimentsDtoResponse(user, quantityTotalAdversiment, quantityAdversimentActive, quantityAdversimentSolded));
     }
 
+    @ApiOperation("Method used to count a users")
+    @GetMapping("/qtd-user")
+    public ResponseEntity<Long> countUsers(){
+        return ResponseEntity.ok(userService.quantityUsers());
+    }
+
     @ApiOperation("Method used to change user data")
     @PutMapping("/{id}")
     @Transactional

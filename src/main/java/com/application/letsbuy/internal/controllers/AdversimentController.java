@@ -8,6 +8,9 @@ import com.application.letsbuy.internal.services.UserService;
 import com.application.letsbuy.internal.utils.AdversimentUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +31,10 @@ public class AdversimentController {
 
     @ApiOperation("Method used to list adversiments")
     @GetMapping("/listar")
-    public ResponseEntity<List<AllAdversimentsAndLikeDtoResponse>> retrieveAdversiment(@RequestParam Optional<Long> idUser) {
-        return new ResponseEntity<>(this.adversimentService.retrieveAdversiments(idUser), HttpStatus.OK);
+    public ResponseEntity<Page<AllAdversimentsAndLikeDtoResponse>> retrieveAdversiment(@RequestParam Optional<Long> idUser, Pageable pageable) {
+        List<AllAdversimentsAndLikeDtoResponse> lista = this.adversimentService.retrieveAdversiments(idUser, pageable);
+        Page<AllAdversimentsAndLikeDtoResponse> pages = new PageImpl<>(lista, pageable, lista.size());
+        return new ResponseEntity<>(pages, HttpStatus.OK);
     }
 
     @ApiOperation("Method used to register adversiments")

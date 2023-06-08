@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -24,4 +23,8 @@ public class PaymentControllSeller {
 
     @Column
     private Long amountTax;
+
+    @ManyToOne
+    @JoinColumn(name = "payment_user_advertisement_id")
+    private PaymentUserAdvertisement paymentUserAdvertisement;
 }

@@ -1,9 +1,6 @@
 package com.application.letsbuy.internal.services;
 
-import com.application.letsbuy.internal.dto.MessageProposalRequestDto;
-import com.application.letsbuy.internal.dto.MessageProposalResponseDto;
-import com.application.letsbuy.internal.dto.MessageRequestDto;
-import com.application.letsbuy.internal.dto.MessageResponseDto;
+import com.application.letsbuy.internal.dto.*;
 import com.application.letsbuy.internal.entities.Chat;
 import com.application.letsbuy.internal.entities.Message;
 import com.application.letsbuy.internal.exceptions.ChatNotFoundException;

@@ -7,7 +7,7 @@ server:
 spring:
   datasource:
     username: root
-    password: "Substituir"
+    password: nacagawa1333
     url: jdbc:mysql://localhost:3306/letsbuy?allowPublicKeyRetrieval=true&rewriteBatchedStatements=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&useLegacyDatetimeCode=true&createDatabaseIfNotExist=true&useTimezone=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     testWhileIdle: true

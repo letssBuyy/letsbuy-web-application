@@ -19,8 +19,8 @@ public class FilaObj<T>{
 
     public void insert(T info) {
         if (this.isFull()) throw new IllegalStateException("Fila cheia");
-        this.fila[tamanho] = info;
-        tamanho++;
+        this.fila[tamanho++] = info;
+
     }
 
     public T peek() {

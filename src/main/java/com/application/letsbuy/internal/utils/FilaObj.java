@@ -1,52 +1,62 @@
 package com.application.letsbuy.internal.utils;
 
-public class FilaObj<T>{
-    private int tamanho;
+public class FilaObj<T> {
+
     private T[] fila;
+    private int tamanho;
+
 
     public FilaObj(int capaciade) {
         this.fila = (T[]) new Object[capaciade];
-        tamanho = 0;
+        this.tamanho = 0;
     }
 
     public boolean isEmpty() {
-        return this.tamanho == 0;
+        return getTamanho() == 0;
     }
 
     public boolean isFull() {
-        return this.tamanho == this.fila.length;
+        return getTamanho() == fila.length;
     }
 
     public void insert(T info) {
-        if (this.isFull()) throw new IllegalStateException("Fila cheia");
-        this.fila[tamanho++] = info;
-
+        if (isFull()) {
+            throw new IllegalStateException("Fila cheia!");
+        }
+        fila[tamanho++] = info;
     }
 
     public T peek() {
-        return this.fila[0];
+        if (isEmpty()) {
+            return null;
+        }
+        return fila[0];
     }
 
     public T poll() {
-        if (this.isEmpty()) {
+
+        if (isEmpty()) {
             return null;
         }
-        T value = this.fila[0];
-        for (int i = 0; i < tamanho - 1; i++) {
+
+        T aux = fila[0];
+
+        for (int i = 0; i < getTamanho() - 1; i++) {
             fila[i] = fila[i + 1];
         }
+
         tamanho--;
-        this.fila[tamanho] = null;
-        return value;
+        fila[tamanho] = null;
+        return aux;
     }
 
-    /* Método exibe() - exibe o conteúdo da fila */
     public void exibe() {
+
         if (isEmpty()) {
-            System.out.println("Lista vazia");
+            System.out.println("Fila vazia!");
         } else {
             for (int i = 0; i < getTamanho(); i++) {
-                System.out.println(this.fila[i]);
+                System.out.print(fila[i] + "\t");
             }
         }
     }

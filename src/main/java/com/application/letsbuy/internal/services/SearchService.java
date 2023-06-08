@@ -2,7 +2,6 @@ package com.application.letsbuy.internal.services;
 
 import com.application.letsbuy.internal.dto.AdversimentFilterDto;
 import com.application.letsbuy.internal.dto.AllAdversimentsAndLikeDtoResponse;
-import com.application.letsbuy.internal.dto.UserLikeDto;
 import com.application.letsbuy.internal.entities.Adversiment;
 import com.application.letsbuy.internal.entities.AdversimentsLike;
 import com.application.letsbuy.internal.enums.AdversimentColorEnum;
@@ -15,14 +14,19 @@ import com.application.letsbuy.internal.utils.PilhaObj;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class SearchService {
 
     private final AdversimentService adversimentService;
+
     private final AdversimentRepository adversimentRepository;
+
     public List<AllAdversimentsAndLikeDtoResponse> searchAdversiments(Optional<Long> idUser, String title) {
         List<Adversiment> adversiments = adversimentRepository.findByTitleContainsIgnoreCaseAndIsActive(title, AdversimentEnum.ACTIVE);
 
@@ -57,10 +61,10 @@ public class SearchService {
 
     private List<AllAdversimentsAndLikeDtoResponse> filterCity(List<AllAdversimentsAndLikeDtoResponse> results, String city) {
 
-        if(city != null && !city.isEmpty()){
+        if (city != null && !city.isEmpty()) {
             List<AllAdversimentsAndLikeDtoResponse> filteredResults = new ArrayList<>();
-            for(AllAdversimentsAndLikeDtoResponse a: results) {
-                if(a.getAdversiments().getUserSellerLikeDto().getCity().equalsIgnoreCase(city)){
+            for (AllAdversimentsAndLikeDtoResponse a : results) {
+                if (a.getAdversiments().getUserSellerLikeDto().getCity().equalsIgnoreCase(city)) {
                     filteredResults.add(a);
                 }
             }
@@ -71,10 +75,10 @@ public class SearchService {
 
     private List<AllAdversimentsAndLikeDtoResponse> filterPriceMin(List<AllAdversimentsAndLikeDtoResponse> results, Double priceMin) {
 
-        if(priceMin != null && priceMin > 0){
+        if (priceMin != null && priceMin > 0) {
             List<AllAdversimentsAndLikeDtoResponse> filteredResults = new ArrayList<>();
-            for(AllAdversimentsAndLikeDtoResponse a: results) {
-                if(a.getAdversiments().getPrice() >= priceMin){
+            for (AllAdversimentsAndLikeDtoResponse a : results) {
+                if (a.getAdversiments().getPrice() >= priceMin) {
                     filteredResults.add(a);
                 }
             }
@@ -85,10 +89,10 @@ public class SearchService {
 
     private List<AllAdversimentsAndLikeDtoResponse> filterPriceMax(List<AllAdversimentsAndLikeDtoResponse> results, Double priceMax) {
 
-        if(priceMax != null && priceMax > 0){
+        if (priceMax != null && priceMax > 0) {
             List<AllAdversimentsAndLikeDtoResponse> filteredResults = new ArrayList<>();
-            for(AllAdversimentsAndLikeDtoResponse a: results) {
-                if(a.getAdversiments().getPrice() <= priceMax){
+            for (AllAdversimentsAndLikeDtoResponse a : results) {
+                if (a.getAdversiments().getPrice() <= priceMax) {
                     filteredResults.add(a);
                 }
             }
@@ -99,10 +103,10 @@ public class SearchService {
 
     private List<AllAdversimentsAndLikeDtoResponse> filterQuality(List<AllAdversimentsAndLikeDtoResponse> results, QualityEnum quality) {
 
-        if(quality != null){
+        if (quality != null) {
             List<AllAdversimentsAndLikeDtoResponse> filteredResults = new ArrayList<>();
-            for(AllAdversimentsAndLikeDtoResponse a: results) {
-                if(a.getAdversiments().getQuality().equals(quality)){
+            for (AllAdversimentsAndLikeDtoResponse a : results) {
+                if (a.getAdversiments().getQuality().equals(quality)) {
                     filteredResults.add(a);
                 }
             }
@@ -113,10 +117,10 @@ public class SearchService {
 
     private List<AllAdversimentsAndLikeDtoResponse> filterCategory(List<AllAdversimentsAndLikeDtoResponse> results, CategoryEnum category) {
 
-        if(category != null){
+        if (category != null) {
             List<AllAdversimentsAndLikeDtoResponse> filteredResults = new ArrayList<>();
-            for(AllAdversimentsAndLikeDtoResponse a: results) {
-                if(a.getAdversiments().getCategory().equals(category)){
+            for (AllAdversimentsAndLikeDtoResponse a : results) {
+                if (a.getAdversiments().getCategory().equals(category)) {
                     filteredResults.add(a);
                 }
             }
@@ -127,10 +131,10 @@ public class SearchService {
 
     private List<AllAdversimentsAndLikeDtoResponse> filterColor(List<AllAdversimentsAndLikeDtoResponse> results, AdversimentColorEnum color) {
 
-        if(color != null){
+        if (color != null) {
             List<AllAdversimentsAndLikeDtoResponse> filteredResults = new ArrayList<>();
-            for(AllAdversimentsAndLikeDtoResponse a: results) {
-                if(a.getAdversiments().getColor().equals(color)){
+            for (AllAdversimentsAndLikeDtoResponse a : results) {
+                if (a.getAdversiments().getColor().equals(color)) {
                     filteredResults.add(a);
                 }
             }
@@ -201,13 +205,13 @@ public class SearchService {
     private List<AllAdversimentsAndLikeDtoResponse> orderByMostRecent(List<AllAdversimentsAndLikeDtoResponse> filteredResultsColor) {
         PilhaObj<AllAdversimentsAndLikeDtoResponse> pilhaObj = new PilhaObj(filteredResultsColor.size());
 
-        for(AllAdversimentsAndLikeDtoResponse a: filteredResultsColor) {
+        for (AllAdversimentsAndLikeDtoResponse a : filteredResultsColor) {
             pilhaObj.push(a);
         }
 
         List<AllAdversimentsAndLikeDtoResponse> listOrdened = new ArrayList<>();
 
-        for(int i = pilhaObj.getTopo(); i >= 0 ; i--) {
+        for (int i = pilhaObj.getTopo(); i >= 0; i--) {
             listOrdened.add(pilhaObj.pop());
         }
 
@@ -217,14 +221,15 @@ public class SearchService {
     private List<AllAdversimentsAndLikeDtoResponse> orderByOldest(List<AllAdversimentsAndLikeDtoResponse> filteredResultsColor) {
         FilaObj<AllAdversimentsAndLikeDtoResponse> filaObj = new FilaObj<>(filteredResultsColor.size());
 
-        for(AllAdversimentsAndLikeDtoResponse a: filteredResultsColor) {
-            filaObj.insert(a);
+        for (AllAdversimentsAndLikeDtoResponse allAdversimentsAndLikeDtoResponse : filteredResultsColor) {
+            filaObj.insert(allAdversimentsAndLikeDtoResponse);
         }
 
         List<AllAdversimentsAndLikeDtoResponse> listOrdened = new ArrayList<>();
-
-        for(int i = 0; i < filaObj.getTamanho(); i++) {
-            listOrdened.add(filaObj.poll());
+        int tamanho = filaObj.getTamanho();
+        for (int i = 0; i < tamanho; i++) {
+            listOrdened.add(filaObj.peek());
+            filaObj.poll();
         }
 
         return listOrdened;

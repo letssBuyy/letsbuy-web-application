@@ -23,7 +23,7 @@ public class SearchController {
 
         List<AllAdversimentsAndLikeDtoResponse> results = searchService.searchAdversiments(idUser, title);
 
-        if(results.isEmpty()){
+        if (results.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         Page<AllAdversimentsAndLikeDtoResponse> pages = new PageImpl<>(results, pageable, results.size());

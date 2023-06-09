@@ -27,8 +27,14 @@ public class SearchService {
 
     private final AdversimentRepository adversimentRepository;
 
-    public List<AllAdversimentsAndLikeDtoResponse> searchAdversiments(Optional<Long> idUser, String title) {
-        List<Adversiment> adversiments = adversimentRepository.findByTitleContainsIgnoreCaseAndIsActive(title, AdversimentEnum.ACTIVE);
+    public List<AllAdversimentsAndLikeDtoResponse> searchAdversiments(Optional<Long> idUser, Optional<String> title) {
+        List<Adversiment> adversiments;
+        if(title.isPresent()) {
+            adversiments = adversimentRepository.findByTitleContainsIgnoreCaseAndIsActive(title, AdversimentEnum.ACTIVE);
+
+        } else {
+            adversiments = adversimentRepository.findAll();
+        }
 
         List<AdversimentsLike> likedAdversiments = new ArrayList<>();
         if (idUser.isPresent()) {

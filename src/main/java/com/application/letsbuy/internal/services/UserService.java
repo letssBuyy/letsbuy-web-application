@@ -52,6 +52,12 @@ public class UserService implements UserInterface {
         return this.userRepository.findByName(name).orElseThrow(UserNotFoundException::new);
     }
 
+    public Long quantityUsers(){
+        return userRepository.count();
+    }
+
+
+
     @Override
     public User findById(Long id) {
         return this.userRepository.findById(id).orElseThrow(UserNotFoundException::new);

@@ -15,4 +15,6 @@ public interface AdversimentRepository extends JpaRepository<Adversiment, Long> 
     Long countByUserIdAndIsActive(Long id, AdversimentEnum isActive);
 
     List<Adversiment> findByTitleContainsIgnoreCaseAndIsActive(Optional<String> title, AdversimentEnum isActive);
+
+    Long countByIsActive(AdversimentEnum isActive);
 }

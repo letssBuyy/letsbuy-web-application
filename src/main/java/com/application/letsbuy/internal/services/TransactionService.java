@@ -14,7 +14,7 @@ import java.util.List;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
-    private final UserService userService;
+//    private final UserService userService;
 
     public void save(Transaction transaction){
         this.transactionRepository.save(transaction);
@@ -26,14 +26,14 @@ public class TransactionService {
 
         return TransactionResponseDto.convert(transactions);
     }
-
-    public BalanceDtoResponse list(Long userId) {
-
-        List<Transaction> transactions = transactionRepository.findByUserId(userId);
-
-        List<TransactionResponseDto> listTransactions = TransactionResponseDto.convert(transactions);
-        Double balanceUser = userService.findById(userId).getBalance();
-
-        return new BalanceDtoResponse(balanceUser, listTransactions);
-    }
+//
+//    public BalanceDtoResponse list(Long userId) {
+//
+//        List<Transaction> transactions = transactionRepository.findByUserId(userId);
+//
+//        List<TransactionResponseDto> listTransactions = TransactionResponseDto.convert(transactions);
+//        Double balanceUser = userService.findById(userId).getBalance();
+//
+//        return new BalanceDtoResponse(balanceUser, listTransactions);
+//    }
 }

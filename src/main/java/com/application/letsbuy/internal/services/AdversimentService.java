@@ -80,6 +80,15 @@ public class AdversimentService implements AdversimentInterface {
         return adversimentRepository.findAll();
     }
 
+    public long quantityAds(){
+        return adversimentRepository.count();
+    }
+
+
+    public Long countFinishedAds(){
+        return adversimentRepository.countByIsActive(AdversimentEnum.SALLED);
+    }
+
     public List<AllAdversimentsAndLikeDtoResponse> retrieveAdversimentById(Long idAdversiment, Long idUser) {
         Adversiment adversiment = findById(idAdversiment);
         List<AdversimentsLike> likedAdversiments = findByAdversimentsLike(idUser);;

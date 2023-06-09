@@ -87,11 +87,11 @@ public class UserController {
         return ResponseEntity.ok(userService.transactionMoney(dto));
     }
 
-    @ApiOperation("Method used to list transactions")
-    @GetMapping("/transaction/{idUser}")
-    public ResponseEntity<BalanceDtoResponse> listTransactions(@PathVariable Long idUser) {
-        return ResponseEntity.ok(transactionService.list(idUser));
-    }
+//    @ApiOperation("Method used to list transactions")
+//    @GetMapping("/transaction/{idUser}")
+//    public ResponseEntity<BalanceDtoResponse> listTransactions(@PathVariable Long idUser) {
+//        return ResponseEntity.ok(transactionService.list(idUser));
+//    }
 }
 
 

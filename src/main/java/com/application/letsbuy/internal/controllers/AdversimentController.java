@@ -51,6 +51,20 @@ public class AdversimentController {
         return new ResponseEntity<>(this.adversimentService.retrieveAdversimentById(idAdversiment, idUser), HttpStatus.OK);
     }
 
+    @ApiOperation("Method used to count to Adversiments")
+    @GetMapping("/qtd-anuncio")
+    public ResponseEntity<Long> quantityAds(){
+        return new ResponseEntity<>(this.adversimentService.quantityAds(), HttpStatus.OK);
+    }
+
+
+
+    @ApiOperation("Method used to count to Adversiments finalized")
+    @GetMapping("/qtd-anuncio-finalizados")
+    public ResponseEntity<Long> amountCompletedAds(){
+        return new ResponseEntity<>(this.adversimentService.countFinishedAds(), HttpStatus.OK);
+    }
+
     @GetMapping("/search-binary-price/{id}/{price}")
     public ResponseEntity<ListAdversimentDtoResponse> findByPrice(@PathVariable Long id, @PathVariable Double price) {
         User user = userService.findById(id);

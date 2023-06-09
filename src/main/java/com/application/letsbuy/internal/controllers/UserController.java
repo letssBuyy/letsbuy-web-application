@@ -86,6 +86,12 @@ public class UserController {
     public ResponseEntity<BalanceDtoResponse> transactionMoney(@RequestBody @Valid TransactionRequestDto dto) {
         return ResponseEntity.ok(userService.transactionMoney(dto));
     }
+
+    @ApiOperation("Method used to list transactions")
+    @GetMapping("/transaction/{idUser}")
+    public ResponseEntity<BalanceDtoResponse> listTransactions(@PathVariable Long idUser) {
+        return ResponseEntity.ok(transactionService.list(idUser));
+    }
 }
 
 

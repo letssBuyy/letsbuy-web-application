@@ -18,7 +18,7 @@ public class PaymentUserAdvertisementController {
     private final PaymentUserAdversimentService paymentUserAdversimentService;
 
     @PostMapping("/{idUser}/{idAdvertisement}")
-    ResponseEntity<PaymentUserAdvertisement> create(@PathVariable final Long idUser, final Long idAdvertisement) {
+    ResponseEntity<PaymentUserAdvertisement> create(@PathVariable final Long idUser, @PathVariable final Long idAdvertisement) {
         return new ResponseEntity<>(this.paymentUserAdversimentService.create(idAdvertisement, idUser), HttpStatus.CREATED);
     }
 }

@@ -1,7 +1,9 @@
 package com.application.letsbuy.api.usecase;
 
+import com.application.letsbuy.internal.dto.BalanceDtoResponse;
+import com.application.letsbuy.internal.dto.TransactionRequestDto;
 import com.application.letsbuy.internal.entities.User;
-import com.application.letsbuy.internal.entities.Withdraw;
+import com.application.letsbuy.internal.entities.Transaction;
 
 public interface UserInterface {
 
@@ -17,5 +19,5 @@ public interface UserInterface {
 
     String generateWppLink(Long id);
 
-    Double withdrawMoney(Withdraw withdraw);
+    BalanceDtoResponse transactionMoney(TransactionRequestDto dto);
 }

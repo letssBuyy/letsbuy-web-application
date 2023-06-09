@@ -117,7 +117,7 @@ public class User implements UserDetails {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private List<Withdraw> withdraws;
+    private List<Transaction> transactions;
 
     public User() {
     }
@@ -130,6 +130,7 @@ public class User implements UserDetails {
         this.birthDate = birthDate;
         this.phoneNumber = phoneNumber;
         this.isActive = ActiveInactiveEnum.ACTIVE;
+        this.balance = 0.0;
         this.registrationDate = LocalDateTime.now();
         this.accessLevel = AccessLevelEnum.USER;
     }

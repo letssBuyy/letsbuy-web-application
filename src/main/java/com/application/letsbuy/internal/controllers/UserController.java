@@ -2,12 +2,13 @@ package com.application.letsbuy.internal.controllers;
 
 import com.application.letsbuy.internal.dto.*;
 import com.application.letsbuy.internal.entities.User;
-import com.application.letsbuy.internal.entities.Withdraw;
+import com.application.letsbuy.internal.entities.Transaction;
+import com.application.letsbuy.internal.enums.TransactionTypeEnum;
 import com.application.letsbuy.internal.exceptions.InsufficientBalanceException;
 import com.application.letsbuy.internal.services.AdversimentService;
 import com.application.letsbuy.internal.services.ImageService;
 import com.application.letsbuy.internal.services.UserService;
-import com.application.letsbuy.internal.services.WithdrawService;
+import com.application.letsbuy.internal.services.TransactionService;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class UserController {
     private final UserService userService;
     private final AdversimentService adversimentService;
     private final ImageService imageService;
-    private final WithdrawService withdrawService;
+    private final TransactionService transactionService;
 
     @ApiOperation("Method used to register users")
     @PostMapping
@@ -80,22 +81,10 @@ public class UserController {
     }
 
 
-    @ApiOperation("Method used to withdraw money")
-    @PatchMapping("/withdraw")
-    public ResponseEntity<BalanceDtoResponse> withdrawMoney(@RequestBody @Valid WithdrawDtoRequest dto) {
-
-        User user = userService.findById(dto.getUserId());
-
-        if(dto.getAmount() > user.getBalance()){
-            throw new InsufficientBalanceException();
-        }
-        Withdraw withdraw = dto.convert(userService);
-
-        Double balance = userService.withdrawMoney(withdraw);
-
-        List<WithdrawDtoResponse> withdraws = withdrawService.listWithdraws(withdraw.getUser().getId());
-
-        return ResponseEntity.ok(new BalanceDtoResponse(balance, withdraws));
+    @ApiOperation("Method used to transaction money")
+    @PatchMapping("/transaction")
+    public ResponseEntity<BalanceDtoResponse> transactionMoney(@RequestBody @Valid TransactionRequestDto dto) {
+        return ResponseEntity.ok(userService.transactionMoney(dto));
     }
 }
 

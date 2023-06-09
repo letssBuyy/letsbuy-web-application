@@ -1,8 +1,7 @@
 package com.application.letsbuy.internal.entities;
 
-import com.application.letsbuy.internal.dto.WithdrawDtoResponse;
-import com.application.letsbuy.internal.services.UserService;
-import lombok.AllArgsConstructor;
+import com.application.letsbuy.internal.dto.TransactionRequestDto;
+import com.application.letsbuy.internal.enums.TransactionTypeEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,9 +12,9 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "withdraw")
+@Table(name = "transaction")
 @Entity
-public class Withdraw {
+public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,13 +26,16 @@ public class Withdraw {
     @Column
     private LocalDateTime createdAt;
 
+    private TransactionTypeEnum transactionType;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Withdraw(Double amount, User user) {
+    public Transaction(Double amount,TransactionTypeEnum transactionType, User user) {
         this.amount = amount;
         this.createdAt = LocalDateTime.now();
+        this.transactionType = transactionType;
         this.user = user;
     }
 }

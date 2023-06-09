@@ -64,6 +64,7 @@ public class UserAdversimentsDtoResponse {
         this.quantityTotalAdversiment = quantityTotalAdversiment;
         this.quantityTotalActive = quantityTotalActive;
         this.quantityTotalSolded = quantityTotalSolded;
+        this.bankAccount = user.getBankAccount();
         this.balance = user.getBalance();
         this.bankAccount = user.getBankAccount();
         this.accessLevel = user.getAccessLevel();

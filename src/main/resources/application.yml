@@ -13,10 +13,6 @@ spring:
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     testWhileIdle: true
     validationQuery: SELECT 1
-  flyway:
-    url: jdbc:sqlserver://lets-buy.database.windows.net:1433;database=LetsBuyBD;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
-    locations: classpath:db/migration
-    enabled: true
 
   jpa:
     properties:

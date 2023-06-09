@@ -82,6 +82,11 @@ public class UserService implements UserInterface {
         return user;
     }
 
+    public Long quantityUsers(){
+        return userRepository.count();
+    }
+
+
     private boolean isUserAlreadyRegistered(String email, String cpf) {
         return userRepository.findByEmail(email).isPresent() || userRepository.findByCpf(cpf).isPresent();
     }

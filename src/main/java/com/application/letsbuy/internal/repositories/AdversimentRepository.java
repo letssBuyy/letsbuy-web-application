@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AdversimentRepository extends JpaRepository<Adversiment, Long> {
@@ -13,5 +14,5 @@ public interface AdversimentRepository extends JpaRepository<Adversiment, Long> 
 
     Long countByUserIdAndIsActive(Long id, AdversimentEnum isActive);
 
-    List<Adversiment> findByTitleContainsIgnoreCaseAndIsActive(String title, AdversimentEnum isActive);
+    List<Adversiment> findByTitleContainsIgnoreCaseAndIsActive(Optional<String> title, AdversimentEnum isActive);
 }

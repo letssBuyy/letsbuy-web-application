@@ -49,4 +49,4 @@ azure:
     account-name: letsbuy
 
 mercado:
-  api: http://localhost:8282
+  api: https://mercado-pago-asld.onrender.com

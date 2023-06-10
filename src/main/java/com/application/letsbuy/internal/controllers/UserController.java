@@ -28,7 +28,6 @@ public class UserController {
 
     private final UserService userService;
     private final AdversimentService adversimentService;
-    private final ImageService imageService;
     private final TransactionService transactionService;
 
     @ApiOperation("Method used to register users")

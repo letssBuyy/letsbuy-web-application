@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 public final class AdversimentUtils {
     private AdversimentUtils() {
@@ -28,19 +29,17 @@ public final class AdversimentUtils {
         return adversiment;
     }
 
-    public static void gravaRegistro(String registro, String nomeArq) {
+    public static void gravaRegistro(String registro, String archiveName) {
         BufferedWriter saida = null;
 
-        // try-catch para abrir o arquivo
         try {
-            saida = new BufferedWriter(new FileWriter(nomeArq, true));
+            saida = new BufferedWriter(new FileWriter(archiveName, true));
         }
         catch (IOException erro) {
             System.out.println("Erro ao abrir o arquivo");
             System.exit(1);
         }
 
-        // try-catch para gravar o registro e finalizar
         try {
             saida.append(registro + "\n");
             saida.close();
@@ -50,20 +49,19 @@ public final class AdversimentUtils {
         }
     }
 
-    public static void gravaArquivoTxt(List<Adversiment> lista, String nomeArq) {
-        nomeArq += ".txt";
+    public static void gravaArquivoTxt(List<Adversiment> lista, Optional<String> nomeArq) {
+
+        String archiveName = nomeArq.orElse("adversiments");
+        archiveName += ".txt";
         int contaRegistroDado = 0;
         Double valorTotal = 0.0;
 
-        // Monta o registro de header
         String header = "00ANUNCIO2023";
         header += LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
         header += "01";
 
-        // Grava o registro de header
-        gravaRegistro(header, nomeArq);
+        gravaRegistro(header, archiveName);
 
-        // Monta e grava os registros de dados ou registros de corpo
         String corpo;
         for (Adversiment a : lista) {
             corpo = "01";
@@ -73,19 +71,17 @@ public final class AdversimentUtils {
             corpo += String.format("%10.2f",a.getPrice());
             corpo += String.format("%-10.10s",a.getPostDate());
             corpo += String.format("%-10.10s",a.getLastUpdate());
-            corpo += String.format("%-10.10s",a.getSaleDate());
             corpo += String.format("%-18.18s",a.getCategory());
             corpo += String.format("%-9.9s",a.getQuality());
             corpo += String.format("%09d",a.getUser().getId());
-            gravaRegistro(corpo, nomeArq);
+            gravaRegistro(corpo, archiveName);
             contaRegistroDado++;
             valorTotal += a.getPrice();
         }
 
-        // Monta e grava o registro de trailer
         String trailer = "02";
         trailer += String.format("%010d",contaRegistroDado);
         trailer += String.format("%16.2f", valorTotal);
-        gravaRegistro(trailer, nomeArq);
+        gravaRegistro(trailer, archiveName);
     }
 }

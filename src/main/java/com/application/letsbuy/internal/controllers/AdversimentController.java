@@ -115,17 +115,17 @@ public class AdversimentController {
     }
 
     @GetMapping("/export-txt/{id}")
-    public ResponseEntity<Void> exportTxt(@PathVariable Long id){
-        List<Adversiment> adversiments = this.userService.findById(id).getAdversiments();
-        AdversimentUtils.gravaArquivoTxt(adversiments, "adversiments");
-        if(adversiments.isEmpty()){
+    public ResponseEntity<Void> exportTxt(@PathVariable Long id, @RequestParam Optional<String> nomeArq){
+      List<Adversiment> adversimentList = adversimentService.exportFileTxt(id, nomeArq);
+
+        if(adversimentList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/import-txt/{nomeArq}")
-    public ResponseEntity<String> importTxt(@PathVariable String nomeArq) {
+    @GetMapping("/import-txt")
+    public ResponseEntity<String> importTxt(@RequestParam String nomeArq) {
         adversimentService.importFileTxt(nomeArq);
         return new ResponseEntity<>("Arquivo TXT importado!", HttpStatus.OK);
     }

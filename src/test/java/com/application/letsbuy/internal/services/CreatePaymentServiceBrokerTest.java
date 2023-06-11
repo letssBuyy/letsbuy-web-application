@@ -1,5 +1,7 @@
 package com.application.letsbuy.internal.services;
 
+import com.application.letsbuy.internal.dto.PagSeguroDto;
+import com.application.letsbuy.internal.dto.PaymentUserAdvertisementRequestDto;
 import com.application.letsbuy.internal.entities.Adversiment;
 import com.application.letsbuy.internal.utils.TestAdversimentUtils;
 import com.application.letsbuy.internal.utils.TestUserUtils;
@@ -30,11 +32,24 @@ class CreatePaymentServiceBrokerTest {
     @Test
     @DirtiesContext
     void createTransactionTest() {
+
         Adversiment adversiment = TestAdversimentUtils.mockAdversiment();
         this.userService.save(TestUserUtils.createUserUtils());
         adversiment.setUser(this.userService.findByEmail(TestUserUtils.createUserUtils().getEmail()));
         this.adversimentService.save(adversiment);
-        Assertions.assertDoesNotThrow(() -> this.createPaymentServiceBroker.createTransaction(this.userService.findByEmail(TestUserUtils.createUserUtils().getEmail()),
-                this.adversimentService.findById(1L)));
+
+        PaymentUserAdvertisementRequestDto paymentUserAdvertisementRequestDto = new PaymentUserAdvertisementRequestDto();
+        paymentUserAdvertisementRequestDto.setCardNumber("4111111111111111");
+        paymentUserAdvertisementRequestDto.setIdUser(1L);
+        paymentUserAdvertisementRequestDto.setIdAdvertisement(1L);
+        paymentUserAdvertisementRequestDto.setSecurityCode("123");
+        paymentUserAdvertisementRequestDto.setExpYear("2026");
+        paymentUserAdvertisementRequestDto.setExpMonth("12");
+        paymentUserAdvertisementRequestDto.setIsShipment(false);
+        paymentUserAdvertisementRequestDto.setHolderName("Jose da Silva");
+
+        PagSeguroDto pagSeguroDto =  this.createPaymentServiceBroker.createTransaction(paymentUserAdvertisementRequestDto);
+
+        Assertions.assertNotNull(pagSeguroDto);
     }
 }

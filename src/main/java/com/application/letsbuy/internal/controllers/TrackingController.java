@@ -1,5 +1,6 @@
 package com.application.letsbuy.internal.controllers;
 
+import com.application.letsbuy.internal.dto.TrackingResponseDto;
 import com.application.letsbuy.internal.entities.Tracking;
 import com.application.letsbuy.internal.services.TrackingService;
 import lombok.AllArgsConstructor;
@@ -17,8 +18,8 @@ public class TrackingController {
     private final TrackingService trackingService;
 
     @PostMapping("/{idUser}/{idAdvertisement}")
-    private ResponseEntity<List<Tracking>> create(@PathVariable final Long idUser, @PathVariable final Long idAdvertisement,
-                                                  @RequestBody final Tracking tracking) {
+    private ResponseEntity<List<TrackingResponseDto>> create(@PathVariable final Long idUser, @PathVariable final Long idAdvertisement,
+                                                             @RequestBody Tracking tracking) {
         return new ResponseEntity<>(this.trackingService.create(idUser, idAdvertisement, tracking), HttpStatus.CREATED);
     }
 }

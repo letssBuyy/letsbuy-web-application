@@ -1,8 +1,12 @@
 package com.application.letsbuy.internal.services;
 
+import com.application.letsbuy.internal.dto.TrackingResponseDto;
+import com.application.letsbuy.internal.dto.TransactionRequestDto;
 import com.application.letsbuy.internal.entities.Adversiment;
 import com.application.letsbuy.internal.entities.Tracking;
+import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.enums.TrackingStatus;
+import com.application.letsbuy.internal.enums.TransactionTypeEnum;
 import com.application.letsbuy.internal.exceptions.TrackingBadRequestException;
 import com.application.letsbuy.internal.exceptions.TrackingConflictException;
 import com.application.letsbuy.internal.repositories.TrackingRepository;
@@ -19,13 +23,16 @@ public class TrackingService {
 
     private final TrackingRepository trackingRepository;
     private final AdversimentService adversimentService;
+    private final UserService userService;
 
-    public List<Tracking> create(Long idUser, Long idAdvertisement, Tracking tracking) {
+    public List<TrackingResponseDto> create(Long idUser, Long idAdvertisement, Tracking tracking) {
         if (this.validateTracking(idUser, idAdvertisement, tracking)) {
             if (TrackingStatus.DELIVERED.equals(tracking.getStatus())) {
-                return List.of(this.trackingRepository.save(tracking));
+                List<TrackingResponseDto> trackingResponseDtos = List.of(TrackingResponseDto.parseEntityToDto(this.trackingRepository.save(tracking)));
+                this.userService.transactionMoney(this.createTransactionRequestDto(idAdvertisement));
+                return trackingResponseDtos;
             }
-            return this.trackingRepository.saveAll(this.createTrackings(tracking, idAdvertisement));
+            return TrackingResponseDto.parseListEntityToListDto(this.trackingRepository.saveAll(this.createTrackings(tracking, idAdvertisement)));
         }
         throw new TrackingBadRequestException("Não foi possível criar um tracking verifique os dados e tente novamente");
     }
@@ -74,13 +81,20 @@ public class TrackingService {
         trackingInTransit.setStatus(TrackingStatus.IN_TRANSIT);
 
         Tracking trackingWaitingForReceiptConfirmation = new Tracking();
-        trackingInTransit.setAdversiment(adversiment);
-        trackingInTransit.setStatus(TrackingStatus.WAITING_FOR_RECEIPT_CONFIRMATION);
+        trackingWaitingForReceiptConfirmation.setAdversiment(adversiment);
+        trackingWaitingForReceiptConfirmation.setStatus(TrackingStatus.WAITING_FOR_RECEIPT_CONFIRMATION);
 
         trackings.add(fromTracking);
         trackings.add(trackingInTransit);
         trackings.add(trackingWaitingForReceiptConfirmation);
         
         return trackings;
+    }
+
+    private TransactionRequestDto createTransactionRequestDto(Long idAdversiment) {
+        TransactionRequestDto transactionRequestDto = new TransactionRequestDto();
+        transactionRequestDto.setTransactionType(TransactionTypeEnum.DEPOSIT);
+        transactionRequestDto.setAdversimentId(idAdversiment);
+        return transactionRequestDto;
     }
 }

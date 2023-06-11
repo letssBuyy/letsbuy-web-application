@@ -6,6 +6,7 @@ import com.application.letsbuy.internal.dto.TransactionRequestDto;
 import com.application.letsbuy.internal.dto.TransactionResponseDto;
 import com.application.letsbuy.internal.entities.*;
 import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
+import com.application.letsbuy.internal.enums.PaymentControllSellerEnum;
 import com.application.letsbuy.internal.enums.PaymentStatusEnum;
 import com.application.letsbuy.internal.enums.TransactionTypeEnum;
 import com.application.letsbuy.internal.exceptions.InsufficientBalanceException;
@@ -117,6 +118,8 @@ public class UserService implements UserInterface {
                         user.setBalance(user.getBalance() + (transaction.getAmount() * (1 - paymentControllSeller.get().getAmountTax() / 100)));
                         Double balance = user.getBalance();
                         List<TransactionResponseDto> transactions = transactionService.listTransactions(transaction.getUser().getId());
+                        paymentControllSeller.get().setStatus(PaymentControllSellerEnum.CONCLUDED);
+                        paymentControlSellerRepository.save(paymentControllSeller.get());
                         return new BalanceDtoResponse(balance, transactions);
                     }
 

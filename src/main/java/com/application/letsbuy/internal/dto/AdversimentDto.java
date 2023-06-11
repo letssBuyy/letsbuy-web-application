@@ -29,10 +29,6 @@ public class AdversimentDto {
     @NotNull
     private Double price;
     @NotNull
-    private LocalDate postDate;
-    @NotNull
-    private LocalDate lastUpdate;
-    @NotNull
     private AdversimentColorEnum color;
     @NotNull
     private CategoryEnum category;
@@ -41,7 +37,7 @@ public class AdversimentDto {
 
     public Adversiment convert(UserService userService) {
         User user = userService.findById(userId);
-        return new Adversiment(user, title, description, price, postDate, lastUpdate, color, category, quality);
+        return new Adversiment(user, title, description, price, color, category, quality);
     }
 
     public Adversiment update(Long id, AdversimentService adversimentService) {
@@ -49,8 +45,8 @@ public class AdversimentDto {
         adversiment.setTitle(title);
         adversiment.setDescription(description);
         adversiment.setPrice(price);
-        adversiment.setPostDate(postDate);
-        adversiment.setLastUpdate(lastUpdate);
+        adversiment.setPostDate(adversiment.getPostDate());
+        adversiment.setLastUpdate(LocalDate.now());
         adversiment.setCategory(category);
         adversiment.setQuality(quality);
         adversiment.setColor(color);

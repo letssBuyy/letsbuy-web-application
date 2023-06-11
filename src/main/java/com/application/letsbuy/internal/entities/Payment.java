@@ -20,8 +20,6 @@ public class Payment {
 
     private BigDecimal amount;
 
-    private String cupomUser;
-
     private String description;
 
     private String currencyId;
@@ -30,12 +28,15 @@ public class Payment {
 
     private String externalReference;
 
-    private String initPoint;
-
     private LocalDateTime paymentDate;
 
     private String paymentMethod;
 
     @Enumerated(EnumType.STRING)
     private PaymentStatusEnum status;
+
+    @PrePersist
+    private void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 }

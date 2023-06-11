@@ -12,6 +12,7 @@ import com.application.letsbuy.internal.enums.TransactionTypeEnum;
 import com.application.letsbuy.internal.exceptions.InsufficientBalanceException;
 import com.application.letsbuy.internal.exceptions.UserConflictException;
 import com.application.letsbuy.internal.exceptions.UserNotFoundException;
+import com.application.letsbuy.internal.repositories.AdversimentRepository;
 import com.application.letsbuy.internal.repositories.PaymentControlSellerRepository;
 import com.application.letsbuy.internal.repositories.PaymentUserAdversimentRepository;
 import com.application.letsbuy.internal.repositories.UserRepository;
@@ -27,6 +28,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class UserService implements UserInterface {
+
     private final UserRepository userRepository;
 
     private final ImageService imageService;
@@ -38,6 +40,8 @@ public class UserService implements UserInterface {
     private final PaymentUserAdversimentRepository paymentUserAdversimentRepository;
 
     private final PaymentControlSellerRepository paymentControlSellerRepository;
+
+    private final AdversimentRepository adversimentRepository;
 
     @Override
     public void save(User user) {
@@ -102,13 +106,20 @@ public class UserService implements UserInterface {
     public BalanceDtoResponse transactionMoney(TransactionRequestDto dto) {
 
         if (dto.getTransactionType().equals(TransactionTypeEnum.DEPOSIT)) {
-            Optional<PaymentUserAdvertisement> paymentUserAdvertisement = paymentUserAdversimentRepository.findByAdversimentId(dto.getAdversimentId());
+
+            Optional<Adversiment> adversiment = this.adversimentRepository.findById(dto.getAdversimentId());
+
+            if (adversiment.isEmpty()) {
+                throw new RuntimeException(String.format("Anuncio não encontrado para o id: %d ", dto.getAdversimentId()));
+            }
+
+            Optional<PaymentUserAdvertisement> paymentUserAdvertisement = paymentUserAdversimentRepository.findByAdversiment(adversiment.get());
 
             if (paymentUserAdvertisement.isPresent()) {
-                User user = paymentUserAdvertisement.get().getBuyer();
+                User user = paymentUserAdvertisement.get().getAdversiment().getUser();
                 Payment payment = paymentUserAdvertisement.get().getPayment();
 
-                if (payment.getStatus().equals(PaymentStatusEnum.CONCLUDED)) {
+                if (payment.getStatus().equals(PaymentStatusEnum.PAID) || payment.getStatus().equals(PaymentStatusEnum.CONCLUDED)) {
                     Double amount = payment.getAmount().doubleValue();
                     Optional<PaymentControllSeller> paymentControllSeller = paymentControlSellerRepository.findByPaymentUserAdvertisementAdversimentId(dto.getAdversimentId());
 

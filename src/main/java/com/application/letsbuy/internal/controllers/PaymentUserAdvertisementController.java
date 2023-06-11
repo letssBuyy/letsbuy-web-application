@@ -1,12 +1,13 @@
 package com.application.letsbuy.internal.controllers;
 
-import com.application.letsbuy.internal.entities.PaymentUserAdvertisement;
+import com.application.letsbuy.internal.dto.PaymentUserAdvertisementRequestDto;
+import com.application.letsbuy.internal.dto.PaymentUserAdvertisementResponseDto;
 import com.application.letsbuy.internal.services.PaymentUserAdversimentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +18,8 @@ public class PaymentUserAdvertisementController {
 
     private final PaymentUserAdversimentService paymentUserAdversimentService;
 
-    @PostMapping("/{idUser}/{idAdvertisement}")
-    ResponseEntity<PaymentUserAdvertisement> create(@PathVariable final Long idUser, @PathVariable final Long idAdvertisement) {
-        return new ResponseEntity<>(this.paymentUserAdversimentService.create(idAdvertisement, idUser), HttpStatus.CREATED);
+    @PostMapping
+    ResponseEntity<PaymentUserAdvertisementResponseDto> create(@RequestBody PaymentUserAdvertisementRequestDto paymentUserAdvertisementRequestDto) {
+        return new ResponseEntity<>(this.paymentUserAdversimentService.create(paymentUserAdvertisementRequestDto), HttpStatus.CREATED);
     }
 }

@@ -37,14 +37,19 @@ public class ChatService {
 
         List<ChatResponseDto> listDto = new ArrayList<>();
 
-        listChats.forEach((chat)->{
+        if(listChats.size() > 0){
 
-            List<Message> listMessages = messageRepository.findByChatId(chat.getId());
+            listChats.forEach((chat)->{
 
-            listDto.add(new ChatResponseDto(chat,listMessages.get(listMessages.size()-1).getPostedAt()));
-        });
+                List<Message> listMessages = messageRepository.findByChatId(chat.getId());
+
+                listDto.add(new ChatResponseDto(chat,listMessages.get(listMessages.size()-1).getPostedAt()));
+            });
+
+        }
 
         return listDto;
+
     }
 
     public ChatResponseDto register(ChatRequestDto chatDto){

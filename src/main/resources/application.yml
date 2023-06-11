@@ -51,5 +51,4 @@ azure:
     containerName: "images"
 
 pagseguro:
-  endpoint: https://sandbox.api.pagseguro.com
-
+  endpoint: https://sandbox.api.pagseguro.com/

@@ -20,6 +20,8 @@ public class UserSellerLikeDto {
 
     private String email;
 
+    private String cpf;
+
     private String phoneNumber;
 
     private String cep;
@@ -48,6 +50,7 @@ public class UserSellerLikeDto {
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
+        this.cpf = user.getCpf();
         this.phoneNumber = user.getPhoneNumber();
         this.cep = user.getCep();
         this.road = user.getRoad();
@@ -64,6 +67,7 @@ public class UserSellerLikeDto {
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
+        this.cpf = user.getCpf();
         this.phoneNumber = user.getPhoneNumber();
         this.cep = user.getCep();
         this.road = user.getRoad();

@@ -35,7 +35,7 @@ public class SearchService {
             adversiments = adversimentRepository.findByTitleContainsIgnoreCaseAndIsActive(title, AdversimentEnum.ACTIVE, pageable);
 
         } else {
-            adversiments = adversimentRepository.findAll(pageable);
+            adversiments = adversimentRepository.findByIsActive(AdversimentEnum.ACTIVE, pageable);
         }
 
         List<AdversimentsLike> likedAdversiments = new ArrayList<>();

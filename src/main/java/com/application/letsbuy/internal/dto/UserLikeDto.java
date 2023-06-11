@@ -1,6 +1,7 @@
 package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.Adversiment;
+import com.application.letsbuy.internal.entities.Image;
 import com.application.letsbuy.internal.enums.AdversimentColorEnum;
 import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.enums.CategoryEnum;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,7 +32,9 @@ public class UserLikeDto {
     private QualityEnum quality;
     private AdversimentEnum isActive;
     private AdversimentEnum contest;
+    private List<ImageDtoResponse> images;
     private UserSellerLikeDto userSellerLikeDto;
+
 
     public UserLikeDto(Adversiment adversiment) {
         this.id = adversiment.getId();
@@ -45,6 +49,7 @@ public class UserLikeDto {
         this.quality = adversiment.getQuality();
         this.isActive = adversiment.getIsActive();
         this.contest = adversiment.getContest();
+        this.images = ImageDtoResponse.convert(adversiment.getImages());
         this.userSellerLikeDto = new UserSellerLikeDto(adversiment.getUser());
     }
 
@@ -61,6 +66,7 @@ public class UserLikeDto {
         this.quality = adversiment.getQuality();
         this.isActive = adversiment.getIsActive();
         this.contest = adversiment.getContest();
+        this.images = ImageDtoResponse.convert(adversiment.getImages());
         this.userSellerLikeDto = new UserSellerLikeDto(adversiment.getUser(), quantityTotalAdversiment, quantityAdversimentSolded, quantityAdversimentActive);
     }
 }

@@ -30,7 +30,6 @@ public class Tracking implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "adversiment_id")
-    @JsonManagedReference
     private Adversiment adversiment;
 
     @PrePersist

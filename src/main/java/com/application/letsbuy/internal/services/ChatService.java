@@ -38,8 +38,9 @@ public class ChatService {
         List<ChatResponseDto> listDto = new ArrayList<>();
 
         listChats.forEach((chat)->{
+
             List<Message> listMessages = messageRepository.findByChatId(chat.getId());
-            ;
+
             listDto.add(new ChatResponseDto(chat,listMessages.get(listMessages.size()-1).getPostedAt()));
         });
 

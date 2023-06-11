@@ -71,6 +71,7 @@ public class SecuritySettings extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PATCH, "/chats/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/messages/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/messages/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/messages/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/searches/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/trackings/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/payment-user-advertisements/**").permitAll()

@@ -109,4 +109,8 @@ public class MessageService {
                 chatOptional.get()
         )));
     }
+
+    public void deleteMessage(Long id){
+        messageRepository.deleteById(id);
+    }
 }

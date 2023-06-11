@@ -40,4 +40,10 @@ public class MessageController {
     public ResponseEntity<MessageProposalResponseDto> registerProposal(@RequestBody MessageProposalRequestDto messageDto) {
         return ResponseEntity.status(201).body(messageService.registerProposal(messageDto));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMessage(@PathVariable Long id) {
+        messageService.deleteMessage(id);
+        return ResponseEntity.status(204).build();
+    }
 }

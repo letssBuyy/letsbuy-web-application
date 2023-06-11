@@ -21,7 +21,7 @@ public class SearchController {
     @GetMapping
     public ResponseEntity<Page<AllAdversimentsAndLikeDtoResponse>> searchAdversiments(@RequestParam Optional<Long> idUser, @RequestParam Optional<String> title, Pageable pageable) {
 
-        List<AllAdversimentsAndLikeDtoResponse> results = searchService.searchAdversiments(idUser, title);
+        List<AllAdversimentsAndLikeDtoResponse> results = searchService.searchAdversiments(idUser, title, pageable);
 
         if (results.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -33,7 +33,7 @@ public class SearchController {
     @GetMapping("/filter")
     public ResponseEntity<Page<AllAdversimentsAndLikeDtoResponse>> searchAdversimentsFilter(@RequestParam Optional<Long> idUser, @RequestParam Optional<String> title, @RequestBody AdversimentFilterDto filter, Pageable pageable) {
 
-        List<AllAdversimentsAndLikeDtoResponse> results = searchService.searchAdversiments(idUser, title);
+        List<AllAdversimentsAndLikeDtoResponse> results = searchService.searchAdversiments(idUser, title, pageable);
         if(results.isEmpty()){
             return ResponseEntity.noContent().build();
         }

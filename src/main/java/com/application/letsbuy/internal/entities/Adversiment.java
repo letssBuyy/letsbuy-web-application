@@ -104,7 +104,11 @@ public class Adversiment {
         this.contest = AdversimentEnum.INACTIVE;
     }
 
+<<<<<<< HEAD
     public Adversiment(User user, String title, String description, Double price, AdversimentColorEnum color, CategoryEnum category, QualityEnum quality) {
+=======
+    public Adversiment(User user, String title, String description, Double price, AdversimentColorEnum color ,CategoryEnum category, QualityEnum quality) {
+>>>>>>> 4d74ac05690decf68832e346726af710b2eda7f1
         this.user = user;
         this.title = title;
         this.description = description;

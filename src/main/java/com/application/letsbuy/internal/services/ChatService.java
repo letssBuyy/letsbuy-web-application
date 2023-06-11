@@ -17,6 +17,7 @@ import com.application.letsbuy.internal.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,16 +38,16 @@ public class ChatService {
 
         List<ChatResponseDto> listDto = new ArrayList<>();
 
-        if(listChats.size() > 0){
+        listChats.forEach((chat)->{
 
-            listChats.forEach((chat)->{
-
-                List<Message> listMessages = messageRepository.findByChatId(chat.getId());
-
+            List<Message> listMessages = messageRepository.findByChatId(chat.getId());
+            if (listMessages.isEmpty()){
+                listDto.add(new ChatResponseDto(chat, LocalDateTime.now()));
+            } else {
                 listDto.add(new ChatResponseDto(chat,listMessages.get(listMessages.size()-1).getPostedAt()));
-            });
+            }
 
-        }
+        });
 
         return listDto;
 

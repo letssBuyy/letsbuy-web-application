@@ -17,6 +17,7 @@ import com.application.letsbuy.internal.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,9 +31,20 @@ public class ChatService {
     private AdversimentRepository adversimentRepository;
     private MessageRepository messageRepository;
 
-    public List<Chat> listChats(Long idUser) {
+    public List<ChatResponseDto> listChats(Long idUser) {
 
-        return chatRepository.findChatBySellerIdOrBuyerId(idUser, idUser);
+        List<Chat> listChats = chatRepository.findChatBySellerIdOrBuyerId(idUser, idUser);
+
+        List<ChatResponseDto> listDto = new ArrayList<>();
+
+        listChats.forEach((chat)->{
+
+            List<Message> listMessages = messageRepository.findByChatId(chat.getId());
+
+            listDto.add(new ChatResponseDto(chat,listMessages.get(listMessages.size()-1).getPostedAt()));
+        });
+
+        return listDto;
     }
 
     public ChatResponseDto register(ChatRequestDto chatDto){

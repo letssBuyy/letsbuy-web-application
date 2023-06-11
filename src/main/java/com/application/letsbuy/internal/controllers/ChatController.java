@@ -21,13 +21,13 @@ public class ChatController {
     @GetMapping("/{idUser}")
     public ResponseEntity<List<ChatResponseDto>> list(@PathVariable Long idUser) {
 
-        List<Chat> chats = chatService.listChats(idUser);
+        List<ChatResponseDto> chats = chatService.listChats(idUser);
 
         if (chats.isEmpty()) {
             return ResponseEntity.status(204).build();
         }
 
-        return ResponseEntity.ok(ChatResponseDto.convert(chats));
+        return ResponseEntity.ok(chats);
     }
 
     @PostMapping

@@ -12,6 +12,8 @@ import com.application.letsbuy.internal.repositories.AdversimentRepository;
 import com.application.letsbuy.internal.utils.FilaObj;
 import com.application.letsbuy.internal.utils.PilhaObj;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,13 +29,13 @@ public class SearchService {
 
     private final AdversimentRepository adversimentRepository;
 
-    public List<AllAdversimentsAndLikeDtoResponse> searchAdversiments(Optional<Long> idUser, Optional<String> title) {
-        List<Adversiment> adversiments;
+    public List<AllAdversimentsAndLikeDtoResponse> searchAdversiments(Optional<Long> idUser, Optional<String> title, Pageable pageable) {
+        Page<Adversiment> adversiments;
         if(title.isPresent()) {
-            adversiments = adversimentRepository.findByTitleContainsIgnoreCaseAndIsActive(title, AdversimentEnum.ACTIVE);
+            adversiments = adversimentRepository.findByTitleContainsIgnoreCaseAndIsActive(title, AdversimentEnum.ACTIVE, pageable);
 
         } else {
-            adversiments = adversimentRepository.findAll();
+            adversiments = adversimentRepository.findAll(pageable);
         }
 
         List<AdversimentsLike> likedAdversiments = new ArrayList<>();

@@ -21,24 +21,22 @@ public class ImageController{
     private final AdversimentService adversimentService;
 
     @PostMapping("/adversiment/{id}")
-    public ResponseEntity<AdversimentDtoResponse> uploadImages(@PathVariable Long id, @RequestParam MultipartFile img1, @RequestParam MultipartFile img2, @RequestParam MultipartFile img3, @RequestParam MultipartFile img4, @RequestParam MultipartFile img5){
+    public ResponseEntity<AdversimentDtoResponse> uploadImages(@PathVariable Long id, @RequestParam MultipartFile img1, @RequestParam MultipartFile img2, @RequestParam MultipartFile img3, @RequestParam MultipartFile img4){
         List<MultipartFile> images = new ArrayList<>();
         images.add(img1);
         images.add(img2);
         images.add(img3);
         images.add(img4);
-        images.add(img5);
         return ResponseEntity.status(200).body(new AdversimentDtoResponse(adversimentService.insertImages(id,images)));
     }
     @PutMapping("/adversiment/{id}")
     @Transactional
-    public ResponseEntity<AdversimentDtoResponse> updateImages(@PathVariable Long id, @RequestParam MultipartFile img1, @RequestParam MultipartFile img2, @RequestParam MultipartFile img3, @RequestParam MultipartFile img4, @RequestParam MultipartFile img5){
+    public ResponseEntity<AdversimentDtoResponse> updateImages(@PathVariable Long id, @RequestParam MultipartFile img1, @RequestParam MultipartFile img2, @RequestParam MultipartFile img3, @RequestParam MultipartFile img4){
         List<MultipartFile> images = new ArrayList<>();
         images.add(img1);
         images.add(img2);
         images.add(img3);
         images.add(img4);
-        images.add(img5);
         return ResponseEntity.status(200).body(
                 new AdversimentDtoResponse(adversimentService.updateImages(id,images)));
     }

@@ -103,5 +103,19 @@ public class Adversiment {
         this.isActive = AdversimentEnum.ACTIVE;
         this.contest = AdversimentEnum.INACTIVE;
     }
+
+    public Adversiment(User user, String title, String description, Double price, AdversimentColorEnum color ,CategoryEnum category, QualityEnum quality) {
+        this.user = user;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.postDate = LocalDate.now();
+        this.lastUpdate = null;
+        this.category = category;
+        this.quality = quality;
+        this.color = color;
+        this.isActive = AdversimentEnum.ACTIVE;
+        this.contest = AdversimentEnum.INACTIVE;
+    }
 }
 

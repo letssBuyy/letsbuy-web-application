@@ -53,15 +53,14 @@ public class AdversimentController {
 
     @ApiOperation("Method used to count to Adversiments")
     @GetMapping("/qtd-anuncio")
-    public ResponseEntity<Long> quantityAds(){
+    public ResponseEntity<Long> quantityAds() {
         return new ResponseEntity<>(this.adversimentService.quantityAds(), HttpStatus.OK);
     }
 
 
-
     @ApiOperation("Method used to count to Adversiments finalized")
     @GetMapping("/qtd-anuncio-finalizados")
-    public ResponseEntity<Long> amountCompletedAds(){
+    public ResponseEntity<Long> amountCompletedAds() {
         return new ResponseEntity<>(this.adversimentService.countFinishedAds(), HttpStatus.OK);
     }
 
@@ -115,10 +114,10 @@ public class AdversimentController {
     }
 
     @GetMapping("/export-txt/{id}")
-    public ResponseEntity<Void> exportTxt(@PathVariable Long id, @RequestParam Optional<String> nomeArq){
-      List<Adversiment> adversimentList = adversimentService.exportFileTxt(id, nomeArq);
+    public ResponseEntity<Void> exportTxt(@PathVariable Long id, @RequestParam Optional<String> nomeArq) {
+        List<Adversiment> adversimentList = adversimentService.exportFileTxt(id, nomeArq);
 
-        if(adversimentList.isEmpty()){
+        if (adversimentList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.OK);

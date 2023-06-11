@@ -2,14 +2,12 @@ package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.exceptions.PasswordValidationException;
-import com.application.letsbuy.internal.services.UserService;
 import com.application.letsbuy.internal.utils.AgeRange;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.Column;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 

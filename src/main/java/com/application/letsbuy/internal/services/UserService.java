@@ -8,7 +8,6 @@ import com.application.letsbuy.internal.entities.*;
 import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import com.application.letsbuy.internal.enums.PaymentStatusEnum;
 import com.application.letsbuy.internal.enums.TransactionTypeEnum;
-import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
 import com.application.letsbuy.internal.exceptions.InsufficientBalanceException;
 import com.application.letsbuy.internal.exceptions.UserConflictException;
 import com.application.letsbuy.internal.exceptions.UserNotFoundException;
@@ -41,7 +40,7 @@ public class UserService implements UserInterface {
 
     @Override
     public void save(User user) {
-        if (isUserAlreadyRegistered(user.getEmail(), user.getCpf())) {
+        if (isUserAlreadyRegistered(user.getEmail(), user.getCpf(), user.getPhoneNumber())) {
             throw new UserConflictException();
         }
         this.userRepository.save(user);
@@ -52,10 +51,9 @@ public class UserService implements UserInterface {
         return this.userRepository.findByName(name).orElseThrow(UserNotFoundException::new);
     }
 
-    public Long quantityUsers(){
+    public Long quantityUsers() {
         return userRepository.count();
     }
-
 
 
     @Override
@@ -88,8 +86,10 @@ public class UserService implements UserInterface {
         return user;
     }
 
-    private boolean isUserAlreadyRegistered(String email, String cpf) {
-        return userRepository.findByEmail(email).isPresent() || userRepository.findByCpf(cpf).isPresent();
+    private boolean isUserAlreadyRegistered(String email, String cpf, String phoneNumber) {
+        return this.userRepository.findByEmail(email).isPresent() ||
+                this.userRepository.findByCpf(cpf).isPresent() ||
+                this.userRepository.findByPhoneNumber(phoneNumber).isPresent();
     }
 
     @Override
@@ -101,69 +101,47 @@ public class UserService implements UserInterface {
     public BalanceDtoResponse transactionMoney(TransactionRequestDto dto) {
 
         if (dto.getTransactionType().equals(TransactionTypeEnum.DEPOSIT)) {
-
             Optional<PaymentUserAdvertisement> paymentUserAdvertisement = paymentUserAdversimentRepository.findByAdversimentId(dto.getAdversimentId());
 
             if (paymentUserAdvertisement.isPresent()) {
-
                 User user = paymentUserAdvertisement.get().getBuyer();
-
                 Payment payment = paymentUserAdvertisement.get().getPayment();
 
                 if (payment.getStatus().equals(PaymentStatusEnum.CONCLUDED)) {
-
                     Double amount = payment.getAmount().doubleValue();
-
                     Optional<PaymentControllSeller> paymentControllSeller = paymentControlSellerRepository.findByPaymentUserAdvertisementAdversimentId(dto.getAdversimentId());
 
-                    if (paymentControllSeller.isPresent()){
-                        Transaction transaction = new Transaction(amount,dto.getTransactionType(),user);
-
+                    if (paymentControllSeller.isPresent()) {
+                        Transaction transaction = new Transaction(amount, dto.getTransactionType(), user);
                         transactionService.save(transaction);
-
                         user.setBalance(user.getBalance() + (transaction.getAmount() * (1 - paymentControllSeller.get().getAmountTax() / 100)));
-
                         Double balance = user.getBalance();
-
                         List<TransactionResponseDto> transactions = transactionService.listTransactions(transaction.getUser().getId());
-
                         return new BalanceDtoResponse(balance, transactions);
                     }
 
                 }
             }
-
             throw new RuntimeException();
 
-        } else if (dto.getTransactionType().equals(TransactionTypeEnum.WITHDRAW)){
-
+        } else if (dto.getTransactionType().equals(TransactionTypeEnum.WITHDRAW)) {
             bankAccountService.findById(dto.getUserId());
-
             Optional<User> userOptional = userRepository.findById(dto.getUserId());
 
-            if (userOptional.isPresent()){
-
+            if (userOptional.isPresent()) {
                 User user = userOptional.get();
 
                 if (dto.getAmount() > user.getBalance()) {
                     throw new InsufficientBalanceException();
                 }
-
-                Transaction transaction = new Transaction(dto.getAmount(),dto.getTransactionType(),user);
-
+                Transaction transaction = new Transaction(dto.getAmount(), dto.getTransactionType(), user);
                 transactionService.save(transaction);
-
                 user.setBalance(user.getBalance() - transaction.getAmount());
-
                 Double balance = user.getBalance();
-
                 List<TransactionResponseDto> transactions = transactionService.listTransactions(transaction.getUser().getId());
-
                 return new BalanceDtoResponse(balance, transactions);
             }
-
         }
-
         throw new IllegalArgumentException();
     }
 }

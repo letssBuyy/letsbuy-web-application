@@ -2,7 +2,6 @@ package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.BankAccount;
 import com.application.letsbuy.internal.entities.User;
-import com.application.letsbuy.internal.services.BankAccountService;
 import com.application.letsbuy.internal.services.UserService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

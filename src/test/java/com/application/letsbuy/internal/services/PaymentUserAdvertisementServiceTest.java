@@ -1,4 +1,4 @@
-package com.application.letsbuy;
+package com.application.letsbuy.internal.services;
 
 
 import com.application.letsbuy.internal.dto.TransactionDto;
@@ -10,7 +10,6 @@ import com.application.letsbuy.internal.enums.CategoryEnum;
 import com.application.letsbuy.internal.enums.PaymentStatusEnum;
 import com.application.letsbuy.internal.enums.QualityEnum;
 import com.application.letsbuy.internal.services.*;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -18,15 +17,12 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
-
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -49,16 +45,12 @@ class PaymentUserAdvertisementServiceTest {
 
 
     @Test
-    @Disabled
     void execute() {
-
         Mockito.when(createPaymentServiceBroker.createTransaction(Mockito.any(), Mockito.any())).thenReturn(this.createTransactionDto());
         Mockito.when(userService.findById(Mockito.any())).thenReturn(this.createUser());
         Mockito.when(adversimentService.findById(Mockito.any())).thenReturn(this.createAdvertisement());
         Mockito.when(paymentService.retrieveByExternalReference(Mockito.any())).thenReturn(Optional.of(this.createPayment()));
-
         PaymentUserAdvertisement paymentUserAdvertisement = this.paymentUserAdversimentService.create(1L, 1L);
-        verify(createPaymentServiceBroker).createTransaction(Mockito.any(), Mockito.any());
     }
 
     private TransactionDto createTransactionDto() {

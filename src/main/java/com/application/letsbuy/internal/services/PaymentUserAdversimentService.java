@@ -4,7 +4,6 @@ import com.application.letsbuy.internal.dto.TransactionDto;
 import com.application.letsbuy.internal.entities.*;
 import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.enums.PaymentControllSellerEnum;
-import com.application.letsbuy.internal.enums.TrackingStatus;
 import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
 import com.application.letsbuy.internal.repositories.PaymentControlSellerRepository;
 import com.application.letsbuy.internal.repositories.PaymentUserAdversimentRepository;

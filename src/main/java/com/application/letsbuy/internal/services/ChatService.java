@@ -37,7 +37,7 @@ public class ChatService {
 
         List<ChatResponseDto> listDto = new ArrayList<>();
 
-        if(!listChats.isEmpty()){
+        if(listChats.size() > 0){
 
             listChats.forEach((chat)->{
 

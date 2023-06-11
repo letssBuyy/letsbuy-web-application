@@ -54,7 +54,9 @@ public class UserDtoResponse {
         this.profileImage = user.getProfileImage();
         this.registrationDate = user.getRegistrationDate();
         this.balance = user.getBalance();
-        this.bankAccount = user.getBankAccount();
+        if (user.getBankAccount() != null && !user.getBankAccount().isEmpty()){
+            this.bankAccount = user.getBankAccount().get(0);
+        }
         this.accessLevel = user.getAccessLevel();
     }
 }

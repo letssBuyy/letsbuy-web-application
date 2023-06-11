@@ -101,9 +101,9 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Profile> profiles = new ArrayList<>();
 
-    @OneToOne
+    @OneToMany
     @JoinColumn(name = "user_id")
-    private BankAccount bankAccount;
+    private List<BankAccount> bankAccount = new ArrayList<>();
 
     @OneToMany
     private List<Chat> chats;
@@ -133,6 +133,7 @@ public class User implements UserDetails {
         this.balance = 0.0;
         this.registrationDate = LocalDateTime.now();
         this.accessLevel = AccessLevelEnum.USER;
+        this.bankAccount = new ArrayList<>();
     }
 
     @Override

@@ -64,9 +64,10 @@ public class UserAdversimentsDtoResponse {
         this.quantityTotalAdversiment = quantityTotalAdversiment;
         this.quantityTotalActive = quantityTotalActive;
         this.quantityTotalSolded = quantityTotalSolded;
-        this.bankAccount = user.getBankAccount();
+        if (user.getBankAccount() != null && !user.getBankAccount().isEmpty()){
+            this.bankAccount = user.getBankAccount().get(0);
+        }
         this.balance = user.getBalance();
-        this.bankAccount = user.getBankAccount();
         this.accessLevel = user.getAccessLevel();
         this.adversiments = new ArrayList<>();
         this.adversiments.addAll(user.getAdversiments().stream().map(UserAdversimentsDto::new).collect(Collectors.toList()));

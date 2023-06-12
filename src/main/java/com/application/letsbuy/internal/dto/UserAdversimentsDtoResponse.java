@@ -4,6 +4,7 @@ import com.application.letsbuy.internal.entities.BankAccount;
 import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.enums.AccessLevelEnum;
 import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
+import com.application.letsbuy.internal.enums.AdversimentEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -70,6 +71,6 @@ public class UserAdversimentsDtoResponse {
         this.balance = user.getBalance();
         this.accessLevel = user.getAccessLevel();
         this.adversiments = new ArrayList<>();
-        this.adversiments.addAll(user.getAdversiments().stream().map(UserAdversimentsDto::new).collect(Collectors.toList()));
+        this.adversiments.addAll(user.getAdversiments().stream().filter(adversiment -> adversiment.getIsActive() == AdversimentEnum.ACTIVE).map(UserAdversimentsDto::new).collect(Collectors.toList()));
     }
 }

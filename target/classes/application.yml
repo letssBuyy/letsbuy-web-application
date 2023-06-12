@@ -25,7 +25,7 @@ spring:
     generate-ddl: true
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
@@ -51,4 +51,4 @@ azure:
     containerName: "images"
 
 pagseguro:
-  endpoint: https://sandbox.api.pagseguro.com/
+  endpoint: https://sandbox.api.pagseguro.com/ 

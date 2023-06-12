@@ -126,7 +126,9 @@ public class UserService implements UserInterface {
                     if (paymentControllSeller.isPresent()) {
                         Transaction transaction = new Transaction(amount, dto.getTransactionType(), user);
                         transactionService.save(transaction);
-                        user.setBalance(user.getBalance() + (transaction.getAmount() * (1 - paymentControllSeller.get().getAmountTax() / 100)));
+                        Double amountTax = (transaction.getAmount() * paymentControllSeller.get().getAmountTax())/100;
+                        Double liquidAmount = transaction.getAmount() - amountTax;
+                        user.setBalance(user.getBalance() + liquidAmount);
                         Double balance = user.getBalance();
                         List<TransactionResponseDto> transactions = transactionService.listTransactions(transaction.getUser().getId());
                         paymentControllSeller.get().setStatus(PaymentControllSellerEnum.CONCLUDED);

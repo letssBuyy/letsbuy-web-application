@@ -72,9 +72,9 @@ public class SearchService {
         if (city != null && !city.isEmpty()) {
             List<AllAdversimentsAndLikeDtoResponse> filteredResults = new ArrayList<>();
             for (AllAdversimentsAndLikeDtoResponse a : results) {
-                if (a.getAdversiments().getUserSellerLikeDto().getCity().equalsIgnoreCase(city)) {
-                    filteredResults.add(a);
-                }
+                    if (a.getAdversiments().getUserSellerLikeDto().getCity() != null && a.getAdversiments().getUserSellerLikeDto().getCity().equalsIgnoreCase(city)) {
+                        filteredResults.add(a);
+                    }
             }
             return filteredResults;
         }

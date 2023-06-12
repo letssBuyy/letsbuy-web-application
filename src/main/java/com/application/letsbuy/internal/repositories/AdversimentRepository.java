@@ -1,6 +1,7 @@
 package com.application.letsbuy.internal.repositories;
 
 import com.application.letsbuy.internal.entities.Adversiment;
+import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.enums.AdversimentEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,8 @@ public interface AdversimentRepository extends JpaRepository<Adversiment, Long> 
     Page<Adversiment> findByTitleContainsIgnoreCaseAndIsActive(Optional<String> title, AdversimentEnum isActive, Pageable pageable);
 
     Page<Adversiment> findByIsActive(AdversimentEnum isActive, Pageable pageable);
+
+    List<Adversiment> findAdversimentsByUserAndAndIsActive(User user, AdversimentEnum adversimentEnum);
 
     Long countByIsActive(AdversimentEnum isActive);
 }

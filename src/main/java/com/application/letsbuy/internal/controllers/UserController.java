@@ -19,6 +19,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 
 @AllArgsConstructor
@@ -40,13 +41,10 @@ public class UserController {
     }
 
     @ApiOperation("Method used select user adversiments ")
-    @GetMapping("/{id}")
-    public ResponseEntity<UserAdversimentsDtoResponse> listarUser(@PathVariable Long id) {
-        User user = userService.findById(id);
-        Long quantityTotalAdversiment = this.adversimentService.countTotalAdversimentsByUser(id);
-        Long quantityAdversimentSolded = this.adversimentService.countAdversimentSolded(id);
-        Long quantityAdversimentActive = this.adversimentService.countAdversimentActive(id);
-        return ResponseEntity.ok().body(new UserAdversimentsDtoResponse(user, quantityTotalAdversiment, quantityAdversimentActive, quantityAdversimentSolded));
+    @GetMapping
+    public ResponseEntity<UserAdversimentsDtoResponse> listarUser(@RequestParam Optional<Long> buyerId,
+                                                                  @RequestParam Long sellerId) {
+        return ResponseEntity.ok().body(this.userService.listarUser(buyerId, sellerId));
     }
 
     @ApiOperation("Method used to change user data")

@@ -1,5 +1,6 @@
 package com.application.letsbuy.internal.dto;
 
+import com.application.letsbuy.internal.entities.AdversimentsLike;
 import com.application.letsbuy.internal.entities.BankAccount;
 import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.enums.AccessLevelEnum;
@@ -19,7 +20,6 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 public class UserAdversimentsDtoResponse {
-
     private Long id;
     private String name;
     private String email;
@@ -41,11 +41,10 @@ public class UserAdversimentsDtoResponse {
     private Long quantityTotalActive;
     private Double balance;
     private BankAccount bankAccount;
-
     private AccessLevelEnum accessLevel;
     private List<UserAdversimentsDto> adversiments;
 
-    public UserAdversimentsDtoResponse(User user, Long quantityTotalAdversiment, Long quantityTotalActive,Long quantityTotalSolded) {
+    public UserAdversimentsDtoResponse(User user, Long quantityTotalAdversiment, Long quantityTotalActive, Long quantityTotalSolded) {
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();
@@ -65,12 +64,47 @@ public class UserAdversimentsDtoResponse {
         this.quantityTotalAdversiment = quantityTotalAdversiment;
         this.quantityTotalActive = quantityTotalActive;
         this.quantityTotalSolded = quantityTotalSolded;
-        if (user.getBankAccount() != null && !user.getBankAccount().isEmpty()){
+        if (user.getBankAccount() != null && !user.getBankAccount().isEmpty()) {
             this.bankAccount = user.getBankAccount().get(0);
         }
         this.balance = user.getBalance();
         this.accessLevel = user.getAccessLevel();
         this.adversiments = new ArrayList<>();
         this.adversiments.addAll(user.getAdversiments().stream().filter(adversiment -> adversiment.getIsActive() == AdversimentEnum.ACTIVE).map(UserAdversimentsDto::new).collect(Collectors.toList()));
+    }
+
+    public UserAdversimentsDtoResponse(User user, Long quantityTotalAdversiment,
+                                       Long quantityTotalActive, Long quantityTotalSolded,
+                                       List<AdversimentsLike> adversimentsLikes) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.cpf = user.getCpf();
+        this.birthDate = user.getBirthDate();
+        this.phoneNumber = user.getPhoneNumber();
+        this.cep = user.getCep();
+        this.road = user.getRoad();
+        this.number = user.getNumber();
+        this.neighborhood = user.getNeighborhood();
+        this.complement = user.getComplement();
+        this.state = user.getState();
+        this.city = user.getCity();
+        this.profileImage = user.getProfileImage();
+        this.isActive = user.getIsActive();
+        this.registrationDate = user.getRegistrationDate();
+        this.quantityTotalAdversiment = quantityTotalAdversiment;
+        this.quantityTotalActive = quantityTotalActive;
+        this.quantityTotalSolded = quantityTotalSolded;
+        if (user.getBankAccount() != null && !user.getBankAccount().isEmpty()) {
+            this.bankAccount = user.getBankAccount().get(0);
+        }
+        this.balance = user.getBalance();
+        this.accessLevel = user.getAccessLevel();
+        this.adversiments = new ArrayList<>();
+        for (int i = 0; i < user.getAdversiments().size(); i++) {
+            if (user.getAdversiments().get(i).getIsActive() == AdversimentEnum.ACTIVE) {
+                this.adversiments.add(new UserAdversimentsDto(user.getAdversiments().get(i), adversimentsLikes));
+            }
+        }
     }
 }

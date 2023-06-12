@@ -4,18 +4,13 @@ import com.application.letsbuy.api.usecase.UserInterface;
 import com.application.letsbuy.internal.dto.BalanceDtoResponse;
 import com.application.letsbuy.internal.dto.TransactionRequestDto;
 import com.application.letsbuy.internal.dto.TransactionResponseDto;
+import com.application.letsbuy.internal.dto.UserAdversimentsDtoResponse;
 import com.application.letsbuy.internal.entities.*;
-import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
-import com.application.letsbuy.internal.enums.PaymentControllSellerEnum;
-import com.application.letsbuy.internal.enums.PaymentStatusEnum;
-import com.application.letsbuy.internal.enums.TransactionTypeEnum;
+import com.application.letsbuy.internal.enums.*;
 import com.application.letsbuy.internal.exceptions.InsufficientBalanceException;
 import com.application.letsbuy.internal.exceptions.UserConflictException;
 import com.application.letsbuy.internal.exceptions.UserNotFoundException;
-import com.application.letsbuy.internal.repositories.AdversimentRepository;
-import com.application.letsbuy.internal.repositories.PaymentControlSellerRepository;
-import com.application.letsbuy.internal.repositories.PaymentUserAdversimentRepository;
-import com.application.letsbuy.internal.repositories.UserRepository;
+import com.application.letsbuy.internal.repositories.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +25,8 @@ import java.util.Optional;
 public class UserService implements UserInterface {
 
     private final UserRepository userRepository;
+
+    private AdversimentsLikeRepository adversimentsLikeRepository;
 
     private final ImageService imageService;
 
@@ -49,6 +46,20 @@ public class UserService implements UserInterface {
             throw new UserConflictException();
         }
         this.userRepository.save(user);
+    }
+
+    @Override
+    public UserAdversimentsDtoResponse listarUser(Optional<Long> buyerId, Long sellerId) {
+        User seller = findById(sellerId);
+        Long quantityTotalAdversiment = this.adversimentRepository.countByUserId(sellerId);
+        Long quantityAdversimentSolded = this.adversimentRepository.countByUserIdAndIsActive(sellerId, AdversimentEnum.SALLED);
+        Long quantityAdversimentActive = this.adversimentRepository.countByUserIdAndIsActive(sellerId, AdversimentEnum.ACTIVE);
+        if (buyerId.isEmpty()) {
+            return new UserAdversimentsDtoResponse(seller, quantityTotalAdversiment, quantityAdversimentActive, quantityAdversimentSolded);
+        }
+        List<AdversimentsLike> byAdversimentsLike = this.adversimentsLikeRepository.findByUserId(buyerId.get());
+        return new UserAdversimentsDtoResponse(seller, quantityTotalAdversiment,
+                quantityAdversimentActive, quantityAdversimentSolded, byAdversimentsLike);
     }
 
     @Override

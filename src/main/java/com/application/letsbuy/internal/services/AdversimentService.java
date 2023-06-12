@@ -1,8 +1,9 @@
 package com.application.letsbuy.internal.services;
 
 import com.application.letsbuy.api.usecase.AdversimentInterface;
-import com.application.letsbuy.internal.dto.AdversimentsLikeDtoResponse;
+import com.application.letsbuy.internal.dto.AdversimentDtoResponse;
 import com.application.letsbuy.internal.dto.AllAdversimentsAndLikeDtoResponse;
+import com.application.letsbuy.internal.dto.ListAdversimentDtoResponse;
 import com.application.letsbuy.internal.dto.UserDto;
 import com.application.letsbuy.internal.entities.Adversiment;
 import com.application.letsbuy.internal.entities.AdversimentsLike;
@@ -12,9 +13,9 @@ import com.application.letsbuy.internal.enums.AdversimentColorEnum;
 import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.enums.CategoryEnum;
 import com.application.letsbuy.internal.enums.QualityEnum;
+import com.application.letsbuy.internal.exceptions.AdversimentIsAlreadyLikedException;
 import com.application.letsbuy.internal.exceptions.AdversimentNoContentException;
 import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
-import com.application.letsbuy.internal.exceptions.AdversimentsLikeNotFoundException;
 import com.application.letsbuy.internal.exceptions.ImageNotFoundException;
 import com.application.letsbuy.internal.repositories.AdversimentRepository;
 import com.application.letsbuy.internal.repositories.AdversimentsLikeRepository;
@@ -27,9 +28,7 @@ import com.application.letsbuy.internal.utils.ListObj;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
@@ -126,8 +125,25 @@ public class AdversimentService implements AdversimentInterface {
     public void likeAdversiment(Long idUser, Long idAdversiment) {
         User user = this.userService.findById(idUser);
         Adversiment adversiment = findById(idAdversiment);
+        Optional<AdversimentsLike> adversimentIsAlreadyLiked = this.adversimentsLikeRepository.findAdversimentLikeByAdversimentIdAndUserId(idAdversiment, idUser);
+        if (adversimentIsAlreadyLiked.isPresent()) {
+            throw new AdversimentIsAlreadyLikedException();
+        }
         this.adversimentsLikeRepository.save(new AdversimentsLike(user, adversiment));
     }
+
+    @Override
+    public List<AdversimentDtoResponse> findByState(Long id, AdversimentEnum state) {
+        User user = this.userService.findById(id);
+        List<Adversiment> adversimentList = adversimentRepository.findAdversimentsByUserAndAndIsActive(user, state);
+        List<AdversimentDtoResponse> adversimentDtoList = new ArrayList<>();
+        for (Adversiment adversiment : adversimentList) {
+            AdversimentDtoResponse dto = new AdversimentDtoResponse(adversiment);
+            adversimentDtoList.add(dto);
+        }
+        return adversimentDtoList;
+    }
+
 
     @Override
     public List<AdversimentsLike> findAllAdversimentsLike() {

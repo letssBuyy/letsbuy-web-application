@@ -3,6 +3,7 @@ package com.application.letsbuy.internal.controllers;
 import com.application.letsbuy.internal.dto.*;
 import com.application.letsbuy.internal.entities.Adversiment;
 import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.services.AdversimentService;
 import com.application.letsbuy.internal.services.UserService;
 import com.application.letsbuy.internal.utils.AdversimentUtils;
@@ -51,13 +52,17 @@ public class AdversimentController {
         return new ResponseEntity<>(this.adversimentService.retrieveAdversimentById(idAdversiment, idUser), HttpStatus.OK);
     }
 
+    @ApiOperation("Method used to find adversiment by userId and state")
+    @GetMapping("/filters/{id}/{state}")
+    public ResponseEntity<List<AdversimentDtoResponse>> findAdversimentByState(@PathVariable Long id, @PathVariable AdversimentEnum state) {
+        return new ResponseEntity<>(this.adversimentService.findByState(id, state), HttpStatus.OK);
+    }
+
     @ApiOperation("Method used to count to Adversiments")
     @GetMapping("/qtd-anuncio")
     public ResponseEntity<Long> quantityAds() {
         return new ResponseEntity<>(this.adversimentService.quantityAds(), HttpStatus.OK);
     }
-
-
     @ApiOperation("Method used to count to Adversiments finalized")
     @GetMapping("/qtd-anuncio-finalizados")
     public ResponseEntity<Long> amountCompletedAds() {

@@ -30,7 +30,7 @@ public class SearchController {
         return ResponseEntity.ok(pages);
     }
 
-    @GetMapping("/filter")
+    @PostMapping("/filter")
     public ResponseEntity<Page<AllAdversimentsAndLikeDtoResponse>> searchAdversimentsFilter(@RequestParam Optional<Long> idUser, @RequestParam Optional<String> title, @RequestBody AdversimentFilterDto filter, Pageable pageable) {
 
         List<AllAdversimentsAndLikeDtoResponse> results = searchService.searchAdversiments(idUser, title, pageable);

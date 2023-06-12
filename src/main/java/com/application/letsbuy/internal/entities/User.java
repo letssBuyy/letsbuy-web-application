@@ -3,6 +3,7 @@ package com.application.letsbuy.internal.entities;
 import com.application.letsbuy.internal.enums.AccessLevelEnum;
 import com.application.letsbuy.internal.enums.ActiveInactiveEnum;
 import com.application.letsbuy.internal.utils.AgeRange;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -103,6 +104,7 @@ public class User implements UserDetails {
 
     @OneToMany
     @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private List<BankAccount> bankAccount = new ArrayList<>();
 
     @OneToMany

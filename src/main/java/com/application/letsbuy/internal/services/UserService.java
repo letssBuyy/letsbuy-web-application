@@ -139,7 +139,7 @@ public class UserService implements UserInterface {
             throw new RuntimeException();
 
         } else if (dto.getTransactionType().equals(TransactionTypeEnum.WITHDRAW)) {
-            bankAccountService.findById(dto.getUserId());
+            bankAccountService.findByUserId(dto.getUserId());
             Optional<User> userOptional = userRepository.findById(dto.getUserId());
 
             if (userOptional.isPresent()) {

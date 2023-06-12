@@ -33,6 +33,10 @@ public class BankAccountService {
         return bankAccountRepository.findById(id).orElseThrow(BankAccountNotFoundException::new);
     }
 
+    public BankAccount findByUserId(Long id) {
+        return bankAccountRepository.findByUserId(id).orElseThrow(BankAccountNotFoundException::new);
+    }
+
     public BankAccount update(Long id, BankAccountDtoRequest bankAccountDtoRequest) {
         BankAccount bankAccount = findById(id);
         bankAccount.setBankNumber(bankAccountDtoRequest.getBankNumber());

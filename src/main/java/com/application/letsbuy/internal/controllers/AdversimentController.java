@@ -63,6 +63,7 @@ public class AdversimentController {
     public ResponseEntity<Long> quantityAds() {
         return new ResponseEntity<>(this.adversimentService.quantityAds(), HttpStatus.OK);
     }
+
     @ApiOperation("Method used to count to Adversiments finalized")
     @GetMapping("/qtd-anuncio-finalizados")
     public ResponseEntity<Long> amountCompletedAds() {

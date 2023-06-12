@@ -6,25 +6,30 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter
 @Setter
 public class PaymentUserAdvertisementResponseDto {
 
-    private Long idUser;
+    private UserDtoResponse user;
 
-    private Long idAdvertisement;
+    private AdversimentDtoResponse adversiment;
 
     private Payment payment;
 
     private LocalDateTime receivableDate;
 
+    public static List<PaymentUserAdvertisementResponseDto> parseListEntityToListDto(List<PaymentUserAdvertisement> paymentUserAdvertisements) {
+        return paymentUserAdvertisements.stream().map(PaymentUserAdvertisementResponseDto::parseEntityToDto).toList();
+    }
+
     public static PaymentUserAdvertisementResponseDto parseEntityToDto(PaymentUserAdvertisement paymentUserAdvertisement) {
         PaymentUserAdvertisementResponseDto responseDto = new PaymentUserAdvertisementResponseDto();
-        responseDto.setIdAdvertisement(paymentUserAdvertisement.getAdversiment().getId());
+        responseDto.setAdversiment(new AdversimentDtoResponse(paymentUserAdvertisement.getAdversiment()));
         responseDto.setPayment(paymentUserAdvertisement.getPayment());
-        responseDto.setIdUser(paymentUserAdvertisement.getBuyer().getId());
+        responseDto.setUser(new UserDtoResponse(paymentUserAdvertisement.getBuyer()));
         responseDto.setReceivableDate(paymentUserAdvertisement.getReceivableDate());
         return responseDto;
     }

@@ -2,6 +2,7 @@ package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.Adversiment;
 import com.application.letsbuy.internal.entities.Image;
+import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.enums.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,8 @@ public class AdversimentDtoResponse {
     private AdversimentEnum isActive;
     private AdversimentEnum contest;
     private List<ImageDtoResponse> images;
+    private PaymentUserAdvertisementResponseDto paymentUserAdversiment;
+    private UserDtoResponse buyer;
 
     public static List<AdversimentDtoResponse> convert(List<Adversiment> adversiments) {
         return adversiments.stream().filter(a -> a.getUser().getIsActive() != ActiveInactiveEnum.INACTIVE)
@@ -55,5 +58,26 @@ public class AdversimentDtoResponse {
         if (adversiment.getImages() != null && !adversiment.getImages().isEmpty()){
             this.images = ImageDtoResponse.convert(adversiment.getImages());
         }
+    }
+
+    public AdversimentDtoResponse(Adversiment adversiment, PaymentUserAdvertisementResponseDto paymentUserAdversiment, UserDtoResponse user) {
+        this.userId = adversiment.getUser().getId();
+        this.id = adversiment.getId();
+        this.title = adversiment.getTitle();
+        this.description = adversiment.getDescription();
+        this.price = adversiment.getPrice();
+        this.postDate = adversiment.getPostDate();
+        this.lastUpdate = adversiment.getLastUpdate();
+        this.saleDate = adversiment.getSaleDate();
+        this.category = adversiment.getCategory();
+        this.quality = adversiment.getQuality();
+        this.color = adversiment.getColor();
+        this.isActive = adversiment.getIsActive();
+        this.contest = adversiment.getContest();
+        if (adversiment.getImages() != null && !adversiment.getImages().isEmpty()){
+            this.images = ImageDtoResponse.convert(adversiment.getImages());
+        }
+        this.paymentUserAdversiment = paymentUserAdversiment;
+        this.buyer = user;
     }
 }

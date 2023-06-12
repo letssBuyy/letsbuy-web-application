@@ -79,10 +79,16 @@ public class PaymentUserAdversimentService {
         Adversiment adversiment = this.advertisementService.findById(idAdversiment);
 
         Optional<PaymentUserAdvertisement> paymentOptional = paymentUserAdversimentRepository.findByAdversiment(adversiment);
-        if (paymentOptional.isEmpty()){
+        if (paymentOptional.isEmpty()) {
             throw new AdversimentNotFoundException();
         }
         return paymentOptional.get();
+    }
+
+    public List<PaymentUserAdvertisementResponseDto> findPaymentUserAdversimentByUser(Long buyerId) {
+        User user = this.userService.findById(buyerId);
+        List<PaymentUserAdvertisement> byBuyer = this.paymentUserAdversimentRepository.findByBuyer(user);
+        return PaymentUserAdvertisementResponseDto.parseListEntityToListDto(byBuyer);
     }
 
     private Payment createPayment(PagSeguroDto pagSeguroDto) {

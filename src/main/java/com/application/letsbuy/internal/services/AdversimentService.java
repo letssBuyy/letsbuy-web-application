@@ -1,14 +1,8 @@
 package com.application.letsbuy.internal.services;
 
 import com.application.letsbuy.api.usecase.AdversimentInterface;
-import com.application.letsbuy.internal.dto.AdversimentDtoResponse;
-import com.application.letsbuy.internal.dto.AllAdversimentsAndLikeDtoResponse;
-import com.application.letsbuy.internal.dto.ListAdversimentDtoResponse;
-import com.application.letsbuy.internal.dto.UserDto;
-import com.application.letsbuy.internal.entities.Adversiment;
-import com.application.letsbuy.internal.entities.AdversimentsLike;
-import com.application.letsbuy.internal.entities.Image;
-import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.dto.*;
+import com.application.letsbuy.internal.entities.*;
 import com.application.letsbuy.internal.enums.AdversimentColorEnum;
 import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.enums.CategoryEnum;
@@ -17,10 +11,7 @@ import com.application.letsbuy.internal.exceptions.AdversimentIsAlreadyLikedExce
 import com.application.letsbuy.internal.exceptions.AdversimentNoContentException;
 import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
 import com.application.letsbuy.internal.exceptions.ImageNotFoundException;
-import com.application.letsbuy.internal.repositories.AdversimentRepository;
-import com.application.letsbuy.internal.repositories.AdversimentsLikeRepository;
-import com.application.letsbuy.internal.repositories.ImageRepository;
-import com.application.letsbuy.internal.repositories.UserRepository;
+import com.application.letsbuy.internal.repositories.*;
 import com.application.letsbuy.internal.utils.AdversimentUtils;
 import com.application.letsbuy.internal.utils.ArchivesUtils;
 import com.application.letsbuy.internal.utils.ConverterUtils;
@@ -48,6 +39,7 @@ public class AdversimentService implements AdversimentInterface {
     private AdversimentRepository adversimentRepository;
     private AdversimentsLikeRepository adversimentsLikeRepository;
     private final UserService userService;
+    private final PaymentUserAdversimentRepository paymentUserAdversimentRepository;
     private UserRepository userRepository;
     private final ImageService imageService;
     private final ImageRepository imageRepository;
@@ -136,6 +128,13 @@ public class AdversimentService implements AdversimentInterface {
     public List<AdversimentDtoResponse> findByState(Long id, AdversimentEnum state) {
         User user = this.userService.findById(id);
         List<Adversiment> adversimentList = adversimentRepository.findAdversimentsByUserAndAndIsActive(user, state);
+        if (AdversimentEnum.SALLED.equals(state)) {
+            return createDtoResponseSalled(adversimentList);
+        }
+        return createDtoResponse(adversimentList);
+    }
+
+    private List<AdversimentDtoResponse> createDtoResponse(List<Adversiment> adversimentList) {
         List<AdversimentDtoResponse> adversimentDtoList = new ArrayList<>();
         for (Adversiment adversiment : adversimentList) {
             AdversimentDtoResponse dto = new AdversimentDtoResponse(adversiment);
@@ -144,6 +143,18 @@ public class AdversimentService implements AdversimentInterface {
         return adversimentDtoList;
     }
 
+    private List<AdversimentDtoResponse> createDtoResponseSalled(List<Adversiment> adversimentList) {
+        List<AdversimentDtoResponse> adversimentDtoList = new ArrayList<>();
+        for (Adversiment adversiment : adversimentList) {
+            Optional<PaymentUserAdvertisement> paymentUserAdvertisement = this.paymentUserAdversimentRepository.findByAdversiment(adversiment);
+            if (paymentUserAdvertisement.isEmpty()) {
+                throw new RuntimeException();
+            }
+            AdversimentDtoResponse dto = new AdversimentDtoResponse(adversiment, PaymentUserAdvertisementResponseDto.parseEntityToDto(paymentUserAdvertisement.get()), new UserDtoResponse(paymentUserAdvertisement.get().getBuyer()));
+            adversimentDtoList.add(dto);
+        }
+        return adversimentDtoList;
+    }
 
     @Override
     public List<AdversimentsLike> findAllAdversimentsLike() {

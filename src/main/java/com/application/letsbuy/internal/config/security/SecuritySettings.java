@@ -76,6 +76,7 @@ public class SecuritySettings extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/searches/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/trackings/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/payment-user-advertisements/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/payment-user-advertisements/**").permitAll()
                 .anyRequest().authenticated()
                 .and().cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

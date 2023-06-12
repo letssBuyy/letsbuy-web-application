@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +26,7 @@ public class UserAdversimentsDto {
     private AdversimentColorEnum color;
     private CategoryEnum category;
     private QualityEnum quality;
+    private List<ImageDtoResponse> images;
 
     public UserAdversimentsDto(Adversiment adversiment) {
         this.id = adversiment.getId();
@@ -37,5 +39,8 @@ public class UserAdversimentsDto {
         this.color = adversiment.getColor();
         this.category = adversiment.getCategory();
         this.quality = adversiment.getQuality();
+        if (adversiment.getImages() != null && !adversiment.getImages().isEmpty()){
+            this.images = ImageDtoResponse.convert(adversiment.getImages());
+        }
     }
 }

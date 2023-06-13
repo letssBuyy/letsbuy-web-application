@@ -6,7 +6,6 @@ import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.services.AdversimentService;
 import com.application.letsbuy.internal.services.UserService;
-import com.application.letsbuy.internal.utils.AdversimentUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -68,6 +67,11 @@ public class AdversimentController {
     @GetMapping("/qtd-anuncio-finalizados")
     public ResponseEntity<Long> amountCompletedAds() {
         return new ResponseEntity<>(this.adversimentService.countFinishedAds(), HttpStatus.OK);
+    }
+
+    @GetMapping("/find-quantity-selled-by-month")
+    public ResponseEntity<List<QuantitySelledByMonthDto>> findQuantitySelledByMonth() {
+        return new ResponseEntity<>(this.adversimentService.findQuantitySelledByMonth(), HttpStatus.OK);
     }
 
     @GetMapping("/search-binary-price/{id}/{price}")

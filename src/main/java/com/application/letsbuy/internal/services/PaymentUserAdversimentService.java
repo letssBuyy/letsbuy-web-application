@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class PaymentUserAdversimentService {
             List<Tracking> tracking = getTracking(advertisement);
             advertisement.setTrackings(tracking);
             advertisement.setIsActive(AdversimentEnum.SALLED);
+            advertisement.setSaleDate(LocalDate.now());
             this.advertisementService.save(advertisement);
             PaymentUserAdvertisement paymentUserAdvertisement = this.createPaymentUserAdversiment(advertisement, user, this.createPayment(pagSeguroDto));
             this.paymentUserAdversimentRepository.save(paymentUserAdvertisement);

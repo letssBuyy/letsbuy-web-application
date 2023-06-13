@@ -11,7 +11,10 @@ import com.application.letsbuy.internal.exceptions.AdversimentIsAlreadyLikedExce
 import com.application.letsbuy.internal.exceptions.AdversimentNoContentException;
 import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
 import com.application.letsbuy.internal.exceptions.ImageNotFoundException;
-import com.application.letsbuy.internal.repositories.*;
+import com.application.letsbuy.internal.repositories.AdversimentRepository;
+import com.application.letsbuy.internal.repositories.AdversimentsLikeRepository;
+import com.application.letsbuy.internal.repositories.ImageRepository;
+import com.application.letsbuy.internal.repositories.PaymentUserAdversimentRepository;
 import com.application.letsbuy.internal.utils.AdversimentUtils;
 import com.application.letsbuy.internal.utils.ArchivesUtils;
 import com.application.letsbuy.internal.utils.ConverterUtils;
@@ -26,9 +29,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.YearMonth;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -40,7 +42,6 @@ public class AdversimentService implements AdversimentInterface {
     private AdversimentsLikeRepository adversimentsLikeRepository;
     private final UserService userService;
     private final PaymentUserAdversimentRepository paymentUserAdversimentRepository;
-    private UserRepository userRepository;
     private final ImageService imageService;
     private final ImageRepository imageRepository;
 
@@ -77,6 +78,24 @@ public class AdversimentService implements AdversimentInterface {
         return adversimentRepository.count();
     }
 
+    public List<QuantitySelledByMonthDto> findQuantitySelledByMonth() {
+        List<Adversiment> adversiments = this.findAll();
+        List<QuantitySelledByMonthDto> quantitySelledByMonthDtos = new ArrayList<>();
+        Map<YearMonth, Long> quantityByMonth = new HashMap<>();
+        for (Adversiment adversiment : adversiments) {
+            LocalDate saleDate = adversiment.getSaleDate();
+            if (saleDate != null) {
+                YearMonth yearMonth = YearMonth.from(saleDate);
+                quantityByMonth.put(yearMonth, quantityByMonth.getOrDefault(yearMonth, 0L) + 1L);
+            }
+        }
+        for (Map.Entry<YearMonth, Long> entry : quantityByMonth.entrySet()) {
+            YearMonth yearMonth = entry.getKey();
+            Long quantity = entry.getValue();
+            quantitySelledByMonthDtos.add(new QuantitySelledByMonthDto(yearMonth.getMonthValue(), quantity));
+        }
+        return quantitySelledByMonthDtos;
+    }
 
     public Long countFinishedAds(){
         return adversimentRepository.countByIsActive(AdversimentEnum.SALLED);

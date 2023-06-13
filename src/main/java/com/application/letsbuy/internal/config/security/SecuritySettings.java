@@ -75,6 +75,7 @@ public class SecuritySettings extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/searches/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/searches/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/trackings/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/payment-controll/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/payment-user-advertisements/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/payment-user-advertisements/**").permitAll()
                 .anyRequest().authenticated()

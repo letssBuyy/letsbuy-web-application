@@ -94,6 +94,7 @@ public class AdversimentService implements AdversimentInterface {
             Long quantity = entry.getValue();
             quantitySelledByMonthDtos.add(new QuantitySelledByMonthDto(yearMonth.getMonthValue(), quantity));
         }
+        quantitySelledByMonthDtos.sort(Comparator.comparingInt(QuantitySelledByMonthDto::getMonth));
         return quantitySelledByMonthDtos;
     }
 

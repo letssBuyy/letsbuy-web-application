@@ -8,9 +8,12 @@ import com.application.letsbuy.internal.services.AdversimentService;
 import com.application.letsbuy.internal.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -146,20 +150,18 @@ public class AdversimentController {
     }
 
     @GetMapping("/export-txt/{id}")
-    public ResponseEntity<Void> exportTxt(@PathVariable Long id, @RequestParam Optional<String> nomeArq) {
-        List<Adversiment> adversimentList = adversimentService.exportFileTxt(id, nomeArq);
-
-        if (adversimentList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Resource> exportTxt(@PathVariable Long id, @RequestParam Optional<String> nomeArquivo) throws IOException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", nomeArquivo.map(s -> s + ".txt").orElse("meus-anuncios.txt"));
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return ResponseEntity.ok().headers(headers).body(this.adversimentService.createTxtResource(id, nomeArquivo));
     }
 
     @PostMapping(value = "/import-txt", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> importTxt(@RequestBody MultipartFile arquivo) {
 
         try {
-            if (!arquivo.isEmpty() && arquivo.getContentType().equals("text/plain")) {
+            if (!arquivo.isEmpty() && Objects.equals(arquivo.getContentType(), "text/plain")) {
                 byte[] conteudo = arquivo.getBytes();
                 String texto = new String(conteudo);
                 adversimentService.importFileTxt(texto);
@@ -174,9 +176,11 @@ public class AdversimentController {
         }
     }
 
-    @GetMapping("/csv/{id}")
-    public ResponseEntity<Void> retrieveCsv(@PathVariable Long id, @RequestParam Optional<String> nomeArquivo) {
-        this.adversimentService.createCsvArchive(id, nomeArquivo);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @GetMapping("/export-csv/{id}")
+    public ResponseEntity<Resource> retrieveCsv(@PathVariable Long id, @RequestParam Optional<String> nomeArquivo) throws IOException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", nomeArquivo.map(s -> s + ".csv").orElse("meus-anuncios.csv"));
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return ResponseEntity.ok().headers(headers).body(this.adversimentService.createCsvResource(id, nomeArquivo));
     }
 }

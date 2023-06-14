@@ -3,59 +3,46 @@ package com.application.letsbuy.internal.utils;
 import com.application.letsbuy.internal.entities.Adversiment;
 import lombok.experimental.UtilityClass;
 
-import java.io.FileWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Formatter;
-import java.util.FormatterClosedException;
+import java.io.PrintWriter;
 import java.util.Optional;
 
 @UtilityClass
 public class ArchivesUtils {
-    public void creatCsvArchive(ListObj<Adversiment> adversimentList, Optional<String> nomeArquivo) {
-        FileWriter arq = null;
-        Formatter saida = null;
-        Boolean deuRuim = false;
-        String archiveName = nomeArquivo.orElse("anuncios");
-        archiveName += ".csv";
 
-        try {
-            arq = new FileWriter(archiveName);
-            saida = new Formatter(arq);
-        } catch (IOException e) {
-            System.out.println("Erro ao abrir o arquivo " + archiveName);
-            System.exit(1);
+    public byte[] generateCsvBytes(ListObj<Adversiment> adversimentList, Optional<String> nomeArquivo) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintWriter writer = new PrintWriter(outputStream);
+
+        for (int i = 0; i < adversimentList.getTamanho(); i++) {
+            Adversiment adversiment = adversimentList.getElemento(i);
+            writer.format("%s;%s;%s;%.2f;%s;%s;%s;%s;%s;%s%n", adversiment.getId().toString(),
+                    adversiment.getTitle() == null ? "N/A" : adversiment.getTitle(),
+                    adversiment.getDescription() == null ? "N/A" : adversiment.getDescription(),
+                    adversiment.getPrice() == null ? 0.0 : adversiment.getPrice(),
+                    adversiment.getPostDate()  == null ? "N/A" : adversiment.getPostDate().toString(),
+                    adversiment.getLastUpdate() == null ? "N/A" : adversiment.getLastUpdate().toString(),
+                    adversiment.getSaleDate() == null ? "N/A" : adversiment.getSaleDate().toString(),
+                    adversiment.getCategory() == null ? "N/A" : adversiment.getCategory().toString(),
+                    adversiment.getQuality()  == null ? "N/A" : adversiment.getQuality().toString(),
+                    adversiment.getUser().getId()  == null ? "N/A" : adversiment.getUser().getId().toString());
         }
+        writer.flush();
+        writer.close();
+
+        return outputStream.toByteArray();
+    }
+
+    public void gravaRegistro(ByteArrayOutputStream outputStream, String registro) {
         try {
-            System.out.println(adversimentList.getTamanho());
-            for (int i = 0; i < adversimentList.getTamanho(); i++) {
-                Adversiment adversiment = adversimentList.getElemento(i);
-                saida.format("%s;%s;%s;%.2f;%s;%s;%s;%s;%s;%s%n", adversiment.getId().toString(),
-                        adversiment.getTitle(),
-                        adversiment.getDescription(),
-                        adversiment.getPrice(),
-                        adversiment.getPostDate().toString(),
-                        adversiment.getLastUpdate().toString(),
-                        adversiment.getSaleDate().toString(),
-                        adversiment.getCategory().toString(),
-                        adversiment.getQuality().toString(),
-                        adversiment.getUser().getId().toString());
-            }
-        } catch (FormatterClosedException e) {
-            System.out.println("Erro ao gravar o arquivo");
-            deuRuim = true;
-        } finally {
-            saida.close();
-            try {
-                arq.close();
-            } catch (IOException e) {
-                System.out.println("Erro ao fechar o arquivo");
-                deuRuim = true;
-            }
-            if (deuRuim) {
-                System.exit(1);
-            }
+            outputStream.write(registro.getBytes());
+            outputStream.write(System.lineSeparator().getBytes());
+        } catch (IOException erro) {
+            System.out.println("Erro ao gravar no arquivo");
         }
     }
+
 
 
 }

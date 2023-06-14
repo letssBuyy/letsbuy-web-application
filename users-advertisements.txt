@@ -1,6 +1,0 @@
-00USUARIO-ANUNCIO202302-06-2023 21:59:0501
-01Leonardo                                          leo@gmail.com                                     454883030812004-05-1811997250083
-01Tiago                                             tiago@gmail.com                                   166598050872004-05-1811997250083
-02Boneco                                            O lendario darth vader                                                                                                                                                                                                                                              50,001997-05-062023-01-03BLUE      VEHICLES          NEW      000000001
-02Bola                                              O lendario darth vader                                                                                                                                                                                                                                              50,001997-05-062023-01-03GOLD      VEHICLES          NEW      000000001
-030000000004          100,00

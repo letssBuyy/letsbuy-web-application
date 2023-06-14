@@ -1,4 +1,0 @@
-00ANUNCIO202310-06-2023 20:13:0501
-010000000001Boneco                                            O lendario darth vader                                                                                                                                                                                                                                              50,001997-05-062023-01-03VEHICLES          NEW      000000001
-010000000002Bola                                              O lendario darth vader                                                                                                                                                                                                                                              50,001997-05-062023-01-03VEHICLES          NEW      000000001
-020000000002          100,00

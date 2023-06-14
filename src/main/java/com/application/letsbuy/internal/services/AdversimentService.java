@@ -12,21 +12,24 @@ import com.application.letsbuy.internal.exceptions.AdversimentNoContentException
 import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
 import com.application.letsbuy.internal.exceptions.ImageNotFoundException;
 import com.application.letsbuy.internal.repositories.*;
-import com.application.letsbuy.internal.utils.AdversimentUtils;
 import com.application.letsbuy.internal.utils.ArchivesUtils;
 import com.application.letsbuy.internal.utils.ConverterUtils;
 import com.application.letsbuy.internal.utils.ListObj;
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -265,10 +268,47 @@ public class AdversimentService implements AdversimentInterface {
                 });
     }
 
-    public List<Adversiment> exportFileTxt(Long id, Optional<String> nomeArq) {
+    public ByteArrayResource createTxtResource(Long id, Optional<String> nomeArq) throws IOException {
+       return new ByteArrayResource(exportFileTxt(id, nomeArq));
+    }
+
+    public byte[] exportFileTxt(Long id, Optional<String> nomeArq) throws IOException {
         List<Adversiment> adversiments = this.userService.findById(id).getAdversiments();
-        AdversimentUtils.gravaArquivoTxt(adversiments, nomeArq);
-        return adversiments;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        String archiveName = nomeArq.orElse("adversiments");
+        archiveName += ".txt";
+        int contaRegistroDado = 0;
+        Double valorTotal = 0.0;
+
+        String header = "00ANUNCIO2023";
+        header += LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+        header += "01";
+
+        ArchivesUtils.gravaRegistro(outputStream, header);
+
+        String corpo;
+        for (Adversiment a : adversiments) {
+            corpo = "01";
+            corpo += String.format("%010d", a.getId());
+            corpo += String.format("%-50.50s", a.getTitle());
+            corpo += String.format("%-255.255s", a.getDescription());
+            corpo += String.format("%10.2f", a.getPrice());
+            corpo += String.format("%-10.10s", a.getPostDate());
+            corpo += String.format("%-10.10s", a.getLastUpdate());
+            corpo += String.format("%-18.18s", a.getCategory());
+            corpo += String.format("%-9.9s", a.getQuality());
+            corpo += String.format("%09d", a.getUser().getId());
+            ArchivesUtils.gravaRegistro(outputStream, corpo);
+            contaRegistroDado++;
+            valorTotal += a.getPrice();
+        }
+
+        String trailer = "02";
+        trailer += String.format("%010d", contaRegistroDado);
+        trailer += String.format("%16.2f", valorTotal);
+        ArchivesUtils.gravaRegistro(outputStream, trailer);
+        return outputStream.toByteArray();
     }
 
     public void importFileTxt(String texto) {
@@ -379,7 +419,11 @@ public class AdversimentService implements AdversimentInterface {
         throw new AdversimentNotFoundException();
     }
 
-    public void createCsvArchive(Long id, Optional<String> nomeArquivo) {
+    public ByteArrayResource createCsvResource(Long id, Optional<String> nomeArq) throws IOException {
+        return new ByteArrayResource(createCsvArchive(id, nomeArq));
+    }
+
+    public byte[] createCsvArchive(Long id, Optional<String> nomeArquivo) throws IOException {
         List<Adversiment> adversimentList = userService.findById(id).getAdversiments();
         if (adversimentList.isEmpty()) {
             throw new AdversimentNotFoundException();
@@ -387,7 +431,7 @@ public class AdversimentService implements AdversimentInterface {
         ListObj<Adversiment> adversimentObj = new ListObj<>(adversimentList.size());
         adversimentList.forEach(adversimentObj::adiciona);
         ListObj<Adversiment> orderedList = ListObj.orderByPrice(adversimentObj);
-        ArchivesUtils.creatCsvArchive(orderedList, nomeArquivo);
+        return ArchivesUtils.generateCsvBytes(orderedList, nomeArquivo);
     }
 }
 

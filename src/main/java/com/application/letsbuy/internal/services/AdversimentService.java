@@ -152,13 +152,13 @@ public class AdversimentService implements AdversimentInterface {
         return createDtoResponse(adversimentList);
     }
 
-    public List<ListAdversimentDtoResponse> findBought(Long id) {
+    public List<ListAdversimentTrackingDtoResponse> findBought(Long id) {
         List<PaymentControllSeller> payments = paymentControlSellerRepository.findByPaymentUserAdvertisementBuyerId(id);
         List<Adversiment> adversiments = new ArrayList<>();
         payments.forEach((payment)->{
             adversiments.add(payment.getPaymentUserAdvertisement().getAdversiment());
         });
-        return ListAdversimentDtoResponse.convert(adversiments);
+        return ListAdversimentTrackingDtoResponse.convert(adversiments);
     }
 
     private List<AdversimentDtoResponse> createDtoResponse(List<Adversiment> adversimentList) {

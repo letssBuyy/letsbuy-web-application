@@ -1,7 +1,7 @@
 package com.application.letsbuy.api.usecase;
 
 import com.application.letsbuy.internal.dto.AdversimentDtoResponse;
-import com.application.letsbuy.internal.dto.ListAdversimentDtoResponse;
+import com.application.letsbuy.internal.dto.MostSelledCategoriesDto;
 import com.application.letsbuy.internal.entities.Adversiment;
 import com.application.letsbuy.internal.entities.AdversimentsLike;
 import com.application.letsbuy.internal.enums.AdversimentEnum;
@@ -24,5 +24,6 @@ public interface AdversimentInterface {
     List<AdversimentsLike> findByAdversimentsLike(Long id);
     Adversiment updateImages(Long id, List<MultipartFile> images);
     void deleteImage(String url);
+    List<MostSelledCategoriesDto> findFiveCategoriesAppearTheMost();
 }
 

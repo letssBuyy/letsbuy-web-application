@@ -57,6 +57,16 @@ public class AdversimentController {
         return new ResponseEntity<>(this.adversimentService.findByState(id, state), HttpStatus.OK);
     }
 
+    @ApiOperation("Method used to find adversiment bought")
+    @GetMapping("/boughts/{id}")
+    public ResponseEntity<List<ListAdversimentDtoResponse>> findAdversimentBoughts(@PathVariable Long id) {
+        List<ListAdversimentDtoResponse> boughts = this.adversimentService.findBought(id);
+        if (boughts.isEmpty()){
+            return new ResponseEntity<>(boughts, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(boughts, HttpStatus.OK);
+    }
+
     @ApiOperation("Method used to count to Adversiments")
     @GetMapping("/qtd-anuncio")
     public ResponseEntity<Long> quantityAds() {

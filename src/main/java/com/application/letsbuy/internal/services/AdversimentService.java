@@ -11,10 +11,7 @@ import com.application.letsbuy.internal.exceptions.AdversimentIsAlreadyLikedExce
 import com.application.letsbuy.internal.exceptions.AdversimentNoContentException;
 import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
 import com.application.letsbuy.internal.exceptions.ImageNotFoundException;
-import com.application.letsbuy.internal.repositories.AdversimentRepository;
-import com.application.letsbuy.internal.repositories.AdversimentsLikeRepository;
-import com.application.letsbuy.internal.repositories.ImageRepository;
-import com.application.letsbuy.internal.repositories.PaymentUserAdversimentRepository;
+import com.application.letsbuy.internal.repositories.*;
 import com.application.letsbuy.internal.utils.AdversimentUtils;
 import com.application.letsbuy.internal.utils.ArchivesUtils;
 import com.application.letsbuy.internal.utils.ConverterUtils;
@@ -40,6 +37,7 @@ public class AdversimentService implements AdversimentInterface {
 
     private AdversimentRepository adversimentRepository;
     private AdversimentsLikeRepository adversimentsLikeRepository;
+    private final PaymentControlSellerRepository paymentControlSellerRepository;
     private final UserService userService;
     private final PaymentUserAdversimentRepository paymentUserAdversimentRepository;
     private final ImageService imageService;
@@ -152,6 +150,15 @@ public class AdversimentService implements AdversimentInterface {
             return createDtoResponseSalled(adversimentList);
         }
         return createDtoResponse(adversimentList);
+    }
+
+    public List<ListAdversimentDtoResponse> findBought(Long id) {
+        List<PaymentControllSeller> payments = paymentControlSellerRepository.findByPaymentUserAdvertisementBuyerId(id);
+        List<Adversiment> adversiments = new ArrayList<>();
+        payments.forEach((payment)->{
+            adversiments.add(payment.getPaymentUserAdvertisement().getAdversiment());
+        });
+        return ListAdversimentDtoResponse.convert(adversiments);
     }
 
     private List<AdversimentDtoResponse> createDtoResponse(List<Adversiment> adversimentList) {

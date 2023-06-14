@@ -84,6 +84,13 @@ public class UserController {
         return ResponseEntity.ok(userService.transactionMoney(dto));
     }
 
+    @ApiOperation("method used to count quantity users")
+    @GetMapping("/qtd-users")
+    public ResponseEntity<Long> quantityUser(){
+        return ResponseEntity.ok(userService.quantityUsers());
+
+    }
+
     @ApiOperation("Method used to list transactions")
     @GetMapping("/transaction/{idUser}")
     public ResponseEntity<BalanceDtoResponse> listTransactions(@PathVariable Long idUser) {

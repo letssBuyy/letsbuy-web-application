@@ -162,7 +162,7 @@ public class AdversimentController {
             if (!arquivo.isEmpty() && arquivo.getContentType().equals("text/plain")) {
                 byte[] conteudo = arquivo.getBytes();
                 String texto = new String(conteudo);
-                adversimentService.importFileTxt();
+                adversimentService.importFileTxt(texto);
                 return new ResponseEntity<>("Arquivo TXT importado com sucesso", HttpStatus.OK);
             } else {
 

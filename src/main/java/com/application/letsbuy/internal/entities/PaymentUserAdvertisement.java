@@ -25,6 +25,9 @@ public class PaymentUserAdvertisement {
     @JoinColumn(name = "user_id")
     private User buyer;
 
+    @Column
+    private Boolean isShipment;
+
     @ManyToOne
     @JoinColumn(name = "payment_id")
     private Payment payment;

@@ -32,7 +32,7 @@ public class PagSeguroUtils {
         return pagSeguroDto;
     }
 
-    private ShippingPagSeguroDto createShippingPagSeguroDto(User user) {
+    public ShippingPagSeguroDto createShippingPagSeguroDto(User user) {
         ShippingPagSeguroDto shippingPagSeguroDto = new ShippingPagSeguroDto();
         shippingPagSeguroDto.setAddress(createAddressPagSeguroDto(user));
         return shippingPagSeguroDto;

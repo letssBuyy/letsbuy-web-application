@@ -1,7 +1,6 @@
 package com.application.letsbuy.internal.entities;
 
 import com.application.letsbuy.internal.enums.TrackingStatus;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 

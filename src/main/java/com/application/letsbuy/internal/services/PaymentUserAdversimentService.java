@@ -50,6 +50,7 @@ public class PaymentUserAdversimentService {
             advertisement.setSaleDate(LocalDate.now());
             this.advertisementService.save(advertisement);
             PaymentUserAdvertisement paymentUserAdvertisement = this.createPaymentUserAdversiment(advertisement, user, this.createPayment(pagSeguroDto));
+            paymentUserAdvertisement.setIsShipment(paymentUserAdvertisementRequestDto.getIsShipment());
             this.paymentUserAdversimentRepository.save(paymentUserAdvertisement);
             this.createPaymentControllSeller(paymentUserAdvertisement);
 

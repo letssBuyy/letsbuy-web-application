@@ -2,6 +2,7 @@ package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.Payment;
 import com.application.letsbuy.internal.entities.PaymentUserAdvertisement;
+import com.application.letsbuy.internal.utils.PagSeguroUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,8 @@ import java.util.List;
 public class PaymentUserAdvertisementResponseDto {
 
     private UserDtoResponse user;
+
+    private Boolean isShipment;
 
     private AdversimentDtoResponse adversiment;
 
@@ -31,6 +34,7 @@ public class PaymentUserAdvertisementResponseDto {
         responseDto.setPayment(paymentUserAdvertisement.getPayment());
         responseDto.setUser(new UserDtoResponse(paymentUserAdvertisement.getBuyer()));
         responseDto.setReceivableDate(paymentUserAdvertisement.getReceivableDate());
+        responseDto.setIsShipment(paymentUserAdvertisement.getIsShipment());
         return responseDto;
     }
 }

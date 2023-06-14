@@ -284,14 +284,11 @@ public class AdversimentService implements AdversimentInterface {
         // Adversiment atributes
         String title, description;
         Double price;
-        LocalDate postDate, lastUpdate, saleDate;
+        LocalDate postDate, lastUpdate;
         CategoryEnum category;
         QualityEnum quality;
         AdversimentColorEnum color = AdversimentColorEnum.GOLD;
         Long userId;
-
-        int contaRegDadoLido = 0;
-        int qtdRegDadoGravado;
 
         nomeArq += ".txt";
 

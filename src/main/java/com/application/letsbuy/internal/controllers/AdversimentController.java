@@ -12,11 +12,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -152,10 +155,23 @@ public class AdversimentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/import-txt")
-    public ResponseEntity<String> importTxt(@RequestParam String nomeArq) {
-        adversimentService.importFileTxt(nomeArq);
-        return new ResponseEntity<>("Arquivo TXT importado!", HttpStatus.OK);
+    @PostMapping(value = "/import-txt", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> importTxt(@RequestBody MultipartFile arquivo) {
+
+        try {
+            if (!arquivo.isEmpty() && arquivo.getContentType().equals("text/plain")) {
+                byte[] conteudo = arquivo.getBytes();
+                String texto = new String(conteudo);
+                adversimentService.importFileTxt();
+                return new ResponseEntity<>("Arquivo TXT importado com sucesso", HttpStatus.OK);
+            } else {
+
+                return new ResponseEntity<>("Erro: Por favor, envie um arquivo TXT.", HttpStatus.BAD_REQUEST);
+            }
+        } catch (IOException e) {
+
+            return new ResponseEntity<>("Erro ao processar o arquivo: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/csv/{id}")

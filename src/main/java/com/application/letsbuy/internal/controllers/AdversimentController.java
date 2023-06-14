@@ -74,6 +74,15 @@ public class AdversimentController {
         return new ResponseEntity<>(this.adversimentService.findQuantitySelledByMonth(), HttpStatus.OK);
     }
 
+    @GetMapping("/find-selled-by-category")
+    public ResponseEntity<List<MostSelledCategoriesDto>> findSalesByCategory() {
+        List<MostSelledCategoriesDto> listCategorys = adversimentService.findFiveCategoriesAppearTheMost();
+        if(listCategorys.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(listCategorys, HttpStatus.OK);
+    }
+
     @GetMapping("/search-binary-price/{id}/{price}")
     public ResponseEntity<ListAdversimentDtoResponse> findByPrice(@PathVariable Long id, @PathVariable Double price) {
         User user = userService.findById(id);

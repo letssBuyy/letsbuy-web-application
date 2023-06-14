@@ -74,7 +74,7 @@ public class AdversimentService implements AdversimentInterface {
         return adversimentList;
     }
 
-    public long quantityAds(){
+    public long quantityAds() {
         return adversimentRepository.count();
     }
 
@@ -97,13 +97,13 @@ public class AdversimentService implements AdversimentInterface {
         return quantitySelledByMonthDtos;
     }
 
-    public Long countFinishedAds(){
+    public Long countFinishedAds() {
         return adversimentRepository.countByIsActive(AdversimentEnum.SALLED);
     }
 
     public List<AllAdversimentsAndLikeDtoResponse> retrieveAdversimentById(Long idAdversiment, Long idUser) {
         Adversiment adversiment = findById(idAdversiment);
-        List<AdversimentsLike> likedAdversiments = findByAdversimentsLike(idUser);;
+        List<AdversimentsLike> likedAdversiments = findByAdversimentsLike(idUser);
         Long quantityTotalAdversiment = countTotalAdversimentsByUser(adversiment.getUser().getId());
         Long quantityAdversimentSolded = countAdversimentSolded(adversiment.getUser().getId());
         Long quantityAdversimentActive = countAdversimentActive(adversiment.getUser().getId());
@@ -146,7 +146,7 @@ public class AdversimentService implements AdversimentInterface {
     @Override
     public List<AdversimentDtoResponse> findByState(Long id, AdversimentEnum state) {
         User user = this.userService.findById(id);
-        List<Adversiment> adversimentList = adversimentRepository.findAdversimentsByUserAndAndIsActive(user, state);
+        List<Adversiment> adversimentList = adversimentRepository.findAdversimentsByUserAndIsActive(user, state);
         if (AdversimentEnum.SALLED.equals(state)) {
             return createDtoResponseSalled(adversimentList);
         }
@@ -183,6 +183,22 @@ public class AdversimentService implements AdversimentInterface {
     @Override
     public List<AdversimentsLike> findByAdversimentsLike(Long id) {
         return adversimentsLikeRepository.findByUserId(id);
+    }
+
+    @Override
+    public List<MostSelledCategoriesDto> findFiveCategoriesAppearTheMost() {
+        List<Adversiment> list = adversimentRepository.findByIsActive(AdversimentEnum.SALLED);
+
+        Map<CategoryEnum, Long> categoryQuantities = list.stream()
+                .collect(Collectors.groupingBy(Adversiment::getCategory, Collectors.counting()));
+
+        List<MostSelledCategoriesDto> mostSelledCategories = categoryQuantities.entrySet().stream()
+                .map(entry -> new MostSelledCategoriesDto(entry.getKey(), entry.getValue()))
+                .sorted(Comparator.comparingLong(MostSelledCategoriesDto::getQuantity).reversed())
+                .limit(5)
+                .collect(Collectors.toList());
+
+        return mostSelledCategories;
     }
 
     @Override

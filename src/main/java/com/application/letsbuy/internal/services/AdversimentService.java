@@ -23,8 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.*;
@@ -271,7 +271,7 @@ public class AdversimentService implements AdversimentInterface {
         return adversiments;
     }
 
-    public void importFileTxt(String nomeArq) {
+    public void importFileTxt(String texto) {
 
         BufferedReader entrada = null;
         String registro, tipoRegistro;
@@ -279,33 +279,21 @@ public class AdversimentService implements AdversimentInterface {
         // User atributes
         String name, email, cpf, phoneNumber;
         LocalDate birthDate;
-        String password = "Camila@01";
+        String password = "Mallhub123@";
 
         // Adversiment atributes
         String title, description;
         Double price;
-        LocalDate postDate, lastUpdate, saleDate;
+        LocalDate postDate, lastUpdate;
         CategoryEnum category;
         QualityEnum quality;
-        AdversimentColorEnum color = AdversimentColorEnum.GOLD;
+        AdversimentColorEnum color;
         Long userId;
 
-        int contaRegDadoLido = 0;
-        int qtdRegDadoGravado;
+        entrada = new BufferedReader(new StringReader(texto));
 
-        nomeArq += ".txt";
-
-        // try-catch para abrir o arquivo
         try {
-            entrada = new BufferedReader(new FileReader(nomeArq));
-        } catch (IOException erro) {
-            System.out.println("Erro na abertura do arquivo");
-            System.exit(1);
-        }
-
-        // try-catch para leitura do arquivo
-        try {
-            registro = entrada.readLine(); // le o primeiro registro do arquivo
+            registro = entrada.readLine();
 
             while (registro != null) {
                 tipoRegistro = registro.substring(0, 2);
@@ -334,7 +322,7 @@ public class AdversimentService implements AdversimentInterface {
                     price = Double.valueOf(registro.substring(307, 317).replace(',', '.'));
                     postDate = LocalDate.parse(registro.substring(317, 327));
                     lastUpdate = LocalDate.parse(registro.substring(327, 337));
-                    saleDate = LocalDate.parse(registro.substring(337, 347));
+                    color = AdversimentColorEnum.valueOf(registro.substring(337, 347).trim());
                     category = CategoryEnum.valueOf(registro.substring(347, 365).trim());
                     quality = QualityEnum.valueOf(registro.substring(365, 374).trim());
                     userId = Long.parseLong(registro.substring(374, 383).trim());

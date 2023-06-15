@@ -5,10 +5,7 @@ import com.application.letsbuy.internal.entities.User;
 import com.application.letsbuy.internal.entities.Transaction;
 import com.application.letsbuy.internal.enums.TransactionTypeEnum;
 import com.application.letsbuy.internal.exceptions.InsufficientBalanceException;
-import com.application.letsbuy.internal.services.AdversimentService;
-import com.application.letsbuy.internal.services.ImageService;
-import com.application.letsbuy.internal.services.UserService;
-import com.application.letsbuy.internal.services.TransactionService;
+import com.application.letsbuy.internal.services.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +25,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private final BankAccountService bankAccountService;
     private final AdversimentService adversimentService;
     private final TransactionService transactionService;
 
@@ -51,7 +49,7 @@ public class UserController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<UserDtoResponse> update(@PathVariable Long id, @RequestBody @Valid UserUpdateDto userDto) {
-        User user = userDto.update(id, userService);
+        User user = userDto.update(id, userService, bankAccountService);
         return ResponseEntity.ok(new UserDtoResponse(user));
     }
 

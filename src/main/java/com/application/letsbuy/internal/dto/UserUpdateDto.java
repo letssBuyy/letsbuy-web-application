@@ -1,6 +1,8 @@
 package com.application.letsbuy.internal.dto;
 
+import com.application.letsbuy.internal.entities.BankAccount;
 import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.services.BankAccountService;
 import com.application.letsbuy.internal.services.UserService;
 import com.application.letsbuy.internal.utils.AgeRange;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -43,9 +48,9 @@ public class UserUpdateDto {
     private String complement;
     private String state;
     private String city;
+    private BankAccount bankAccount;
 
-
-    public User update(Long id, UserService userService) {
+    public User update(Long id, UserService userService, BankAccountService bankAccountService) {
         User user = userService.findById(id);
         user.setName(name);
         user.setEmail(email);
@@ -60,6 +65,16 @@ public class UserUpdateDto {
         user.setState(state);
         user.setCity(city);
 
+        if (bankAccount != null) {
+            if (bankAccount.getId() != null) {
+                BankAccount bankAccountEntity = bankAccountService.findById(bankAccount.getId());
+                bankAccount.setUser(bankAccountEntity.getUser());
+                bankAccountService.update(bankAccount.getId(), BankAccountDtoRequest.parseEntityBankAccountToBankAccountDtoRequest(bankAccount));
+            } else {
+                bankAccount.setUser(user);
+                bankAccountService.saveBankAccount(this.bankAccount);
+            }
+        }
         return user;
     }
 }

@@ -18,8 +18,6 @@ public class PaymentUserAdvertisementResponseDto {
 
     private Boolean isShipment;
 
-    private AdversimentDtoResponse adversiment;
-
     private Payment payment;
 
     private LocalDateTime receivableDate;
@@ -30,7 +28,6 @@ public class PaymentUserAdvertisementResponseDto {
 
     public static PaymentUserAdvertisementResponseDto parseEntityToDto(PaymentUserAdvertisement paymentUserAdvertisement) {
         PaymentUserAdvertisementResponseDto responseDto = new PaymentUserAdvertisementResponseDto();
-        responseDto.setAdversiment(new AdversimentDtoResponse(paymentUserAdvertisement.getAdversiment()));
         responseDto.setPayment(paymentUserAdvertisement.getPayment());
         responseDto.setUser(new UserDtoResponse(paymentUserAdvertisement.getBuyer()));
         responseDto.setReceivableDate(paymentUserAdvertisement.getReceivableDate());

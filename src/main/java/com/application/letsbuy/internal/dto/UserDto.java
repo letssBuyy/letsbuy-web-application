@@ -44,10 +44,7 @@ public class UserDto {
     }
 
     public User convert() {
-        if (password.matches("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{8,}$")) {
         password = new BCryptPasswordEncoder().encode(getPassword());
         return new User(name, email, cpf, password, birthDate, phoneNumber);
-        }
-        throw  new PasswordValidationException();
     }
 }

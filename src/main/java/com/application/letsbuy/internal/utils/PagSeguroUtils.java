@@ -40,14 +40,14 @@ public class PagSeguroUtils {
 
     private AddressPagSeguroDto createAddressPagSeguroDto(User user) {
         AddressPagSeguroDto addressPagSeguroDto = new AddressPagSeguroDto();
-        addressPagSeguroDto.setCity(user.getCity());
-        addressPagSeguroDto.setNumber(user.getNumber().toString());
-        addressPagSeguroDto.setCountry("Brasil");
-        addressPagSeguroDto.setStreet(user.getRoad());
+        addressPagSeguroDto.setCity("São Paulo");
+        addressPagSeguroDto.setNumber("1384");
+        addressPagSeguroDto.setCountry("BRA");
+        addressPagSeguroDto.setStreet("Avenida Brigadeiro Faria Lima");
         addressPagSeguroDto.setRegionCode("SP");
-        addressPagSeguroDto.setLocality(user.getNeighborhood());
-        addressPagSeguroDto.setComplement(user.getComplement());
-        addressPagSeguroDto.setPostalCode(user.getCep());
+        addressPagSeguroDto.setLocality("Pinheiros");
+        addressPagSeguroDto.setComplement("apto 12");
+        addressPagSeguroDto.setPostalCode("01452002");
         return addressPagSeguroDto;
     }
 

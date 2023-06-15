@@ -31,4 +31,13 @@ public class BankAccountDtoRequest {
         User user = userService.findById(userId);
         return new BankAccount(user, bankNumber, agencyNumber, accountNumber);
     }
+
+    public static BankAccountDtoRequest parseEntityBankAccountToBankAccountDtoRequest(BankAccount bankAccount) {
+        BankAccountDtoRequest bankAccountDtoRequest = new BankAccountDtoRequest();
+        bankAccountDtoRequest.setAccountNumber(bankAccount.getAccountNumber());
+        bankAccountDtoRequest.setBankNumber(bankAccount.getBankNumber());
+        bankAccountDtoRequest.setAgencyNumber(bankAccount.getAgencyNumber());
+        bankAccountDtoRequest.setUserId(bankAccount.getUser().getId());
+        return bankAccountDtoRequest;
+    }
 }

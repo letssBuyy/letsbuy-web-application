@@ -1,6 +1,5 @@
 package com.application.letsbuy.internal.entities;
 
-import com.application.letsbuy.internal.dto.TransactionRequestDto;
 import com.application.letsbuy.internal.enums.TransactionTypeEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

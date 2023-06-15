@@ -6,6 +6,7 @@ import com.application.letsbuy.internal.enums.AdversimentEnum;
 import com.application.letsbuy.internal.enums.PaymentControllSellerEnum;
 import com.application.letsbuy.internal.enums.PaymentStatusEnum;
 import com.application.letsbuy.internal.exceptions.AdversimentNotFoundException;
+import com.application.letsbuy.internal.exceptions.PaymentUserAdvertisementConflictExceptionHandler;
 import com.application.letsbuy.internal.repositories.PaymentControlSellerRepository;
 import com.application.letsbuy.internal.repositories.PaymentUserAdversimentRepository;
 import lombok.AllArgsConstructor;
@@ -38,6 +39,10 @@ public class PaymentUserAdversimentService {
     public PaymentUserAdvertisementResponseDto create(PaymentUserAdvertisementRequestDto paymentUserAdvertisementRequestDto) {
 
         Adversiment advertisement = this.advertisementService.findById(paymentUserAdvertisementRequestDto.getIdAdvertisement());
+        Optional<PaymentUserAdvertisement> paymentUserAdvertisementOptional = this.paymentUserAdversimentRepository.findByAdversiment(advertisement);
+        if(paymentUserAdvertisementOptional.isPresent()) {
+            throw new PaymentUserAdvertisementConflictExceptionHandler(String.format("Já existe um pagamento associado ao anuncio informado: %d", advertisement.getId()));
+        }
         User user = this.userService.findById(paymentUserAdvertisementRequestDto.getIdUser());
         PagSeguroDto pagSeguroDto = this.createPaymentServiceBroker.createTransaction(paymentUserAdvertisementRequestDto);
 

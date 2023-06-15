@@ -1,18 +1,14 @@
 package com.application.letsbuy.internal.dto;
 
 import com.application.letsbuy.internal.entities.Adversiment;
-import com.application.letsbuy.internal.entities.Image;
-import com.application.letsbuy.internal.entities.User;
+import com.application.letsbuy.internal.entities.Tracking;
 import com.application.letsbuy.internal.enums.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -33,12 +29,13 @@ public class AdversimentDtoResponse {
     private AdversimentEnum isActive;
     private AdversimentEnum contest;
     private List<ImageDtoResponse> images;
+    private List<TrackingResponseDto> trackings;
     private PaymentUserAdvertisementResponseDto paymentUserAdversiment;
     private UserDtoResponse buyer;
 
     public static List<AdversimentDtoResponse> convert(List<Adversiment> adversiments) {
-        return adversiments.stream().filter(a -> a.getUser().getIsActive() != ActiveInactiveEnum.INACTIVE)
-                .map(AdversimentDtoResponse::new).collect(Collectors.toList());
+        return adversiments.stream().filter(adversiment -> adversiment.getUser().getIsActive() != ActiveInactiveEnum.INACTIVE)
+                .map(AdversimentDtoResponse::new).toList();
     }
 
     public AdversimentDtoResponse(Adversiment adversiment) {
@@ -55,9 +52,17 @@ public class AdversimentDtoResponse {
         this.color = adversiment.getColor();
         this.isActive = adversiment.getIsActive();
         this.contest = adversiment.getContest();
+        if (adversiment.getTrackings() != null && !adversiment.getTrackings().isEmpty()) {
+            this.convertTrackings(adversiment.getTrackings());
+        }
         if (adversiment.getImages() != null && !adversiment.getImages().isEmpty()){
             this.images = ImageDtoResponse.convert(adversiment.getImages());
         }
+    }
+
+    private void convertTrackings(List<Tracking> trackings) {
+        List<TrackingResponseDto> trackingResponseDtos = TrackingResponseDto.parseListEntityToListDto(trackings);
+        this.setTrackings(trackingResponseDtos);
     }
 
     public AdversimentDtoResponse(Adversiment adversiment, PaymentUserAdvertisementResponseDto paymentUserAdversiment, UserDtoResponse user) {
@@ -74,6 +79,9 @@ public class AdversimentDtoResponse {
         this.color = adversiment.getColor();
         this.isActive = adversiment.getIsActive();
         this.contest = adversiment.getContest();
+        if (adversiment.getTrackings() != null && !adversiment.getTrackings().isEmpty()) {
+            this.convertTrackings(adversiment.getTrackings());
+        }
         if (adversiment.getImages() != null && !adversiment.getImages().isEmpty()){
             this.images = ImageDtoResponse.convert(adversiment.getImages());
         }

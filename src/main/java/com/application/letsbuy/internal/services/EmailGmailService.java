@@ -143,10 +143,10 @@ public class EmailGmailService extends HtmlEmail implements Sendable {
                     \t<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" esdevVmlButton href=""\s
                                     style="height:41px; v-text-anchor:middle; width:148px" arcsize="12%" stroke="f"  fillcolor="#f14866">
                     \t\t<w:anchorlock></w:anchorlock>
-                    \t\t<a style="text-decoration:none; max-width:300px; width:100%; height:50px" target="_blank" href="https://letsbuy.azurewebsites.net/alterar-senha/:""" + receiverId + """
+                    \t\t<a style="text-decoration:none; max-width:300px; width:100%; height:50px" target="_blank" href="https://letsbuy-web.vercel.app/alterar-senha/:""" + receiverId + """
                     <center style='color:#ffffff; font-family:verdana, geneva, sans-serif; font-size:15px; font-weight:400; line-height:15px;  mso-text-raise:1px'>Alterar senha</center></a>
                     \t</v:roundrect></a>
-                    <![endif]--><!--[if !mso]><!-- --><span class="msohide es-button-border" style="border-style:solid;border-color:#2cb543;background:#f14866;border-width:0px;display:inline-block;border-radius:5px;width:auto;mso-border-alt:10px;mso-hide:all"><a href="https://letsbuy.azurewebsites.net/alterar-senha/:""" + receiverId + """
+                    <![endif]--><!--[if !mso]><!-- --><span class="msohide es-button-border" style="border-style:solid;border-color:#2cb543;background:#f14866;border-width:0px;display:inline-block;border-radius:5px;width:auto;mso-border-alt:10px;mso-hide:all"><a href="https://letsbuy-web.vercel.app/alterar-senha/:""" + receiverId + """
                                          " class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;color:#FFFFFF;font-size:18px;display:inline-block;background:#f14866;border-radius:5px;font-family:verdana, geneva, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;padding:10px 20px 10px 20px;border-color:#f14866">Alterar senha</a></span><!--<![endif]--></td>
                                          </tr>
                                        </table></td>

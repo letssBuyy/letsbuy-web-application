@@ -103,9 +103,12 @@ public class AdversimentService implements AdversimentInterface {
         return adversimentRepository.countByIsActive(AdversimentEnum.SALLED);
     }
 
-    public List<AllAdversimentsAndLikeDtoResponse> retrieveAdversimentById(Long idAdversiment, Long idUser) {
+    public List<AllAdversimentsAndLikeDtoResponse> retrieveAdversimentById(Long idAdversiment, Optional<Long> idUser) {
         Adversiment adversiment = findById(idAdversiment);
-        List<AdversimentsLike> likedAdversiments = findByAdversimentsLike(idUser);
+        List<AdversimentsLike> likedAdversiments = new ArrayList<>();
+        if (idUser.isPresent()) {
+            likedAdversiments = findByAdversimentsLike(idUser.get());
+        }
         Long quantityTotalAdversiment = countTotalAdversimentsByUser(adversiment.getUser().getId());
         Long quantityAdversimentSolded = countAdversimentSolded(adversiment.getUser().getId());
         Long quantityAdversimentActive = countAdversimentActive(adversiment.getUser().getId());
@@ -158,7 +161,7 @@ public class AdversimentService implements AdversimentInterface {
     public List<ListAdversimentTrackingDtoResponse> findBought(Long id) {
         List<PaymentControllSeller> payments = paymentControlSellerRepository.findByPaymentUserAdvertisementBuyerId(id);
         List<Adversiment> adversiments = new ArrayList<>();
-        payments.forEach((payment)->{
+        payments.forEach((payment) -> {
             adversiments.add(payment.getPaymentUserAdvertisement().getAdversiment());
         });
         return ListAdversimentTrackingDtoResponse.convert(adversiments);
@@ -269,7 +272,7 @@ public class AdversimentService implements AdversimentInterface {
     }
 
     public ByteArrayResource createTxtResource(Long id, Optional<String> nomeArq) throws IOException {
-       return new ByteArrayResource(exportFileTxt(id, nomeArq));
+        return new ByteArrayResource(exportFileTxt(id, nomeArq));
     }
 
     public byte[] exportFileTxt(Long id, Optional<String> nomeArq) throws IOException {

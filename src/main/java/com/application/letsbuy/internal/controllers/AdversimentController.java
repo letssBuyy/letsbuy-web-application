@@ -53,8 +53,8 @@ public class AdversimentController {
     }
 
     @ApiOperation("Method used to find adversiment by id")
-    @GetMapping("/{idAdversiment}/{idUser}")
-    public ResponseEntity<List<AllAdversimentsAndLikeDtoResponse>> findAdversimentById(@PathVariable Long idAdversiment, @PathVariable Long idUser) {
+    @GetMapping("/{idAdversiment}")
+    public ResponseEntity<List<AllAdversimentsAndLikeDtoResponse>> findAdversimentById(@PathVariable Long idAdversiment, @RequestParam Optional<Long> idUser) {
         return new ResponseEntity<>(this.adversimentService.retrieveAdversimentById(idAdversiment, idUser), HttpStatus.OK);
     }
 

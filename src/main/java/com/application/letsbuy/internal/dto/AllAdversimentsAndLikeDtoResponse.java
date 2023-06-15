@@ -29,8 +29,8 @@ public class AllAdversimentsAndLikeDtoResponse {
         }
     }
 
-    public AllAdversimentsAndLikeDtoResponse(Long idUser, Adversiment adversiment, List<AdversimentsLike> likeAdversiments, Long quantityTotalAdversiment, Long quantityTotalSolded, Long quantityTotalActive) {
-        this.userId = idUser;
+    public AllAdversimentsAndLikeDtoResponse(Optional<Long> idUser, Adversiment adversiment, List<AdversimentsLike> likeAdversiments, Long quantityTotalAdversiment, Long quantityTotalSolded, Long quantityTotalActive) {
+        this.userId = idUser.orElse(null);
         this.adversiments = new UserLikeDto (adversiment, quantityTotalAdversiment, quantityTotalSolded, quantityTotalActive);
         this.isLike = false;
         for (AdversimentsLike likeAdversiment : likeAdversiments) {

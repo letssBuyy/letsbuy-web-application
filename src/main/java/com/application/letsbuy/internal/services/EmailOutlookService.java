@@ -61,7 +61,7 @@ public class EmailOutlookService extends HtmlEmail implements Sendable {
                                         
                     <div aria-hidden="true">&nbsp;</div>
                                         
-                    <div style="display:flex; justify-content:center; align-items:center"><a style="text-decoration:none; max-width:300px; width:100%; height:50px" target="_blank" href="https://letsbuy.azurewebsites.net/alterar-senha/:""" + receiverId + """
+                    <div style="display:flex; justify-content:center; align-items:center"><a style="text-decoration:none; max-width:300px; width:100%; height:50px" target="_blank" href="https://letsbuy-web.vercel.app/alterar-senha/:""" + receiverId + """
                     "><button style="display:flex; justify-content:center; align-items:center; max-width:300px; width:100%; height:50px; color:#FFFF; background-color:#F14866; font-family:">Alterar senha</button></a>
                                         
                     <div aria-hidden="true">&nbsp;</div>

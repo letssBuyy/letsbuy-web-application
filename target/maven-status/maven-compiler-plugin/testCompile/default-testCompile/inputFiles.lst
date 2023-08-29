@@ -1,1 +1,7 @@
-/home/aluno/Documentos/letsbuy_application/letsbuy/src/test/java/com/application/letsbuy/LetsbuyApplicationTests.java
+/home/ubuntu/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/services/BankAccountServiceTest.java
+/home/ubuntu/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/utils/TestAdversimentUtils.java
+/home/ubuntu/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/services/AdversimentServiceTest.java
+/home/ubuntu/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/utils/TestUserUtils.java
+/home/ubuntu/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/services/UserServiceTest.java
+/home/ubuntu/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/utils/TestBankAccountUtils.java
+/home/ubuntu/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/services/CreatePaymentServiceBrokerTest.java

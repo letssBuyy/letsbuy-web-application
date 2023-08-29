@@ -1,1 +1,7 @@
-com\application\letsbuy\LetsbuyApplicationTests.class
+com/application/letsbuy/internal/utils/TestUserUtils.class
+com/application/letsbuy/internal/utils/TestAdversimentUtils.class
+com/application/letsbuy/internal/services/UserServiceTest.class
+com/application/letsbuy/internal/utils/TestBankAccountUtils.class
+com/application/letsbuy/internal/services/AdversimentServiceTest.class
+com/application/letsbuy/internal/services/BankAccountServiceTest.class
+com/application/letsbuy/internal/services/CreatePaymentServiceBrokerTest.class

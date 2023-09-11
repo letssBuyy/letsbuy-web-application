@@ -1,8 +1,3 @@
-server:
-  error:
-    include-message: always
-    include-binding-errors: always
-    include-stacktrace: never
 
 spring:
   datasource:
@@ -44,11 +39,11 @@ LetsBuy:
 
 azure:
   storage:
-    account-key: //6vf+/Fci6X1ecJTMMzSHS+9cy/GvyXegw8VBbV3f+HFyn0JlXVvXDX8xSW8UQt2AvEtKOp1OJq+AStrWtzEw==
-    blob-endpoint: https://letsbuy.blob.core.windows.net/images
-    account-name: letsbuy
-    connectionString: "AccountName=letsbuy;AccountKey=//6vf+/Fci6X1ecJTMMzSHS+9cy/GvyXegw8VBbV3f+HFyn0JlXVvXDX8xSW8UQt2AvEtKOp1OJq+AStrWtzEw==;EndpointSuffix=core.windows.net;DefaultEndpointsProtocol=https;"
-    containerName: "images"
+    account-key: R2Z3GdE9v9rvdwMblHOvwGXDS2ordP4PxJuGR2xa+vN7goKniXJMTkz0PK2RLLqLd2JmJdwt/oQS+AStt3127A==
+    blob-endpoint: https://letsbuyblob.blob.core.windows.net/letsbuy-images
+    account-name: letsbuyblob
+    connectionString: "DefaultEndpointsProtocol=https;AccountName=letsbuyblob;AccountKey=R2Z3GdE9v9rvdwMblHOvwGXDS2ordP4PxJuGR2xa+vN7goKniXJMTkz0PK2RLLqLd2JmJdwt/oQS+AStt3127A==;EndpointSuffix=core.windows.net"
+    containerName: "letsbuy-images"
 
 pagseguro:
   endpoint: https://sandbox.api.pagseguro.com/

@@ -30,9 +30,9 @@ public class ImageService implements ImageInterface {
         try {
             String blobName = UUID.randomUUID() + file.getOriginalFilename();
             blobStorageAdapter.uploadBlob(blobName, file.getInputStream(), file.getSize());
-            return "https://letsbuy.blob.core.windows.net/images/" + blobName;
+            return "https://letsbuyblob.blob.core.windows.net/letsbuy-images/" + blobName;
         } catch (IOException e) {
-            return "https://letsbuy.blob.core.windows.net/images/12942784-icone-de-imagem-quebrada-isolado-em-um-fundo-branco-nenhum-simbolo-de-imagem-para-aplicativos-da-web-e-moveis-gratis-vetor.jpg";
+            return "https://letsbuyblob.blob.core.windows.net/letsbuy-images/12942784-icone-de-imagem-quebrada-isolado-em-um-fundo-branco-nenhum-simbolo-de-imagem-para-aplicativos-da-web-e-moveis-gratis-vetor.jpg";
         }
     }
 }

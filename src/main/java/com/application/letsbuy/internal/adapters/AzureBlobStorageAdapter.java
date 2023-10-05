@@ -24,7 +24,7 @@ public class AzureBlobStorageAdapter implements BlobStorageAdapter {
 
     @Override
     public void deleteBlob(String url) {
-        String blobName = url.replaceAll("https://letsbuy.blob.core.windows.net/images/", "");
+        String blobName = url.replaceAll("https://letsbuyblob.blob.core.windows.net/letsbuy-images/", "");
         BlobClient blob = container.getBlobClient(blobName);
         blob.delete();
     }

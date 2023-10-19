@@ -38,6 +38,15 @@ public class UserController {
         return ResponseEntity.created(uri).body(new UserDtoResponse(user));
     }
 
+    @ApiOperation("Method used to register users android")
+    @PostMapping("/register")
+    public ResponseEntity<UserDtoResponse> createUser(@RequestBody @Valid UserDto dto) {
+        System.out.println(dto);
+        User user = dto.convert();
+        this.userService.save(user);
+        return ResponseEntity.created(null).body(new UserDtoResponse(user));
+    }
+
     @ApiOperation("Method used select user adversiments ")
     @GetMapping
     public ResponseEntity<UserAdversimentsDtoResponse> listarUser(@RequestParam Optional<Long> buyerId,

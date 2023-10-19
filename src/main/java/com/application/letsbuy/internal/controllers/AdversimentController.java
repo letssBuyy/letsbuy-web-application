@@ -44,6 +44,13 @@ public class AdversimentController {
         return new ResponseEntity<>(pages, HttpStatus.OK);
     }
 
+    @ApiOperation("Method used to list adversiments android")
+    @GetMapping("/androidAdversiment/{idUser}")
+    public ResponseEntity<List<AllAdversimentsAndLikeDtoResponse>> retrieveAdversiment(@PathVariable Optional<Long> idUser) {
+        List<AllAdversimentsAndLikeDtoResponse> lista = this.adversimentService.retrieveAdversimentsAndroid(idUser);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
+    }
+
     @ApiOperation("Method used to register adversiments")
     @PostMapping
     public ResponseEntity<ListAdversimentDtoResponse> createAdversiment(@RequestBody @Valid AdversimentDto adversimentDto) {
@@ -66,7 +73,7 @@ public class AdversimentController {
 
     @ApiOperation("Method used to find adversiment bought")
     @GetMapping("/boughts/{id}")
-    public ResponseEntity<List<ListAdversimentTrackingDtoResponse>> findAdversimentBoughts(@PathVariable Long id) {
+        public ResponseEntity<List<ListAdversimentTrackingDtoResponse>> findAdversimentBoughts(@PathVariable Long id) {
         List<ListAdversimentTrackingDtoResponse> boughts = this.adversimentService.findBought(id);
         if (boughts.isEmpty()){
             return new ResponseEntity<>(boughts, HttpStatus.NO_CONTENT);

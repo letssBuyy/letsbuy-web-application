@@ -15,7 +15,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/bank-account-users")
+@RequestMapping("/api/bank-account-users")
 public class BankAccountController {
 
     private BankAccountService bankAccountService;

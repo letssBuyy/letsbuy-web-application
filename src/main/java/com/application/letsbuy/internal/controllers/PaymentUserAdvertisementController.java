@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/payment-user-advertisements")
+@RequestMapping("/api/payment-user-advertisements")
 public class PaymentUserAdvertisementController {
 
     private final PaymentUserAdversimentService paymentUserAdversimentService;

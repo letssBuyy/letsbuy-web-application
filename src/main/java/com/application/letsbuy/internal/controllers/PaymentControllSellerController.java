@@ -17,7 +17,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/payment-controll")
+@RequestMapping("/api/payment-controll")
 public class PaymentControllSellerController {
 
     private final PaymentControllSellerService paymentControllSellerService;

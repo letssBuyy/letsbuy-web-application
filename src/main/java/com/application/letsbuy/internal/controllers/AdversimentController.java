@@ -29,7 +29,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/adversiments")
+@RequestMapping("/api/adversiments")
 public class AdversimentController {
 
     private final AdversimentService adversimentService;

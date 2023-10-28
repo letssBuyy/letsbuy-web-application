@@ -130,6 +130,19 @@ public class AdversimentService implements AdversimentInterface {
         return allAdversimentslikes;
     }
 
+    public List<AllAdversimentsAndLikeDtoResponse> retrieveAdversimentsAndroid(Optional<Long> idUser) {
+        List<Adversiment> adversiments = adversimentRepository.findAll();
+        List<AdversimentsLike> likedAdversiments = new ArrayList<>();
+        if (idUser.isPresent()) {
+            likedAdversiments = findByAdversimentsLike(idUser.get());
+        }
+        List<AllAdversimentsAndLikeDtoResponse> allAdversimentslikes = new ArrayList<>();
+        for (Adversiment adversiment : adversiments) {
+            allAdversimentslikes.add(new AllAdversimentsAndLikeDtoResponse(idUser, adversiment, likedAdversiments));
+        }
+        return allAdversimentslikes;
+    }
+
     @Override
     public Adversiment openContest(Long id) {
         Adversiment adversiment = this.adversimentRepository.findById(id).orElseThrow(AdversimentNotFoundException::new);

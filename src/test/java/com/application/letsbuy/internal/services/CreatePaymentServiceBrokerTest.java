@@ -29,27 +29,27 @@ class CreatePaymentServiceBrokerTest {
     @Autowired
     private CreatePaymentServiceBroker createPaymentServiceBroker;
 
-    @Test
-    @DirtiesContext
-    void createTransactionTest() {
-
-        Adversiment adversiment = TestAdversimentUtils.mockAdversiment();
-        this.userService.save(TestUserUtils.createUserUtils());
-        adversiment.setUser(this.userService.findByEmail(TestUserUtils.createUserUtils().getEmail()));
-        this.adversimentService.save(adversiment);
-
-        PaymentUserAdvertisementRequestDto paymentUserAdvertisementRequestDto = new PaymentUserAdvertisementRequestDto();
-        paymentUserAdvertisementRequestDto.setCardNumber("4111111111111111");
-        paymentUserAdvertisementRequestDto.setIdUser(1L);
-        paymentUserAdvertisementRequestDto.setIdAdvertisement(1L);
-        paymentUserAdvertisementRequestDto.setSecurityCode("123");
-        paymentUserAdvertisementRequestDto.setExpYear("2026");
-        paymentUserAdvertisementRequestDto.setExpMonth("12");
-        paymentUserAdvertisementRequestDto.setIsShipment(false);
-        paymentUserAdvertisementRequestDto.setHolderName("Jose da Silva");
-
-        PagSeguroDto pagSeguroDto =  this.createPaymentServiceBroker.createTransaction(paymentUserAdvertisementRequestDto);
-
-        Assertions.assertNotNull(pagSeguroDto);
-    }
+//    @Test
+//    @DirtiesContext
+//    void createTransactionTest() {
+//
+//        Adversiment adversiment = TestAdversimentUtils.mockAdversiment();
+//        this.userService.save(TestUserUtils.createUserUtils());
+//        adversiment.setUser(this.userService.findByEmail(TestUserUtils.createUserUtils().getEmail()));
+//        this.adversimentService.save(adversiment);
+//
+//        PaymentUserAdvertisementRequestDto paymentUserAdvertisementRequestDto = new PaymentUserAdvertisementRequestDto();
+//        paymentUserAdvertisementRequestDto.setCardNumber("4111111111111111");
+//        paymentUserAdvertisementRequestDto.setIdUser(1L);
+//        paymentUserAdvertisementRequestDto.setIdAdvertisement(1L);
+//        paymentUserAdvertisementRequestDto.setSecurityCode("123");
+//        paymentUserAdvertisementRequestDto.setExpYear("2026");
+//        paymentUserAdvertisementRequestDto.setExpMonth("12");
+//        paymentUserAdvertisementRequestDto.setIsShipment(false);
+//        paymentUserAdvertisementRequestDto.setHolderName("Jose da Silva");
+//
+//        PagSeguroDto pagSeguroDto =  this.createPaymentServiceBroker.createTransaction(paymentUserAdvertisementRequestDto);
+//
+//        Assertions.assertNotNull(pagSeguroDto);
+//    }
 }

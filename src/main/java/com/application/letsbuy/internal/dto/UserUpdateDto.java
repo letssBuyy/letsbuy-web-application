@@ -16,8 +16,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
+
 
 @Getter
 @Setter
@@ -48,7 +47,7 @@ public class UserUpdateDto {
     private String complement;
     private String state;
     private String city;
-    private BankAccount bankAccount;
+    private BankAccountDtoRequest bankAccount;
 
     public User update(Long id, UserService userService, BankAccountService bankAccountService) {
         User user = userService.findById(id);
@@ -65,15 +64,11 @@ public class UserUpdateDto {
         user.setState(state);
         user.setCity(city);
 
-        if (bankAccount != null) {
-            if (bankAccount.getId() != null) {
-                BankAccount bankAccountEntity = bankAccountService.findById(bankAccount.getId());
-                bankAccount.setUser(bankAccountEntity.getUser());
-                bankAccountService.update(bankAccount.getId(), BankAccountDtoRequest.parseEntityBankAccountToBankAccountDtoRequest(bankAccount));
-            } else {
-                bankAccount.setUser(user);
-                bankAccountService.saveBankAccount(this.bankAccount);
-            }
+        if (user.getBankAccount().isEmpty()) {
+            bankAccountService.saveBankAccount(new BankAccount(user, bankAccount.getBankNumber(), bankAccount.getAgencyNumber(), bankAccount.getAccountNumber()));
+        } else {
+            BankAccount bankAccountFound = bankAccountService.findByUserId(user.getId());
+            bankAccountService.update(bankAccountFound.getId(), bankAccount);
         }
         return user;
     }

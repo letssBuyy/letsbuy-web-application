@@ -19,6 +19,8 @@ public interface AdversimentRepository extends JpaRepository<Adversiment, Long> 
 
     Page<Adversiment> findByTitleContainsIgnoreCaseAndIsActive(Optional<String> title, AdversimentEnum isActive, Pageable pageable);
 
+    List<Adversiment> findByTitleContainsIgnoreCaseAndIsActive(Optional<String> title, AdversimentEnum isActive);
+
     Page<Adversiment> findByIsActive(AdversimentEnum isActive, Pageable pageable);
 
     List<Adversiment> findAdversimentsByUserAndIsActive(User user, AdversimentEnum adversimentEnum);

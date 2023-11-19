@@ -49,6 +49,26 @@ public class SearchService {
         return allAdversimentslikes;
     }
 
+    public List<AllAdversimentsAndLikeDtoResponse> searchAdversiments(Optional<Long> idUser, Optional<String> title) {
+        List<Adversiment> adversiments;
+        if(title.isPresent()) {
+            adversiments = adversimentRepository.findByTitleContainsIgnoreCaseAndIsActive(title, AdversimentEnum.ACTIVE);
+
+        } else {
+            adversiments = adversimentRepository.findByIsActive(AdversimentEnum.ACTIVE);
+        }
+
+        List<AdversimentsLike> likedAdversiments = new ArrayList<>();
+        if (idUser.isPresent()) {
+            likedAdversiments = adversimentService.findByAdversimentsLike(idUser.get());
+        }
+        List<AllAdversimentsAndLikeDtoResponse> allAdversimentslikes = new ArrayList<>();
+        for (Adversiment adversiment : adversiments) {
+            allAdversimentslikes.add(new AllAdversimentsAndLikeDtoResponse(idUser, adversiment, likedAdversiments));
+        }
+        return allAdversimentslikes;
+    }
+
     public List<AllAdversimentsAndLikeDtoResponse> searchAdversimentsFilter(List<AllAdversimentsAndLikeDtoResponse> results, AdversimentFilterDto filter) {
 
         List<AllAdversimentsAndLikeDtoResponse> filteredResultsCity = filterCity(results, filter.getCity());

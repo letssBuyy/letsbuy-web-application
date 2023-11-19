@@ -42,4 +42,27 @@ public class SearchController {
         Page<AllAdversimentsAndLikeDtoResponse> pages = new PageImpl<>(filteredResults, pageable, filteredResults.size());
         return ResponseEntity.ok(pages);
     }
+
+    @GetMapping("/android")
+    public ResponseEntity<List<AllAdversimentsAndLikeDtoResponse>> searchAdversiments(@RequestParam Optional<Long> idUser, @RequestParam Optional<String> title) {
+
+        List<AllAdversimentsAndLikeDtoResponse> results = searchService.searchAdversiments(idUser, title);
+
+        if (results.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(results);
+    }
+
+    @PostMapping("/filter/android")
+    public ResponseEntity<List<AllAdversimentsAndLikeDtoResponse>> searchAdversimentsFilter(@RequestParam Optional<Long> idUser, @RequestParam Optional<String> title, @RequestBody AdversimentFilterDto filter) {
+        System.out.println(filter);
+        List<AllAdversimentsAndLikeDtoResponse> results = searchService.searchAdversiments(idUser, title);
+        if(results.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        List<AllAdversimentsAndLikeDtoResponse> filteredResults = searchService.searchAdversimentsFilter(results, filter);
+        return ResponseEntity.ok(filteredResults);
+    }
 }

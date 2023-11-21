@@ -13,7 +13,7 @@
 	<groupId>com.application</groupId>
 	<artifactId>letsbuy</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>letsbuy</name>
 	<description>Lets Buy Application</description>
 

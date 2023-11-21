@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.application.letsbuy.internal.services.UserServiceTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 19.706 s - in com.application.letsbuy.internal.services.UserServiceTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.389 s - in com.application.letsbuy.internal.services.UserServiceTest

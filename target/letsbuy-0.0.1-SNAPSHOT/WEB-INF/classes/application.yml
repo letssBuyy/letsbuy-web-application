@@ -1,0 +1,58 @@
+
+spring:
+  datasource:
+    username: letsbuy
+    password: 'Mallhub123'
+
+    url: jdbc:sqlserver://lets-buy.database.windows.net:1433;database=LetsBuyBD;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    testWhileIdle: true
+    validationQuery: SELECT 1
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
+        format_sql: true
+        show_sql: true
+        use_sql_comments: true
+    database-platform: org.hibernate.dialect.SQLServer2012Dialect
+    generate-ddl: true
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  main:
+    allow-circular-references: true
+
+LetsBuy:
+  jwt:
+    secret: 'Algo aqui'
+    expiration: 900000
+
+azure:
+  storage:
+    account-key: R2Z3GdE9v9rvdwMblHOvwGXDS2ordP4PxJuGR2xa+vN7goKniXJMTkz0PK2RLLqLd2JmJdwt/oQS+AStt3127A==
+    blob-endpoint: https://letsbuyblob.blob.core.windows.net/letsbuy-images
+    account-name: letsbuyblob
+    connectionString: "DefaultEndpointsProtocol=https;AccountName=letsbuyblob;AccountKey=R2Z3GdE9v9rvdwMblHOvwGXDS2ordP4PxJuGR2xa+vN7goKniXJMTkz0PK2RLLqLd2JmJdwt/oQS+AStt3127A==;EndpointSuffix=core.windows.net"
+    containerName: "letsbuy-images"
+
+pagseguro:
+  endpoint: https://sandbox.api.pagseguro.com/
+
+server:
+  ssl:
+    key-store: classpath:keystore.p12
+    key-store-password: 123456
+    key-store-type: pkcs12
+    key-alias: springboot
+    key-password: 123456
+  port: 8443

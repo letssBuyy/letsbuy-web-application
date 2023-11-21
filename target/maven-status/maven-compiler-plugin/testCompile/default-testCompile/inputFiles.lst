@@ -1,7 +1,7 @@
-/home/ubuntu/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/services/BankAccountServiceTest.java
-/home/ubuntu/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/utils/TestAdversimentUtils.java
-/home/ubuntu/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/services/AdversimentServiceTest.java
-/home/ubuntu/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/utils/TestUserUtils.java
-/home/ubuntu/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/services/UserServiceTest.java
-/home/ubuntu/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/utils/TestBankAccountUtils.java
-/home/ubuntu/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/services/CreatePaymentServiceBrokerTest.java
+/home/ec2-user/git-padronizado/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/utils/TestAdversimentUtils.java
+/home/ec2-user/git-padronizado/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/services/BankAccountServiceTest.java
+/home/ec2-user/git-padronizado/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/utils/TestUserUtils.java
+/home/ec2-user/git-padronizado/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/services/CreatePaymentServiceBrokerTest.java
+/home/ec2-user/git-padronizado/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/services/AdversimentServiceTest.java
+/home/ec2-user/git-padronizado/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/services/UserServiceTest.java
+/home/ec2-user/git-padronizado/letsbuy-web-application/src/test/java/com/application/letsbuy/internal/utils/TestBankAccountUtils.java
